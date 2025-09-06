@@ -185,7 +185,7 @@ public class MusicPlayerScene extends Scene {
         nextIcon.setIconColor(text);
         next.setGraphic(nextIcon);
         next.setOnAction(event -> {
-            this.musicHandler.playNext();
+            this.musicHandler.playNext(true);
             refreshControlButtons(true);
         });
         this.upControl.getChildren().add(next);
@@ -501,7 +501,7 @@ public class MusicPlayerScene extends Scene {
             if (index == 0) {
                 QMButton skip = new QMButton("", null, false);
                 skip.setGraphic(new FontIcon("fas-step-forward"));
-                skip.setOnAction(event -> MusicPlayerScene.this.musicHandler.playNext());
+                skip.setOnAction(event -> MusicPlayerScene.this.musicHandler.playNext(true));
                 control.getChildren().add(skip);
             } else {
                 if (index != 1) {
