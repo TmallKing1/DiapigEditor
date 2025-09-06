@@ -23,27 +23,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class GuardContainer extends DynamicListPagedContainer<User> {
-    public GuardContainer(String id, int maxPerPage) {
+public class FansContainer extends DynamicListPagedContainer<User> {
+    private final int rankType;
+    public FansContainer(String id, int maxPerPage, int rankType) {
         super(id, maxPerPage);
+        this.rankType = rankType;
     }
 
     @Override
     public List<User> getNextItems(int page) {
         try {
-            List<Long> uids = new ArrayList<>();
-            List<GuardInfo> guardInfoA = LiveRoomApi.getGuardsWithExpireDate(page);
-            for (GuardInfo guardInfo : guardInfoA) {
-                uids.add(guardInfo.getUid());
-            }
-            List<User> users = LiveRoomApi.getUserBriefInfo(uids);
-            for (int i = 0; i < users.size(); i++) {
-                GuardInfo guardInfo = guardInfoA.get(i);
-                FansMedal fansMedal = LiveRoomApi.getFansUInfoMedal(guardInfo.getUid());
-                users.get(i).setFansMedal(fansMedal);
-                users.get(i).setGuardInfo(guardInfo);
-            }
-            return users;
+            return LiveRoomApi.getFans(page, this.rankType);
         } catch (Exception e) {
             return new ArrayList<>();
         }
@@ -73,7 +63,7 @@ public class GuardContainer extends DynamicListPagedContainer<User> {
         name.setFont(Settings.DEFAULT_FONT);
         Node fansMedal = item.getFansMedal().getDisplayOld();
         hBox.getChildren().addAll(name, fansMedal);
-        Text desc = new Text(String.format("%s到期 剩余%s天", item.getGuardInfo().getExpiredTimeString(), item.getGuardInfo().getDaysUntilExpire()));
+        Text desc = new Text(String.format("UID: %s", item.getUid()));
         desc.setFont(Settings.DEFAULT_FONT);
         center.getChildren().addAll(hBox, desc);
         borderPane.setCenter(center);
@@ -102,7 +92,7 @@ public class GuardContainer extends DynamicListPagedContainer<User> {
         Rectangle bar = new Rectangle();
         bar.setHeight(3.0);
         bar.setWidth(250 * prog);
-        bar.setFill(item.getFansMedal().getOldStyle().medalColor());
+        bar.setFill(item.getFansMedal().getOldStyle().medalColorStart());
         stackPane.getChildren().addAll(track, bar);
         rightCenter.getChildren().addAll(stackPane);
 

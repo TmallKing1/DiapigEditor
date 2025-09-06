@@ -48,7 +48,7 @@ public class CommandTestPage extends VBox implements NamedPage, ChildPage {
         execute.setDefaultButton(true);
         execute.setPrefWidth(150);
         execute.setOnAction(event -> {
-            if (!LiveMessageService.getInstance().isSessionAvailable()) {
+            if (LiveMessageService.getInstance() == null || !LiveMessageService.getInstance().isSessionAvailable()) {
                 Utils.showDialogMessage("请先连接直播弹幕服务", true, QueueManager.INSTANCE.getMainScene().getRootDrawer());
             }
             JsonObject jsonObject = new JsonObject();

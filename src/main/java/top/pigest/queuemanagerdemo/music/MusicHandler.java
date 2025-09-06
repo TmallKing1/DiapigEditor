@@ -42,7 +42,7 @@ public class MusicHandler {
     private MediaPlayer media = null;
 
     private MusicHandler() {
-        this.noPlaying = new Image(Objects.requireNonNull(QueueManager.class.getResourceAsStream("default_album.jpg")), 250, 250, true, true);
+        this.noPlaying = new Image(Objects.requireNonNull(QueueManager.class.getResourceAsStream("default_album.jpg")));
         this.musicPlayerStage = new Stage(StageStyle.TRANSPARENT);
         this.player = new MusicPlayerScene(this);
     }

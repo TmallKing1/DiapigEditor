@@ -30,7 +30,7 @@ public abstract class ListPagedContainer<T> extends PagedContainerFactory {
         return pane;
     };
     private final List<T> items;
-    private final int maxPerPage;
+    final int maxPerPage;
     private final boolean reversed;
     private Supplier<Node> emptySupplier;
     public ListPagedContainer(String id, List<T> items, int maxPerPage, boolean reversed) {

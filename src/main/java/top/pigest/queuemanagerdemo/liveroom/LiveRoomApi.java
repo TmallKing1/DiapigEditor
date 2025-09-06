@@ -169,6 +169,40 @@ public class LiveRoomApi {
     }
 
     /**
+     * 查询当前登录主播账号的粉丝团列表，返回为 {@link User} 对象列表，包含粉丝牌信息
+     * @param page 页码，每页 20 个。
+     * @param rankType 获取方式，为 2 时获取所有未上舰的粉丝团成员，为其他数字时获取粉丝牌当前点亮的粉丝团成员
+     * @return {@link User} 列表，表示获取到的舰长用户信息
+     */
+    public static List<User> getFans(int page, int rankType) throws Exception {
+        try (CloseableHttpClient client = HttpClients.custom().setDefaultCookieStore(Settings.getCookieStore()).build()) {
+            List<User> users = new ArrayList<>();
+            URI uri = new URIBuilder("https://api.live.bilibili.com/xlive/general-interface/v1/rank/getFansMembersRank")
+                    .addParameter("page", String.valueOf(page))
+                    .addParameter("page_size", "20")
+                    .addParameter("ruid", String.valueOf(Settings.MID))
+                    .addParameter("rank_type", String.valueOf(rankType))
+                    .addParameter("ts", String.valueOf(System.currentTimeMillis()))
+                    .build();
+            HttpGet httpGet = new HttpGet(uri);
+            CloseableHttpResponse response = client.execute(httpGet);
+            JsonObject obj = JsonParser.parseString(EntityUtils.toString(response.getEntity())).getAsJsonObject();
+            if (obj.get("code").getAsInt() == 0) {
+                JsonObject element = obj.getAsJsonObject("data");
+                element.getAsJsonArray("item").forEach(elem -> {
+                    JsonObject obj2 = elem.getAsJsonObject();
+                    long uid = obj2.get("uid").getAsLong();
+                    String uname = obj2.get("name").getAsString();
+                    users.add(new User(uname, uid)
+                            .setFansMedal(obj2.getAsJsonObject("uinfo_medal"))
+                            .setFace(obj2.get("face").getAsString()));
+                });
+            }
+            return users;
+        }
+    }
+
+    /**
      * 查询当前登录主播账号的舰长列表，包含舰长的到期时间信息
      * @param page 查询的页码，若为 {@code 0} 则返回所有舰长
      * @return {@link GuardInfo} 列表，表示获取到的舰长信息
@@ -244,6 +278,28 @@ public class LiveRoomApi {
                     String uname = object.get("name").getAsString();
                     String face = object.get("face").getAsString();
                     users.add(new User(uname, uid).setFace(face));
+                });
+            }
+            return users;
+        }
+    }
+
+    public static List<User> userNameToUid(Collection<String> usernames) throws Exception {
+        try (CloseableHttpClient client = HttpClients.custom().setDefaultCookieStore(Settings.getCookieStore()).build()) {
+            List<User> users = new ArrayList<>();
+            URI uri = new URIBuilder("https://api.bilibili.com/x/polymer/web-dynamic/v1/name-to-uid")
+                    .addParameter("names", String.join(",", usernames))
+                    .build();
+            HttpGet httpGet = new HttpGet(uri);
+            CloseableHttpResponse response = client.execute(httpGet);
+            JsonObject obj = JsonParser.parseString(EntityUtils.toString(response.getEntity())).getAsJsonObject();
+            if (obj.get("code").getAsInt() == 0) {
+                JsonArray element = obj.getAsJsonObject("data").getAsJsonArray("uid_list");
+                element.forEach(elem -> {
+                    JsonObject object = elem.getAsJsonObject();
+                    long uid = object.get("uid").getAsLong();
+                    String uname = object.get("name").getAsString();
+                    users.add(new User(uname, uid));
                 });
             }
             return users;

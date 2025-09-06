@@ -26,8 +26,12 @@ import java.util.concurrent.CompletableFuture;
  * @see LiveRoomApi#getFansUInfoMedal(long, long)
  */
 public class FansMedal {
+    private static final int[] EXP_LIST_NORMAL = {0, 201, 300, 500, 700, 1000, 1500, 1600, 1700, 1900, 5500,
+    10000, 10000, 10000, 15000, 40000, 50000, 100000, 250000, 500000, Integer.MAX_VALUE};
+    private static final int[] EXP_LIST_GUARD = {0, 2000, 2500, 3000, 7500, 15000, 40000, 90000, 160000, 280000, 700000,
+            1200000, 2000000, 2500000, 3000000, 3500000, 4000000, 7500000, 10000000, 15000000, Integer.MAX_VALUE};
     private String medalName;
-    private String level;
+    private int level;
     private int exp;
     private int nextExp;
     private int todayExp;
@@ -47,11 +51,11 @@ public class FansMedal {
         return this;
     }
 
-    public String getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public FansMedal setLevel(String level) {
+    public FansMedal setLevel(int level) {
         this.level = level;
         return this;
     }
@@ -72,6 +76,26 @@ public class FansMedal {
     public FansMedal setNextExp(int nextExp) {
         this.nextExp = nextExp;
         return this;
+    }
+
+    public FansMedal setExpFromScore(int score) {
+        if (this.level <= 20) {
+            int tot = 0;
+            for (int i = 0; i < this.level; i++) {
+                tot += EXP_LIST_NORMAL[i];
+            }
+            score -= tot;
+            return this.setExp(score).setNextExp(EXP_LIST_NORMAL[this.level]);
+        } else {
+            score -= 50000000;
+            int guardIndex = this.level - 20;
+            int tot = 0;
+            for (int i = 0; i < guardIndex; i++) {
+                tot += EXP_LIST_GUARD[i];
+            }
+            score -= tot;
+            return this.setExp(score).setNextExp(EXP_LIST_GUARD[guardIndex]);
+        }
     }
 
     public int getTodayExp() {
@@ -151,7 +175,7 @@ public class FansMedal {
                 getOldStyle().medalColorBorder,
                 BorderStrokeStyle.SOLID,
                 new CornerRadii(3, 3, 3, 3 ,false),
-                new BorderWidths(1)
+                new BorderWidths(1.5)
         )));
         StackPane namePane = new StackPane();
         namePane.setPrefHeight(40);
@@ -169,11 +193,11 @@ public class FansMedal {
         StackPane levelPane = new StackPane();
         levelPane.setPrefHeight(40);
         levelPane.setAlignment(Pos.CENTER);
-        levelPane.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(0, 3, 0, 3 ,false), null)));
+        levelPane.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(0, 3, 3, 0 ,false), null)));
         levelPane.setPadding(new Insets(0, 5, 0, 5));
-        Text level = new Text(getLevel());
+        Text level = new Text(String.valueOf(getLevel()));
         level.setFont(Settings.DEFAULT_FONT);
-        level.setFill(getOldStyle().medalColor);
+        level.setFill(getOldStyle().medalColorStart);
         levelPane.getChildren().add(level);
         hBox.getChildren().addAll(namePane, levelPane);
         root.getChildren().add(hBox);
@@ -203,7 +227,7 @@ public class FansMedal {
     public static FansMedal deserializeMedalInfo(FansMedal fansMedal, JsonObject object) {
         return fansMedal
                 .setMedalName(object.get("medal_name").getAsString())
-                .setLevel(object.get("level").getAsString())
+                .setLevel(object.get("level").getAsInt())
                 .setExp(object.get("intimacy").getAsInt())
                 .setNextExp(object.get("next_intimacy").getAsInt())
                 .setTodayExp(object.get("today_feed").getAsInt())
@@ -217,7 +241,6 @@ public class FansMedal {
 
     /**
      * 用于将 API 返回的 {@code uinfo_medal} Json 对象转换为 {@link FansMedal} 对象<br>
-     * 此种对象不包含灯牌经验相关信息
      * @param object API 返回的 Json 对象
      * @return 反序列化得到的 {@link FansMedal} 对象。
      */
@@ -228,8 +251,9 @@ public class FansMedal {
     public static FansMedal deserializeUInfoMedal(FansMedal fansMedal, JsonObject object) {
         return fansMedal
                 .setMedalName(object.get("name").getAsString())
-                .setLevel(object.get("level").getAsString())
+                .setLevel(object.get("level").getAsInt())
                 .setLighted(object.get("is_light").getAsInt() != 0)
+                .setExpFromScore(object.get("score").getAsInt())
                 .setGuardType(GuardType.valueOf(object.get("guard_level").getAsInt()))
                 .setGuardIcon(object.has("guard_icon") ? object.get("guard_icon").getAsString() : null)
                 .setOldStyle(FansMedalStyleOld.deserializeUInfoMedal(object))

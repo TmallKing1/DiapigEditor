@@ -62,7 +62,7 @@ public class Song {
     }
 
     public Image fetchCover() {
-        return new Image(coverUrl, 60, 60, true, true);
+        return new Image(coverUrl);
     }
 
     public String getTitle() {
