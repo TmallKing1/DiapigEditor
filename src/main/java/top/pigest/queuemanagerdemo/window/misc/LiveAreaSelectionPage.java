@@ -1,8 +1,5 @@
 package top.pigest.queuemanagerdemo.window.misc;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.jfoenix.controls.JFXScrollPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,7 +9,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
-import javafx.scene.text.Text;
 import top.pigest.queuemanagerdemo.QueueManager;
 import top.pigest.queuemanagerdemo.Settings;
 import top.pigest.queuemanagerdemo.control.QMButton;

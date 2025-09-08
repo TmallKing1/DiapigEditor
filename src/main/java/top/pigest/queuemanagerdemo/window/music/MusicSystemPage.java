@@ -256,13 +256,11 @@ public class MusicSystemPage extends MultiMenuProvider<Pane> implements NamedPag
                     });
                 }))
                 .addPage()
-                .addControl("点歌列表高度", Utils.make(new IntegerModifier(getMusicServiceSettings().listHeight, 20, 100, 1000), control -> {
-                    control.setOnValueSet(i -> {
-                        getMusicServiceSettings().setListHeight(i);
-                        MusicHandler.INSTANCE.getPlayer().updateListHeight();
-                        MusicHandler.INSTANCE.getPlayer().setQueueShow();
-                    });
-                }))
+                .addControl("点歌列表高度", Utils.make(new IntegerModifier(getMusicServiceSettings().listHeight, 20, 100, 1000), control -> control.setOnValueSet(i -> {
+                    getMusicServiceSettings().setListHeight(i);
+                    MusicHandler.INSTANCE.getPlayer().updateListHeight();
+                    MusicHandler.INSTANCE.getPlayer().setQueueShow();
+                })))
                 .addControl("显示底部提示", Utils.make(new JFXToggleButton(), button -> {
                     button.setSize(8);
                     button.setSelected(getMusicServiceSettings().displayHint);

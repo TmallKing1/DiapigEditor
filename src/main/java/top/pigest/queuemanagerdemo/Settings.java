@@ -244,7 +244,6 @@ public class Settings {
         } catch (Exception e) {
             System.err.println("检测Cookie刷新状态失败，请注意Cookie可用性");
             System.err.println(e.getMessage());
-            e.printStackTrace();
         }
     }
 }

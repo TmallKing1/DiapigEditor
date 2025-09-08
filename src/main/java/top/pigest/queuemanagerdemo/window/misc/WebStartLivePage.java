@@ -28,7 +28,6 @@ public class WebStartLivePage extends BorderPane implements NamedPage, ChildPage
     private final QMButton copyLink = new QMButton("复制");
     private final QMButton copyCode = new QMButton("复制");
     private List<LiveArea> areas;
-    private List<SubLiveArea> lastSelectedAreas;
     private SubLiveArea selectedArea;
     private boolean liveStarted = false;
     private String link = "";
@@ -77,16 +76,14 @@ public class WebStartLivePage extends BorderPane implements NamedPage, ChildPage
             save.setOnAction(event -> {
                 save.disable(true);
                 CompletableFuture.supplyAsync(() -> LiveRoomApi.updateTitle(titleField.getText()))
-                        .whenComplete((status, throwable) -> {
-                            Platform.runLater(() -> {
-                                if (throwable != null) {
-                                    QueueManager.INSTANCE.getMainScene().showDialogMessage("保存失败", true);
-                                } else {
-                                    QueueManager.INSTANCE.getMainScene().showDialogMessage("保存成功", false);
-                                }
-                                save.disable(false);
-                            });
-                        });
+                        .whenComplete((status, throwable) -> Platform.runLater(() -> {
+                            if (throwable != null) {
+                                QueueManager.INSTANCE.getMainScene().showDialogMessage("保存失败", true);
+                            } else {
+                                QueueManager.INSTANCE.getMainScene().showDialogMessage("保存成功", false);
+                            }
+                            save.disable(false);
+                        }));
             });
             hBox.getChildren().addAll(titleField, save);
         }));
@@ -164,8 +161,8 @@ public class WebStartLivePage extends BorderPane implements NamedPage, ChildPage
             this.areas = LiveRoomApi.getLiveAreas();
         }
         // 获取已选取分区
-        this.lastSelectedAreas = LiveRoomApi.getSelectedAreas();
-        this.selectedArea = this.lastSelectedAreas.getFirst();
+        List<SubLiveArea> lastSelectedAreas = LiveRoomApi.getSelectedAreas();
+        this.selectedArea = lastSelectedAreas.getFirst();
         // 当前是否开播
         JsonObject value = LiveRoomApi.getLiveRoomInfo(QueueManager.getSelfUid()).getValue();
         this.liveStarted = value.get("live_status").getAsInt() == 1;

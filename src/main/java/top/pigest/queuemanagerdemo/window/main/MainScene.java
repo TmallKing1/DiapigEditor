@@ -1,7 +1,6 @@
 package top.pigest.queuemanagerdemo.window.main;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.jfoenix.controls.*;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -14,15 +13,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 import org.kordamp.ikonli.javafx.FontIcon;
 import top.pigest.queuemanagerdemo.QueueManager;
 import top.pigest.queuemanagerdemo.Settings;

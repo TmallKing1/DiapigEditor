@@ -6,7 +6,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -300,35 +299,33 @@ public class DanmakuServicePage extends MultiMenuProvider<Pane> implements Named
                 }
                 if (newValue.requireRegistration()) {
                     comboBox.setValue(oldValue);
-                    Utils.showChoosingDialog("该语音目前安装在你的电脑上，但无法使用\n将其添加到注册表后即可使用（需要管理员权限）\n按【确认】按钮可快速添加至注册表", "确认", "取消", event -> {
-                        new Thread(() -> {
-                            String command = "Start-Process cmd -Verb runAs -ArgumentList '/c reg import \"%s\"'".formatted(newValue.registryPath().substring(1));
-                            try {
-                                Process process = Runtime.getRuntime().exec(new String[]{"powershell", command});
-                                int exitCode = process.waitFor();
-                                if (exitCode != 0) {
-                                    throw new RuntimeException("Exit code " + exitCode);
-                                } else {
-                                    CompletableFuture<List<NarratorService.Voice>> refresh = CompletableFuture.supplyAsync(NarratorService::getAvailableVoices);
-                                    refresh.thenAccept(voices -> {
-                                        CompletableFuture<List<NarratorService.Voice>> future1 = CompletableFuture.supplyAsync(NarratorService::getRegistrableVoices);
-                                        future1.thenAccept(voices1 -> Platform.runLater(() -> {
-                                            comboBox.getItems().clear();
-                                            voices.addAll(voices1.stream().filter(v -> voices.stream().noneMatch(v1 -> v1.name().equals(v.name()))).toList());
-                                            comboBox.getItems().addAll(voices);
-                                            Optional<NarratorService.Voice> optional = voices.stream().filter(voice -> !voice.requireRegistration() && voice.name().equals(newValue.name())).findFirst();
-                                            optional.ifPresent(v -> {
-                                                comboBox.setValue(v);
-                                                Platform.runLater(() -> Utils.showDialogMessage("导入成功，已自动设置", false, QueueManager.INSTANCE.getMainScene().getRootDrawer()));
-                                            });
-                                        }));
-                                    });
-                                }
-                            } catch (Exception e) {
-                                Platform.runLater(() -> Utils.showDialogMessage("导入失败\n" + e.getMessage(), true, QueueManager.INSTANCE.getMainScene().getRootDrawer()));
+                    Utils.showChoosingDialog("该语音目前安装在你的电脑上，但无法使用\n将其添加到注册表后即可使用（需要管理员权限）\n按【确认】按钮可快速添加至注册表", "确认", "取消", event -> new Thread(() -> {
+                        String command = "Start-Process cmd -Verb runAs -ArgumentList '/c reg import \"%s\"'".formatted(newValue.registryPath().substring(1));
+                        try {
+                            Process process = Runtime.getRuntime().exec(new String[]{"powershell", command});
+                            int exitCode = process.waitFor();
+                            if (exitCode != 0) {
+                                throw new RuntimeException("Exit code " + exitCode);
+                            } else {
+                                CompletableFuture<List<NarratorService.Voice>> refresh = CompletableFuture.supplyAsync(NarratorService::getAvailableVoices);
+                                refresh.thenAccept(voices -> {
+                                    CompletableFuture<List<NarratorService.Voice>> future1 = CompletableFuture.supplyAsync(NarratorService::getRegistrableVoices);
+                                    future1.thenAccept(voices1 -> Platform.runLater(() -> {
+                                        comboBox.getItems().clear();
+                                        voices.addAll(voices1.stream().filter(v -> voices.stream().noneMatch(v1 -> v1.name().equals(v.name()))).toList());
+                                        comboBox.getItems().addAll(voices);
+                                        Optional<NarratorService.Voice> optional = voices.stream().filter(voice -> !voice.requireRegistration() && voice.name().equals(newValue.name())).findFirst();
+                                        optional.ifPresent(v -> {
+                                            comboBox.setValue(v);
+                                            Platform.runLater(() -> Utils.showDialogMessage("导入成功，已自动设置", false, QueueManager.INSTANCE.getMainScene().getRootDrawer()));
+                                        });
+                                    }));
+                                });
                             }
-                        }).start();
-                    }, event -> {
+                        } catch (Exception e) {
+                            Platform.runLater(() -> Utils.showDialogMessage("导入失败\n" + e.getMessage(), true, QueueManager.INSTANCE.getMainScene().getRootDrawer()));
+                        }
+                    }).start(), event -> {
                     }, QueueManager.INSTANCE.getMainScene().getRootDrawer());
                 } else {
                     Settings.getDanmakuServiceSettings().setNarratorVoiceName(newValue.name());

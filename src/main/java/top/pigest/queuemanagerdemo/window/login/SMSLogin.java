@@ -1,7 +1,6 @@
 package top.pigest.queuemanagerdemo.window.login;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
 import javafx.animation.KeyFrame;
@@ -18,12 +17,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import top.pigest.queuemanagerdemo.Settings;
 import top.pigest.queuemanagerdemo.control.QMButton;
 import top.pigest.queuemanagerdemo.control.TitledDialog;
@@ -31,7 +24,6 @@ import top.pigest.queuemanagerdemo.control.WhiteFontIcon;
 import top.pigest.queuemanagerdemo.util.RequestUtils;
 import top.pigest.queuemanagerdemo.util.Utils;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
