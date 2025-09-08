@@ -23,6 +23,7 @@ module top.pigest.queuemanagerdemo {
     requires com.google.protobuf;
     requires javafx.media;
     requires javafx.graphics;
+    requires javafx.base;
 
     opens top.pigest.queuemanagerdemo to javafx.fxml;
     opens top.pigest.queuemanagerdemo.system to com.google.gson;

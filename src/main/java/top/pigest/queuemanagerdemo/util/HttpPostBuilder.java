@@ -5,7 +5,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
-import top.pigest.queuemanagerdemo.Settings;
 import top.pigest.queuemanagerdemo.system.WbiSign;
 
 import java.io.UnsupportedEncodingException;
@@ -43,9 +42,9 @@ public class HttpPostBuilder {
             HttpPost httpPost = new HttpPost(uriBuilder.addParameters(urlParams).build());
             if (!formDataParams.isEmpty()) {
                 httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
-                httpPost.setEntity(new UrlEncodedFormEntity(formDataParams));
+                httpPost.setEntity(new UrlEncodedFormEntity(formDataParams, "UTF-8"));
             }
-            httpPost.setConfig(Settings.DEFAULT_REQUEST_CONFIG);
+            httpPost.setConfig(RequestUtils.DEFAULT_REQUEST_CONFIG);
             return httpPost;
         } catch (URISyntaxException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);
@@ -57,9 +56,9 @@ public class HttpPostBuilder {
             HttpPost httpPost = new HttpPost(WbiSign.getSignedUri(uriBuilder, urlParams));
             if (!formDataParams.isEmpty()) {
                 httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
-                httpPost.setEntity(new UrlEncodedFormEntity(formDataParams));
+                httpPost.setEntity(new UrlEncodedFormEntity(formDataParams, "UTF-8"));
             }
-            httpPost.setConfig(Settings.DEFAULT_REQUEST_CONFIG);
+            httpPost.setConfig(RequestUtils.DEFAULT_REQUEST_CONFIG);
             return httpPost;
         } catch (URISyntaxException | UnsupportedEncodingException e) {
             throw new RuntimeException(e);

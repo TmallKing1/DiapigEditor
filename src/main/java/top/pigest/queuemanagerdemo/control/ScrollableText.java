@@ -10,6 +10,13 @@ public class ScrollableText extends ScrollablePane<Text> {
         this.getText().setFont(Settings.DEFAULT_FONT);
         resetAnimation();
     }
+
+    public ScrollableText(String text, double width, boolean centered) {
+        super(new Text(text), width, centered);
+        this.getText().setFont(Settings.DEFAULT_FONT);
+        resetAnimation();
+    }
+
     public Text getText() {
         return this.getNode();
     }

@@ -16,6 +16,7 @@ import top.pigest.queuemanagerdemo.liveroom.FansMedal;
 import top.pigest.queuemanagerdemo.liveroom.LiveRoomApi;
 import top.pigest.queuemanagerdemo.settings.MusicServiceSettings;
 import top.pigest.queuemanagerdemo.util.ArrayObservableList;
+import top.pigest.queuemanagerdemo.util.RequestUtils;
 import top.pigest.queuemanagerdemo.util.Three;
 import top.pigest.queuemanagerdemo.util.Utils;
 import top.pigest.queuemanagerdemo.window.music.MusicPlayerScene;
@@ -413,7 +414,7 @@ public class MusicHandler {
     }
 
     public void handleSingleDanmaku(JsonObject object) {
-        if (!Settings.hasCookie("MUSIC_U")) {
+        if (!RequestUtils.hasCookie("MUSIC_U")) {
             return;
         }
         JsonArray info = object.getAsJsonArray("info");

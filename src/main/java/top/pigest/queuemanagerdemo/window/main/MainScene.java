@@ -30,6 +30,7 @@ import top.pigest.queuemanagerdemo.liveroom.LiveMessageService;
 import top.pigest.queuemanagerdemo.liveroom.LiveRoomApi;
 import top.pigest.queuemanagerdemo.liveroom.User;
 import top.pigest.queuemanagerdemo.music.MusicHandler;
+import top.pigest.queuemanagerdemo.util.RequestUtils;
 import top.pigest.queuemanagerdemo.util.Utils;
 import top.pigest.queuemanagerdemo.control.QMButton;
 import top.pigest.queuemanagerdemo.control.TitledDialog;
@@ -93,7 +94,7 @@ public class MainScene extends Scene {
     }
 
     public void autoMethods() {
-        if (Settings.getMusicServiceSettings().autoPlay && Settings.hasCookie("MUSIC_U")) {
+        if (Settings.getMusicServiceSettings().autoPlay && RequestUtils.hasCookie("MUSIC_U")) {
             CompletableFuture.runAsync(MusicHandler.INSTANCE::playNext);
         }
     }
@@ -103,38 +104,30 @@ public class MainScene extends Scene {
     }
 
     public void logout() {
-        try (CloseableHttpClient client = HttpClients.custom().setDefaultCookieStore(Settings.getCookieStore()).build()) {
-            HttpClientContext context = HttpClientContext.create();
-            context.setCookieStore(Settings.getCookieStore());
-            HttpPost httpPost = new HttpPost("https://passport.bilibili.com/login/exit/v2");
-            httpPost.setConfig(Settings.DEFAULT_REQUEST_CONFIG);
-            httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
-            List<NameValuePair> lp = new ArrayList<>();
-            if (Settings.hasCookie("bili_jct")) {
-                lp.add(new BasicNameValuePair("biliCSRF", Settings.getCookie("bili_jct")));
-                httpPost.setEntity(new UrlEncodedFormEntity(lp));
-                try (CloseableHttpResponse response = client.execute(httpPost, context)) {
-                    JsonObject element = (JsonObject) JsonParser.parseString(EntityUtils.toString(response.getEntity()));
-                    if (element.get("code").getAsInt() == 0) {
-                        Settings.saveCookie(true);
-                        if (LiveMessageService.getInstance() != null) {
-                            LiveMessageService.getInstance().close();
-                        }
-                        refreshLoginState();
+        try {
+            if (RequestUtils.hasCookie("bili_jct")) {
+                JsonObject element = RequestUtils.requestToJson(RequestUtils.httpPost("https://passport.bilibili.com/login/exit/v2")
+                        .appendUrlParameter("biliCSRF", RequestUtils.getCookie("bili_jct")).build());
+                if (element.get("code").getAsInt() == 0) {
+                    RequestUtils.saveCookie(true);
+                    if (LiveMessageService.getInstance() != null) {
+                        LiveMessageService.getInstance().close();
                     }
+                    refreshLoginState();
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             this.showDialogMessage("登出失败\n" + e.getMessage(), true);
         }
     }
 
     public void refreshLoginState() {
-        Settings.loadCookie();
+        RequestUtils.loadCookie();
         try {
             User user = Objects.requireNonNull(LiveRoomApi.uid());
             loggedIn(user.getUsername());
             QueueManager.INSTANCE.SELF = user;
+            QueueManager.INSTANCE.ROOM_ID = LiveRoomApi.liveRoomId(user.getUid());
             if (Settings.getDanmakuServiceSettings().autoConnect) {
                 try {
                     LiveMessageService.connect();
@@ -152,6 +145,7 @@ public class MainScene extends Scene {
 
     private void notLoggedIn() {
         QueueManager.INSTANCE.SELF = null;
+        QueueManager.INSTANCE.ROOM_ID = 0;
         Platform.runLater(() -> {
             this.login = false;
             this.setMainContainer(new LoginPage(), "登录页");

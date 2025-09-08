@@ -1,7 +1,6 @@
 package top.pigest.queuemanagerdemo.util;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -11,27 +10,32 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.effects.JFXDepthManager;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.CookieStore;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.cookie.Cookie;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.cookie.BasicClientCookie;
-import org.apache.http.util.EntityUtils;
 import top.pigest.queuemanagerdemo.Settings;
 import top.pigest.queuemanagerdemo.control.QMButton;
 
@@ -41,6 +45,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class Utils {
     public static <T> T make(T object, Consumer<T> consumer) {
@@ -135,29 +140,23 @@ public class Utils {
         return label;
     }
 
-    public static void fillCookies(CookieStore cookieStore) throws IOException {
+    public static void fillCookies(CookieStore cookieStore) {
         List<Cookie> cookies = cookieStore.getCookies();
         if (cookies.stream().noneMatch(cookie -> cookie.getName().equals("buvid3"))) {
-            try (CloseableHttpClient client = HttpClients.custom().setDefaultCookieStore(cookieStore).build()) {
-                HttpGet httpGet = new HttpGet("https://api.bilibili.com/x/frontend/finger/spi");
-                httpGet.setConfig(Settings.DEFAULT_REQUEST_CONFIG);
-                httpGet.setHeader("User-Agent", Settings.USER_AGENT);
-                HttpResponse response = client.execute(httpGet);
-                JsonObject object = JsonParser.parseString(EntityUtils.toString(response.getEntity())).getAsJsonObject();
-                String b3 = object.getAsJsonObject("data").get("b_3").getAsString();
-                String b4 = object.getAsJsonObject("data").get("b_4").getAsString();
-                BasicClientCookie buvid3 = new BasicClientCookie("buvid3", b3);
-                buvid3.setDomain("bilibili.com");
-                buvid3.setExpiryDate(new Date(System.currentTimeMillis() + 400L * 24 * 3600 * 1000));
-                buvid3.setPath("/");
-                Settings.getCookieStore().addCookie(buvid3);
-                BasicClientCookie buvid4 = new BasicClientCookie("buvid4", b4);
-                buvid4.setDomain("bilibili.com");
-                buvid3.setExpiryDate(new Date(System.currentTimeMillis() + 400L * 24 * 3600 * 1000));
-                buvid3.setPath("/");
-                Settings.getCookieStore().addCookie(buvid4);
-                Settings.saveCookie(false);
-            }
+            JsonObject object = RequestUtils.requestToJson(RequestUtils.httpGet("https://api.bilibili.com/x/frontend/finger/spi").build());
+            String b3 = object.getAsJsonObject("data").get("b_3").getAsString();
+            String b4 = object.getAsJsonObject("data").get("b_4").getAsString();
+            BasicClientCookie buvid3 = new BasicClientCookie("buvid3", b3);
+            buvid3.setDomain("bilibili.com");
+            buvid3.setExpiryDate(new Date(System.currentTimeMillis() + 400L * 24 * 3600 * 1000));
+            buvid3.setPath("/");
+            RequestUtils.getCookieStore().addCookie(buvid3);
+            BasicClientCookie buvid4 = new BasicClientCookie("buvid4", b4);
+            buvid4.setDomain("bilibili.com");
+            buvid3.setExpiryDate(new Date(System.currentTimeMillis() + 400L * 24 * 3600 * 1000));
+            buvid3.setPath("/");
+            RequestUtils.getCookieStore().addCookie(buvid4);
+            RequestUtils.saveCookie(false);
         }
     }
 

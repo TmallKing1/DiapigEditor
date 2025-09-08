@@ -15,10 +15,24 @@ public class ScrollablePane<T extends Node> extends JFXClippedPane {
     private double scrollSpeed = 50;
     private double backDuration = 0.8;
     private final T node;
+    private final boolean centered;
 
     public ScrollablePane(T node, double width) {
         this.width = width;
         this.node = node;
+        this.centered = false;
+        this.getChildren().add(this.node);
+        if (node instanceof Region region) {
+            region.setMaxWidth(USE_PREF_SIZE);
+            region.widthProperty().addListener((observable, oldValue, newValue) -> resetAnimation());
+        }
+        resetAnimation();
+    }
+
+    public ScrollablePane(T node, double width, boolean centered) {
+        this.width = width;
+        this.node = node;
+        this.centered = centered;
         this.getChildren().add(this.node);
         if (node instanceof Region region) {
             region.setMaxWidth(USE_PREF_SIZE);
@@ -33,8 +47,11 @@ public class ScrollablePane<T extends Node> extends JFXClippedPane {
         double width = node.getLayoutBounds().getWidth();
         double translation = (width - this.width) / 2;
         Utils.onPresent(this.sequentialTransition, Animation::stop);
-        this.node.setTranslateX(translation);
+        if (width <= this.width && !this.centered) {
+            this.node.setTranslateX(translation);
+        }
         if (width > this.width) {
+            this.node.setTranslateX(translation);
             PauseTransition pause1 = new PauseTransition(Duration.seconds(pauseDuration));
             TranslateTransition right = new TranslateTransition(Duration.seconds(Math.abs(translation * 2) / scrollSpeed), node);
             right.setByX(-Math.abs(translation * 2));

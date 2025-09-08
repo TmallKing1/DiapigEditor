@@ -34,6 +34,7 @@ import top.pigest.queuemanagerdemo.music.MusicHandler;
 import top.pigest.queuemanagerdemo.music.Song;
 import top.pigest.queuemanagerdemo.settings.MusicServiceSettings;
 import top.pigest.queuemanagerdemo.util.PagedContainerFactory;
+import top.pigest.queuemanagerdemo.util.RequestUtils;
 import top.pigest.queuemanagerdemo.util.Utils;
 import top.pigest.queuemanagerdemo.control.QMButton;
 import top.pigest.queuemanagerdemo.control.WhiteFontIcon;
@@ -92,9 +93,9 @@ public class MusicSystemPage extends MultiMenuProvider<Pane> implements NamedPag
     }
 
     public MusicSystemPage() {
-        if (Settings.hasCookie("sDeviceId")) {
+        if (RequestUtils.hasCookie("sDeviceId")) {
             this.preloaded = true;
-            this.loggedIn = Settings.hasCookie("MUSIC_U");
+            this.loggedIn = RequestUtils.hasCookie("MUSIC_U");
         }
         this.setInnerContainer(this.getMenus().entrySet().iterator().next().getValue().get());
     }
@@ -112,14 +113,14 @@ public class MusicSystemPage extends MultiMenuProvider<Pane> implements NamedPag
         this.preloadTimeline = new Timeline(new KeyFrame(new Duration(500), event -> {
             Optional<HttpCookie> sDeviceId = cookieManager.getCookieStore().getCookies().stream().filter(cookie -> cookie.getName().equalsIgnoreCase("sDeviceId")).findFirst();
             if (sDeviceId.isPresent()) {
-                CookieStore cookieStore = Settings.getCookieStore();
+                CookieStore cookieStore = RequestUtils.getCookieStore();
                 HttpCookie httpCookie = sDeviceId.get();
                 BasicClientCookie cookie = new BasicClientCookie(httpCookie.getName(), httpCookie.getValue());
                 cookie.setPath(httpCookie.getPath());
                 cookie.setDomain(httpCookie.getDomain());
                 cookie.setExpiryDate(new Date(System.currentTimeMillis() + httpCookie.getMaxAge() * 1000));
                 cookieStore.addCookie(cookie);
-                Settings.saveCookie(false);
+                RequestUtils.saveCookie(false);
                 this.preloaded = true;
                 Platform.runLater(() -> QueueManager.INSTANCE.getMainScene().setMainContainer(new MusicSystemPage().withParentPage(this.getParentPage()), this.getId()));
                 this.preloadTimeline.stop();

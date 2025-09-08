@@ -1,17 +1,12 @@
 package top.pigest.queuemanagerdemo.music;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 import top.pigest.queuemanagerdemo.Settings;
+import top.pigest.queuemanagerdemo.util.RequestUtils;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -20,7 +15,9 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 
 public class Music163Encryptor {
     private static final String E = "010001";
@@ -29,7 +26,7 @@ public class Music163Encryptor {
     private static final String VI = "0102030405060708";
 
     public static JsonObject postRequest(String url, JsonObject cs) throws Exception {
-        String csrfToken = Settings.hasCookie("__csrf") ? Settings.getCookie("__csrf"): "";
+        String csrfToken = RequestUtils.hasCookie("__csrf") ? RequestUtils.getCookie("__csrf") : "";
         String url1 = url + "?csrf_token=" + csrfToken;
 
         cs.addProperty("csrf_token", csrfToken);
@@ -41,19 +38,12 @@ public class Music163Encryptor {
         List<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("params", params));
         nameValuePairs.add(new BasicNameValuePair("encSecKey", encSecKey));
-        HttpPost post = getHttpPost(url1, nameValuePairs);
-
-        try (CloseableHttpClient httpClient = HttpClients.custom().setDefaultCookieStore(Settings.getCookieStore()).build();
-             CloseableHttpResponse response = httpClient.execute(post)) {
-            HttpEntity entity = response.getEntity();
-            String result = EntityUtils.toString(entity);
-            return JsonParser.parseString(result).getAsJsonObject();
-        }
+        return RequestUtils.requestToJson(getHttpPost(url1, nameValuePairs));
     }
 
     private static HttpPost getHttpPost(String url1, List<NameValuePair> nameValuePairs) throws UnsupportedEncodingException {
         HttpPost post = new HttpPost(url1);
-        post.setConfig(Settings.DEFAULT_REQUEST_CONFIG);
+        post.setConfig(RequestUtils.DEFAULT_REQUEST_CONFIG);
         post.setHeader("Content-Type", "application/x-www-form-urlencoded");
         post.setHeader("User-Agent", Settings.USER_AGENT);
         post.setHeader("Accept", "*/*");

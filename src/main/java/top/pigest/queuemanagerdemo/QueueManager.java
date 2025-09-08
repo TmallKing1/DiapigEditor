@@ -16,6 +16,7 @@ public class QueueManager extends Application {
     public static QueueManager INSTANCE;
 
     public User SELF;
+    public long ROOM_ID;
     private Stage primaryStage;
     private Stage login;
 

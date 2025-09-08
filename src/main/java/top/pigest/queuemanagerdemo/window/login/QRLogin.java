@@ -1,7 +1,6 @@
 package top.pigest.queuemanagerdemo.window.login;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.qrcode.QRCodeWriter;
@@ -19,20 +18,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.kordamp.ikonli.javafx.FontIcon;
 import top.pigest.queuemanagerdemo.Settings;
-import top.pigest.queuemanagerdemo.util.Utils;
 import top.pigest.queuemanagerdemo.control.QMButton;
 import top.pigest.queuemanagerdemo.control.WhiteFontIcon;
+import top.pigest.queuemanagerdemo.util.RequestUtils;
+import top.pigest.queuemanagerdemo.util.Utils;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -100,21 +94,14 @@ class QRLogin extends BorderPane implements LoginMethodLocker {
     }
 
     private String getLoginURL() {
-        try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpGet httpGet = new HttpGet("https://passport.bilibili.com/x/passport-login/web/qrcode/generate");
-            httpGet.setConfig(Settings.DEFAULT_REQUEST_CONFIG);
-            try (CloseableHttpResponse response = client.execute(httpGet)) {
-                JsonObject object = JsonParser.parseString(EntityUtils.toString(response.getEntity())).getAsJsonObject();
-                if (object.get("code").getAsInt() == 0) {
-                    qrcodeKey = object.getAsJsonObject("data").get("qrcode_key").getAsString();
-                    return object.getAsJsonObject("data").get("url").getAsString();
-                } else {
-                    Platform.runLater(() -> this.loginMain.loginFail("二维码获取失败", true));
-                    return null;
-                }
-            }
-        } catch (Exception e) {
-            Platform.runLater(() -> this.loginMain.loginFail("二维码获取失败\n" + e.getMessage(), true));
+        HttpGet httpGet = new HttpGet("https://passport.bilibili.com/x/passport-login/web/qrcode/generate");
+        httpGet.setConfig(RequestUtils.DEFAULT_REQUEST_CONFIG);
+        JsonObject object = RequestUtils.requestToJson(RequestUtils.httpGet("https://passport.bilibili.com/x/passport-login/web/qrcode/generate").build());
+        if (object.get("code").getAsInt() == 0) {
+            qrcodeKey = object.getAsJsonObject("data").get("qrcode_key").getAsString();
+            return object.getAsJsonObject("data").get("url").getAsString();
+        } else {
+            Platform.runLater(() -> this.loginMain.loginFail("二维码获取失败", true));
             return null;
         }
     }
@@ -122,25 +109,17 @@ class QRLogin extends BorderPane implements LoginMethodLocker {
     private Timeline createTimeline() {
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.millis(500), event -> {
-                    try (CloseableHttpClient client = HttpClients.custom().setDefaultCookieStore(Settings.getCookieStore()).build()) {
-                        URI uri = new URIBuilder("https://passport.bilibili.com/x/passport-login/web/qrcode/poll")
-                                .addParameter("qrcode_key", qrcodeKey)
-                                .build();
-                        HttpGet httpGet = new HttpGet(uri);
-                        httpGet.setConfig(Settings.DEFAULT_REQUEST_CONFIG);
-                        try (CloseableHttpResponse response = client.execute(httpGet)) {
-                            JsonObject object = JsonParser.parseString(EntityUtils.toString(response.getEntity())).getAsJsonObject();
-                            if (object.get("code").getAsInt() == 0) {
-                                int code = object.getAsJsonObject("data").get("code").getAsInt();
-                                int status = updateCodeStatus(code);
-                                switch (status) {
-                                    case 0 -> loginSuccess(object.getAsJsonObject("data").get("refresh_token").getAsString());
-                                    case 2 -> loginFail();
-                                }
-                            }
+                    JsonObject object = RequestUtils.requestToJson(RequestUtils.httpGet("https://passport.bilibili.com/x/passport-login/web/qrcode/poll")
+                            .appendUrlParameter("qrcode_key", qrcodeKey)
+                            .build());
+                    if (object.get("code").getAsInt() == 0) {
+                        int code = object.getAsJsonObject("data").get("code").getAsInt();
+                        int status = updateCodeStatus(code);
+                        switch (status) {
+                            case 0 -> loginSuccess(object.getAsJsonObject("data").get("refresh_token").getAsString());
+                            case 2 -> loginFail();
                         }
-
-                    } catch (Exception ignored) {}
+                    }
                 })
         );
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -150,7 +129,7 @@ class QRLogin extends BorderPane implements LoginMethodLocker {
     public void loginSuccess(String refreshToken) {
         stopTimeline();
         Settings.setRefreshToken(refreshToken);
-        Settings.saveCookie(true);
+        RequestUtils.saveCookie(true);
         Platform.runLater(() -> ((LoginMain) this.getScene()).loginSuccess());
     }
 

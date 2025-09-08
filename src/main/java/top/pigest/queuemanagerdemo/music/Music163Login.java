@@ -23,7 +23,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 import org.kordamp.ikonli.javafx.FontIcon;
 import top.pigest.queuemanagerdemo.QueueManager;
-import top.pigest.queuemanagerdemo.Settings;
+import top.pigest.queuemanagerdemo.util.RequestUtils;
 import top.pigest.queuemanagerdemo.util.Utils;
 import top.pigest.queuemanagerdemo.control.QMButton;
 import top.pigest.queuemanagerdemo.control.WhiteFontIcon;
@@ -132,7 +132,7 @@ public class Music163Login extends Scene {
     public void loginSuccess() {
         stopTimeline();
         this.parent.closeLogin();
-        Settings.saveCookie(true);
+        RequestUtils.saveCookie(true);
         Platform.runLater(() -> {
             QueueManager.INSTANCE.getMainScene().setMainContainer(new MusicSystemPage().withParentPage(this.parent.getParentPage()), this.parent.getId());
             Utils.showDialogMessage("登录成功", false, QueueManager.INSTANCE.getMainScene().getRootDrawer());

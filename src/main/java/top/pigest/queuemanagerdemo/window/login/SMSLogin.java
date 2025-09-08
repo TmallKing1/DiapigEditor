@@ -7,7 +7,6 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextFormatter;
@@ -19,26 +18,23 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import top.pigest.queuemanagerdemo.Settings;
-import top.pigest.queuemanagerdemo.util.Utils;
 import top.pigest.queuemanagerdemo.control.QMButton;
 import top.pigest.queuemanagerdemo.control.TitledDialog;
 import top.pigest.queuemanagerdemo.control.WhiteFontIcon;
+import top.pigest.queuemanagerdemo.util.RequestUtils;
+import top.pigest.queuemanagerdemo.util.Utils;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class SMSLogin extends VBox implements CaptchaLogin, LoginMethodLocker {
     private final boolean fromPassword;
@@ -137,93 +133,68 @@ public class SMSLogin extends VBox implements CaptchaLogin, LoginMethodLocker {
         this.loginButton.setText("登录中");
         this.loginButton.setGraphic(new WhiteFontIcon("fas-bullseye"));
 
-        new Thread(() -> {
-            try (CloseableHttpClient client = HttpClients.custom().setDefaultCookieStore(Settings.getCookieStore()).build()) {
-                if (this.fromPassword) {
-                    HttpPost httpPost = new HttpPost("https://passport.bilibili.com/x/safecenter/login/tel/verify");
-                    httpPost.setConfig(Settings.DEFAULT_REQUEST_CONFIG);
-                    httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
-                    List<NameValuePair> lp = new ArrayList<>();
-                    lp.add(new BasicNameValuePair("tmp_code", tmpCode));
-                    lp.add(new BasicNameValuePair("captcha_key", captchaKey));
-                    lp.add(new BasicNameValuePair("type", "loginTelCheck"));
-                    lp.add(new BasicNameValuePair("code", this.passwordField.getText()));
-                    lp.add(new BasicNameValuePair("request_id", requestId));
-                    lp.add(new BasicNameValuePair("source", "risk"));
-                    httpPost.setEntity(new UrlEncodedFormEntity(lp));
-                    CloseableHttpResponse response = client.execute(httpPost);
-                    JsonObject object = JsonParser.parseString(EntityUtils.toString(response.getEntity())).getAsJsonObject();
-                    if (object.get("code").getAsInt() == 0) {
-                        String code = object.getAsJsonObject("data").get("code").getAsString();
-                        HttpPost httpPost1 = new HttpPost("https://passport.bilibili.com/x/passport-login/web/exchange_cookie");
-                        httpPost1.setConfig(Settings.DEFAULT_REQUEST_CONFIG);
-                        httpPost1.setHeader("Content-Type", "application/x-www-form-urlencoded");
-                        List<NameValuePair> lp1 = new ArrayList<>();
-                        lp1.add(new BasicNameValuePair("source", "risk"));
-                        lp1.add(new BasicNameValuePair("code", code));
-                        httpPost1.setEntity(new UrlEncodedFormEntity(lp1));
-                        CloseableHttpResponse response1 = client.execute(httpPost1);
-                        JsonObject obj1 = JsonParser.parseString(EntityUtils.toString(response1.getEntity())).getAsJsonObject();
-                        if (obj1.get("code").getAsInt() == 0) {
-                            Settings.saveCookie(true);
-                            Settings.setRefreshToken(obj1.getAsJsonObject("data").get("refresh_token").getAsString());
-                            Platform.runLater(() -> ((LoginMain) this.getScene()).loginSuccess());
-                        } else {
-                            this.loginFail("交换 Cookie 失败", true);
-                        }
-                    } else {
-                        this.loginFail("登录失败" + "(%s)".formatted(object.get("code").getAsInt()), true);
-                    }
-                } else {
-                    HttpPost httpPost = new HttpPost("https://passport.bilibili.com/x/passport-login/web/login/sms");
-                    httpPost.setConfig(Settings.DEFAULT_REQUEST_CONFIG);
-                    httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
-                    List<NameValuePair> lp = new ArrayList<>();
-                    lp.add(new BasicNameValuePair("cid", this.selectedCountryCid));
-                    lp.add(new BasicNameValuePair("tel", this.accountField.getText()));
-                    lp.add(new BasicNameValuePair("code", this.passwordField.getText()));
-                    lp.add(new BasicNameValuePair("source", "main_web"));
-                    lp.add(new BasicNameValuePair("captcha_key", captchaKey));
-                    httpPost.setEntity(new UrlEncodedFormEntity(lp));
-                    CloseableHttpResponse response = client.execute(httpPost);
-                    JsonObject object = JsonParser.parseString(EntityUtils.toString(response.getEntity())).getAsJsonObject();
-                    int code = object.get("code").getAsInt();
-                    if (code == 0) {
-                        Settings.saveCookie(true);
-                        Settings.setRefreshToken(object.getAsJsonObject("data").get("refresh_token").getAsString());
+        CompletableFuture.runAsync(() -> {
+            if (this.fromPassword) {
+                JsonObject object = RequestUtils.requestToJson(RequestUtils.httpPost("https://passport.bilibili.com/x/safecenter/login/tel/verify")
+                        .appendFormDataParameter("tmp_code", tmpCode)
+                        .appendFormDataParameter("captcha_key", captchaKey)
+                        .appendFormDataParameter("type", "loginTelCheck")
+                        .appendFormDataParameter("code", this.passwordField.getText())
+                        .appendFormDataParameter("request_id", requestId)
+                        .appendFormDataParameter("source", "risk")
+                        .build());
+                if (object.get("code").getAsInt() == 0) {
+                    String code = object.getAsJsonObject("data").get("code").getAsString();
+                    JsonObject obj1 = RequestUtils.requestToJson(RequestUtils.httpPost("https://passport.bilibili.com/x/passport-login/web/exchange_cookie")
+                            .appendFormDataParameter("source", "risk")
+                            .appendFormDataParameter("code", code)
+                            .build());
+                    if (obj1.get("code").getAsInt() == 0) {
+                        RequestUtils.saveCookie(true);
+                        Settings.setRefreshToken(obj1.getAsJsonObject("data").get("refresh_token").getAsString());
                         Platform.runLater(() -> ((LoginMain) this.getScene()).loginSuccess());
                     } else {
-                        this.loginFail(object.get("message").getAsString() + "(%s)".formatted(code), true);
+                        this.loginFail("交换 Cookie 失败", true);
                     }
+                } else {
+                    this.loginFail("登录失败" + "(%s)".formatted(object.get("code").getAsInt()), true);
                 }
-            } catch (IOException e) {
-                this.loginFail("登录请求失败", true);
+            } else {
+                JsonObject object = RequestUtils.requestToJson(RequestUtils.httpPost("https://passport.bilibili.com/x/passport-login/web/login/sms")
+                        .appendFormDataParameter("cid", this.selectedCountryCid)
+                        .appendFormDataParameter("tel", this.accountField.getText())
+                        .appendFormDataParameter("code", this.passwordField.getText())
+                        .appendFormDataParameter("source", "main_web")
+                        .appendFormDataParameter("captcha_key", captchaKey)
+                        .build());
+                int code = object.get("code").getAsInt();
+                if (code == 0) {
+                    RequestUtils.saveCookie(true);
+                    Settings.setRefreshToken(object.getAsJsonObject("data").get("refresh_token").getAsString());
+                    Platform.runLater(() -> ((LoginMain) this.getScene()).loginSuccess());
+                } else {
+                    this.loginFail(object.get("message").getAsString() + "(%s)".formatted(code), true);
+                }
             }
-        }).start();
+        }).exceptionally(throwable -> {
+            this.loginFail("登录请求失败", true);
+            return null;
+        });
     }
 
     private void initCountries() {
-        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            HttpGet httpGet = new HttpGet("https://passport.bilibili.com/web/generic/country/list");
-            CloseableHttpResponse response = httpClient.execute(httpGet);
-            JsonObject object = JsonParser.parseString(EntityUtils.toString(response.getEntity())).getAsJsonObject();
-            if (object.get("code").getAsInt() == 0) {
-                object.getAsJsonObject("data").getAsJsonArray("common").forEach(country -> {
-                    JsonObject countryObject = country.getAsJsonObject();
-                    countries.add(new Country(countryObject.get("id").getAsInt(), countryObject.get("cname").getAsString(), countryObject.get("country_id").getAsString()));
-                });
-                object.getAsJsonObject("data").getAsJsonArray("others").forEach(country -> {
-                    JsonObject countryObject = country.getAsJsonObject();
-                    countries.add(new Country(countryObject.get("id").getAsInt(), countryObject.get("cname").getAsString(), countryObject.get("country_id").getAsString()));
-                });
-                this.selectedCountry = countries.getFirst().id;
-                Platform.runLater(() -> this.countryButton.setText("+" + countries.getFirst().countryId));
-            }
-        } catch (IOException e) {
-            Platform.runLater(() -> {
-                JFXDialog dialog = new JFXDialog(this.loginMain.getRootStackPane(), Utils.make(Utils.createLabel("获取国家与地区列表失败\n" + e.getMessage(), "RED"), label -> JFXDialog.setMargin(label, new Insets(30, 30, 30, 30))), JFXDialog.DialogTransition.CENTER);
-                dialog.show();
+        JsonObject object = RequestUtils.requestToJson(RequestUtils.httpGet("https://passport.bilibili.com/web/generic/country/list").build());
+        if (object.get("code").getAsInt() == 0) {
+            object.getAsJsonObject("data").getAsJsonArray("common").forEach(country -> {
+                JsonObject countryObject = country.getAsJsonObject();
+                countries.add(new Country(countryObject.get("id").getAsInt(), countryObject.get("cname").getAsString(), countryObject.get("country_id").getAsString()));
             });
+            object.getAsJsonObject("data").getAsJsonArray("others").forEach(country -> {
+                JsonObject countryObject = country.getAsJsonObject();
+                countries.add(new Country(countryObject.get("id").getAsInt(), countryObject.get("cname").getAsString(), countryObject.get("country_id").getAsString()));
+            });
+            this.selectedCountry = countries.getFirst().id;
+            Platform.runLater(() -> this.countryButton.setText("+" + countries.getFirst().countryId));
         }
     }
 
@@ -281,51 +252,35 @@ public class SMSLogin extends VBox implements CaptchaLogin, LoginMethodLocker {
     @Override
     public void captchaSuccess(String token, String gt, String challenge, String validate, String seccode) {
         captcha.close();
-        try (CloseableHttpClient client = HttpClients.custom().setDefaultCookieStore(Settings.getCookieStore()).build()) {
-            if (this.fromPassword) {
-                HttpPost httpPost = new HttpPost("https://passport.bilibili.com/x/safecenter/common/sms/send");
-                httpPost.setConfig(Settings.DEFAULT_REQUEST_CONFIG);
-                httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
-                List<NameValuePair> lp = new ArrayList<>();
-                lp.add(new BasicNameValuePair("tmp_code", tmpCode));
-                lp.add(new BasicNameValuePair("sms_type", "loginTelCheck"));
-                lp.add(new BasicNameValuePair("recaptcha_token", token));
-                lp.add(new BasicNameValuePair("gee_challenge", challenge));
-                lp.add(new BasicNameValuePair("gee_validate", validate));
-                lp.add(new BasicNameValuePair("gee_seccode", seccode));
-                httpPost.setEntity(new UrlEncodedFormEntity(lp));
-                CloseableHttpResponse response = client.execute(httpPost);
-                JsonObject object = JsonParser.parseString(EntityUtils.toString(response.getEntity())).getAsJsonObject();
-                if (object.get("code").getAsInt() == 0) {
-                    captchaKey = object.getAsJsonObject("data").get("captcha_key").getAsString();
-                }
-            } else {
-                HttpPost httpPost = new HttpPost("https://passport.bilibili.com/x/passport-login/web/sms/send");
-                httpPost.setConfig(Settings.DEFAULT_REQUEST_CONFIG);
-                httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
-                httpPost.setHeader("TE", "trailers");
-                List<NameValuePair> lp = new ArrayList<>();
-                lp.add(new BasicNameValuePair("cid", String.valueOf(this.selectedCountryCid)));
-                lp.add(new BasicNameValuePair("tel", this.accountField.getText()));
-                lp.add(new BasicNameValuePair("source", "main-fe-header"));
-                lp.add(new BasicNameValuePair("token", token));
-                lp.add(new BasicNameValuePair("challenge", challenge));
-                lp.add(new BasicNameValuePair("validate", validate));
-                lp.add(new BasicNameValuePair("seccode", seccode));
-                httpPost.setEntity(new UrlEncodedFormEntity(lp));
-                CloseableHttpResponse response = client.execute(httpPost);
-                JsonObject object = JsonParser.parseString(EntityUtils.toString(response.getEntity())).getAsJsonObject();
-                int code = object.get("code").getAsInt();
-                if (code == 0) {
-                    captchaKey = object.getAsJsonObject("data").get("captcha_key").getAsString();
-                } else {
-                    Platform.runLater(() -> this.loginMain.showDialogMessage(object.get("message").getAsString() + "(%s)".formatted(code), true));
-                    return;
-                }
+        if (this.fromPassword) {
+            JsonObject object = RequestUtils.requestToJson(RequestUtils.httpPost("https://passport.bilibili.com/x/safecenter/common/sms/send")
+                    .appendFormDataParameter("tmp_code", tmpCode)
+                    .appendFormDataParameter("sms_type", "loginTelCheck")
+                    .appendFormDataParameter("recaptcha_token", token)
+                    .appendFormDataParameter("gee_challenge", challenge)
+                    .appendFormDataParameter("gee_validate", validate)
+                    .appendFormDataParameter("gee_seccode", seccode)
+                    .build());
+            if (object.get("code").getAsInt() == 0) {
+                captchaKey = object.getAsJsonObject("data").get("captcha_key").getAsString();
             }
-        } catch (IOException e) {
-            Platform.runLater(() -> this.loginMain.showDialogMessage("获取验证码失败", true));
-            return;
+        } else {
+            JsonObject object = RequestUtils.requestToJson(RequestUtils.httpPost("https://passport.bilibili.com/x/passport-login/web/sms/send")
+                    .appendFormDataParameter("cid", this.selectedCountryCid)
+                    .appendFormDataParameter("tel", this.accountField.getText())
+                    .appendFormDataParameter("source", "main-fe-header")
+                    .appendFormDataParameter("token", token)
+                    .appendFormDataParameter("challenge", challenge)
+                    .appendFormDataParameter("validate", validate)
+                    .appendFormDataParameter("seccode", seccode)
+                    .build());
+            int code = object.get("code").getAsInt();
+            if (code == 0) {
+                captchaKey = object.getAsJsonObject("data").get("captcha_key").getAsString();
+            } else {
+                Platform.runLater(() -> this.loginMain.showDialogMessage(object.get("message").getAsString() + "(%s)".formatted(code), true));
+                return;
+            }
         }
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             countdown--;
@@ -380,21 +335,15 @@ public class SMSLogin extends VBox implements CaptchaLogin, LoginMethodLocker {
         smsLogin.tmpCode = tmpCode;
         smsLogin.requestId = requestId;
         smsLogin.accountField.setText("获取中……");
-        new Thread(() -> {
-            try (CloseableHttpClient client = HttpClients.custom().setDefaultCookieStore(Settings.getCookieStore()).build()) {
-                URI uri = new URIBuilder("https://passport.bilibili.com/x/safecenter/user/info")
-                        .addParameter("tmp_code", tmpCode)
-                        .build();
-                HttpGet httpGet = new HttpGet(uri);
-                CloseableHttpResponse response = client.execute(httpGet);
-                JsonObject object = JsonParser.parseString(EntityUtils.toString(response.getEntity())).getAsJsonObject();
-                if (object.get("code").getAsInt() == 0) {
-                    smsLogin.accountField.setText(object.getAsJsonObject("data").getAsJsonObject("account_info").get("hide_tel").getAsString());
-                }
-            } catch (Exception e) {
-                smsLogin.accountField.setText("获取失败");
+        CompletableFuture.supplyAsync(() -> {
+            JsonObject object = RequestUtils.requestToJson(RequestUtils.httpGet("https://passport.bilibili.com/x/safecenter/user/info")
+                    .appendUrlParameter("tmp_code", tmpCode)
+                    .build());
+            if (object.get("code").getAsInt() == 0) {
+                return object.getAsJsonObject("data").getAsJsonObject("account_info").get("hide_tel").getAsString();
             }
-        }).start();
+            throw new RuntimeException();
+        }).exceptionally(throwable -> "获取失败").thenAccept(result -> Platform.runLater(() -> smsLogin.accountField.setText(result)));
         return smsLogin;
     }
 

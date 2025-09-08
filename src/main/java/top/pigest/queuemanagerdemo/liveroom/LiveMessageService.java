@@ -6,24 +6,19 @@ import javafx.application.Platform;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.brotli.dec.BrotliInputStream;
 import top.pigest.queuemanagerdemo.QueueManager;
 import top.pigest.queuemanagerdemo.Settings;
+import top.pigest.queuemanagerdemo.control.QMButton;
 import top.pigest.queuemanagerdemo.music.MusicHandler;
-import top.pigest.queuemanagerdemo.system.WbiSign;
 import top.pigest.queuemanagerdemo.util.RequestUtils;
 import top.pigest.queuemanagerdemo.util.Utils;
-import top.pigest.queuemanagerdemo.control.QMButton;
 import top.pigest.queuemanagerdemo.window.main.DanmakuServicePage;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.WebSocket;
@@ -240,7 +235,7 @@ public class LiveMessageService implements WebSocket.Listener {
 
     public static void connect() {
         try {
-            LiveMessageService.connect(QueueManager.getSelfUid(), LiveRoomApi.liveRoomId(QueueManager.getSelfUid()));
+            LiveMessageService.connect(QueueManager.getSelfUid(), QueueManager.INSTANCE.ROOM_ID);
         } catch (Exception e) {
             throw new ConnectFailedException(e.getMessage());
         }
@@ -256,7 +251,7 @@ public class LiveMessageService implements WebSocket.Listener {
                 try {
                     URI uri = new URI("wss://%s:%s/sub".formatted(hostname, verification.hosts.getFirst().wssPort));
                     HttpClient client = HttpClient.newHttpClient();
-                    INSTANCE = new LiveMessageService(uid, roomId, verification.token, Settings.getCookie("buvid3"));
+                    INSTANCE = new LiveMessageService(uid, roomId, verification.token, RequestUtils.getCookie("buvid3"));
                     client.newWebSocketBuilder()
                             .header("User-Agent", Settings.USER_AGENT)
                             .buildAsync(uri, INSTANCE).join();
@@ -275,11 +270,11 @@ public class LiveMessageService implements WebSocket.Listener {
 
     private static MessageStreamVerification getMessageStreamVerification(long roomId) {
         try {
-            Utils.fillCookies(Settings.getCookieStore());
-            JsonObject object = RequestUtils.request(RequestUtils.httpGet("https://api.live.bilibili.com/xlive/web-room/v1/index/getDanmuInfo")
+            Utils.fillCookies(RequestUtils.getCookieStore());
+            JsonObject object = RequestUtils.requestToJson(RequestUtils.httpGet("https://api.live.bilibili.com/xlive/web-room/v1/index/getDanmuInfo")
                     .appendUrlParameter("id", roomId)
                     .appendUrlParameter("type", 0)
-                    .appendUrlParameter("web_location", 444.8).buildWithWbiSign()).getAsJsonObject();
+                    .appendUrlParameter("web_location", 444.8).buildWithWbiSign());
             if (object.get("code").getAsInt() == 0) {
                 List<Host> hosts = new ArrayList<>();
                 JsonObject data = object.getAsJsonObject("data");

@@ -1,23 +1,18 @@
 package top.pigest.queuemanagerdemo.system;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import javafx.util.Pair;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.cookie.BasicClientCookie;
-import org.apache.http.util.EntityUtils;
 import top.pigest.queuemanagerdemo.Settings;
-
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.util.Date;
+import top.pigest.queuemanagerdemo.util.RequestUtils;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 public class BiliTicket {
     public static String bytesToHex(byte[] bytes) {
@@ -42,7 +37,7 @@ public class BiliTicket {
 
     public static Pair<String, String> getBiliTicket() throws Exception {
         long ts = System.currentTimeMillis() / 1000;
-        String csrf = Settings.hasCookie("bili_jct") ? Settings.getCookie("bili_jct") : "";
+        String csrf = RequestUtils.hasCookie("bili_jct") ? RequestUtils.getCookie("bili_jct") : "";
         String hexSign = hmacSha256("XgwSnGZ1p", "ts" + ts);
         URI uri = new URIBuilder("https://api.bilibili.com/bapis/bilibili.api.ticket.v1.Ticket/GenWebTicket")
                 .addParameter("key_id", "ec02")
@@ -51,35 +46,38 @@ public class BiliTicket {
                 .addParameter("csrf", csrf).build();
         HttpPost httpPost = new HttpPost(uri);
         httpPost.setHeader("User-Agent", Settings.USER_AGENT);
-        try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
-            HttpResponse response = httpclient.execute(httpPost);
-            JsonObject object = JsonParser.parseString(EntityUtils.toString(response.getEntity())).getAsJsonObject();
-            if (object.get("code").getAsInt() == 0) {
-                if (!Settings.hasCookie("bili_ticket")) {
-                    String ticket = object.getAsJsonObject("data").get("ticket").getAsString();
-                    long date = System.currentTimeMillis() + object.getAsJsonObject("data").get("ttl").getAsLong();
-                    BasicClientCookie biliTicket = new BasicClientCookie("bili_ticket", ticket);
-                    biliTicket.setDomain("bilibili.com");
-                    biliTicket.setExpiryDate(new Date(date));
-                    biliTicket.setPath("/");
-                    Settings.getCookieStore().addCookie(biliTicket);
-                    BasicClientCookie biliTicketExpires = new BasicClientCookie("bili_ticket_expires", ticket);
-                    biliTicketExpires.setDomain("bilibili.com");
-                    biliTicketExpires.setExpiryDate(new Date(date));
-                    biliTicket.setPath("/");
-                    Settings.getCookieStore().addCookie(biliTicketExpires);
-                    Settings.saveCookie(false);
-                }
-                JsonObject nav = object.getAsJsonObject("data").getAsJsonObject("nav");
-                String imgKey = nav.get("img").getAsString();
-                imgKey = imgKey.substring(imgKey.indexOf("wbi/") + 4, imgKey.lastIndexOf("."));
-                String subKey = nav.get("sub").getAsString();
-                subKey = subKey.substring(subKey.indexOf("wbi/") + 4, subKey.lastIndexOf("."));
-                return new Pair<>(imgKey, subKey);
-
-            } else {
-                throw new Exception(object.get("message").getAsString());
+        JsonObject object = RequestUtils.requestToJson(
+                RequestUtils.httpPost("https://api.bilibili.com/bapis/bilibili.api.ticket.v1.Ticket/GenWebTicket")
+                        .appendUrlParameter("key_id", "ec02")
+                        .appendUrlParameter("hexsign", hexSign)
+                        .appendUrlParameter("context[ts]", ts)
+                        .appendUrlParameter("csrf", csrf).build()
+        );
+        if (object.get("code").getAsInt() == 0) {
+            if (!RequestUtils.hasCookie("bili_ticket")) {
+                String ticket = object.getAsJsonObject("data").get("ticket").getAsString();
+                long date = System.currentTimeMillis() + object.getAsJsonObject("data").get("ttl").getAsLong();
+                BasicClientCookie biliTicket = new BasicClientCookie("bili_ticket", ticket);
+                biliTicket.setDomain("bilibili.com");
+                biliTicket.setExpiryDate(new Date(date));
+                biliTicket.setPath("/");
+                RequestUtils.getCookieStore().addCookie(biliTicket);
+                BasicClientCookie biliTicketExpires = new BasicClientCookie("bili_ticket_expires", ticket);
+                biliTicketExpires.setDomain("bilibili.com");
+                biliTicketExpires.setExpiryDate(new Date(date));
+                biliTicket.setPath("/");
+                RequestUtils.getCookieStore().addCookie(biliTicketExpires);
+                RequestUtils.saveCookie(false);
             }
+            JsonObject nav = object.getAsJsonObject("data").getAsJsonObject("nav");
+            String imgKey = nav.get("img").getAsString();
+            imgKey = imgKey.substring(imgKey.indexOf("wbi/") + 4, imgKey.lastIndexOf("."));
+            String subKey = nav.get("sub").getAsString();
+            subKey = subKey.substring(subKey.indexOf("wbi/") + 4, subKey.lastIndexOf("."));
+            return new Pair<>(imgKey, subKey);
+
+        } else {
+            throw new Exception(object.get("message").getAsString());
         }
     }
 }
