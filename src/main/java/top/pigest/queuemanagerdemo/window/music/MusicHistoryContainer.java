@@ -49,7 +49,7 @@ public class MusicHistoryContainer extends ListPagedContainer<Song> {
 
         HBox hBox = new HBox();
         QMButton play = getPlay(song);
-        QMButton delete = new QMButton("", null, false);
+        QMButton delete = new QMButton("", null);
         FontIcon trashIcon = new FontIcon("far-trash-alt:40");
         delete.setGraphic(trashIcon);
         delete.setOnAction(event -> MusicHandler.INSTANCE.getHistory().remove(song));
@@ -64,7 +64,7 @@ public class MusicHistoryContainer extends ListPagedContainer<Song> {
     }
 
     private static QMButton getPlay(Song song) {
-        QMButton play = new QMButton("", null, false);
+        QMButton play = new QMButton("", null);
         FontIcon playIcon = new FontIcon("far-play-circle:40");
         FontIcon pauseIcon = new FontIcon("far-pause-circle:40");
         if (song.equals(MusicHandler.INSTANCE.getCurrentSong())) {

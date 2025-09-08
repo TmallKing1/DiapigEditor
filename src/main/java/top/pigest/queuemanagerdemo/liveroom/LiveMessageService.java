@@ -18,6 +18,7 @@ import top.pigest.queuemanagerdemo.QueueManager;
 import top.pigest.queuemanagerdemo.Settings;
 import top.pigest.queuemanagerdemo.music.MusicHandler;
 import top.pigest.queuemanagerdemo.system.WbiSign;
+import top.pigest.queuemanagerdemo.util.RequestUtils;
 import top.pigest.queuemanagerdemo.util.Utils;
 import top.pigest.queuemanagerdemo.control.QMButton;
 import top.pigest.queuemanagerdemo.window.main.DanmakuServicePage;
@@ -238,37 +239,9 @@ public class LiveMessageService implements WebSocket.Listener {
     }
 
     public static void connect() {
-        try (CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(Settings.getCookieStore()).build()) {
-            URI uri = new URIBuilder("https://api.live.bilibili.com/live_user/v1/Master/info")
-                    .addParameter("uid", String.valueOf(Settings.MID)).build();
-            HttpGet httpget = new HttpGet(uri);
-            httpget.setConfig(Settings.DEFAULT_REQUEST_CONFIG);
-            CloseableHttpResponse response = httpclient.execute(httpget);
-            JsonObject object = JsonParser.parseString(EntityUtils.toString(response.getEntity())).getAsJsonObject();
-            if (object.get("code").getAsInt() == 0) {
-                long roomId = object.getAsJsonObject("data").get("room_id").getAsLong();
-                if (roomId != 0) {
-                    URI uri1 = new URIBuilder("https://api.live.bilibili.com/xlive/web-room/v1/index/getRoomBaseInfo")
-                            .addParameter("req_biz", "web_room_componet")
-                            .addParameter("room_ids", String.valueOf(roomId)).build();
-                    HttpGet httpget1 = new HttpGet(uri1);
-                    httpget1.setConfig(Settings.DEFAULT_REQUEST_CONFIG);
-                    CloseableHttpResponse response1 = httpclient.execute(httpget1);
-                    JsonObject obj1 = JsonParser.parseString(EntityUtils.toString(response1.getEntity())).getAsJsonObject();
-                    if (obj1.get("code").getAsInt() == 0) {
-                        roomId = Long.parseLong(obj1.getAsJsonObject("data").getAsJsonObject("by_room_ids").keySet().iterator().next());
-                        LiveMessageService.connect(Settings.MID, roomId);
-                    } else {
-                        throw new RuntimeException(obj1.get("message").getAsString());
-                    }
-                } else {
-                    throw new RuntimeException("请先在 B 站开通直播间");
-                }
-            } else {
-                throw new RuntimeException(object.get("message").getAsString());
-            }
+        try {
+            LiveMessageService.connect(QueueManager.getSelfUid(), LiveRoomApi.liveRoomId(QueueManager.getSelfUid()));
         } catch (Exception e) {
-            e.printStackTrace();
             throw new ConnectFailedException(e.getMessage());
         }
     }
@@ -301,21 +274,12 @@ public class LiveMessageService implements WebSocket.Listener {
     }
 
     private static MessageStreamVerification getMessageStreamVerification(long roomId) {
-        TreeMap<String, Object> map = new TreeMap<>();
-        map.put("id", roomId);
-        map.put("type", 0);
-        map.put("web_location", 444.8);
-        try (CloseableHttpClient client = HttpClients.custom().setDefaultCookieStore(Settings.getCookieStore()).build()) {
+        try {
             Utils.fillCookies(Settings.getCookieStore());
-            URI signedUri = WbiSign.getSignedUri(new URIBuilder("https://api.live.bilibili.com/xlive/web-room/v1/index/getDanmuInfo"), map);
-            if (signedUri == null) {
-                throw new RuntimeException("Failed to get signedUri");
-            }
-            HttpGet httpGet = new HttpGet(signedUri);
-            httpGet.setHeader("User-Agent", Settings.USER_AGENT);
-            httpGet.setConfig(Settings.DEFAULT_REQUEST_CONFIG);
-            HttpResponse response = client.execute(httpGet);
-            JsonObject object = JsonParser.parseString(EntityUtils.toString(response.getEntity())).getAsJsonObject();
+            JsonObject object = RequestUtils.request(RequestUtils.httpGet("https://api.live.bilibili.com/xlive/web-room/v1/index/getDanmuInfo")
+                    .appendUrlParameter("id", roomId)
+                    .appendUrlParameter("type", 0)
+                    .appendUrlParameter("web_location", 444.8).buildWithWbiSign()).getAsJsonObject();
             if (object.get("code").getAsInt() == 0) {
                 List<Host> hosts = new ArrayList<>();
                 JsonObject data = object.getAsJsonObject("data");

@@ -17,7 +17,6 @@ import javafx.util.Duration;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -28,6 +27,8 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import top.pigest.queuemanagerdemo.QueueManager;
 import top.pigest.queuemanagerdemo.Settings;
 import top.pigest.queuemanagerdemo.liveroom.LiveMessageService;
+import top.pigest.queuemanagerdemo.liveroom.LiveRoomApi;
+import top.pigest.queuemanagerdemo.liveroom.User;
 import top.pigest.queuemanagerdemo.music.MusicHandler;
 import top.pigest.queuemanagerdemo.util.Utils;
 import top.pigest.queuemanagerdemo.control.QMButton;
@@ -35,19 +36,21 @@ import top.pigest.queuemanagerdemo.control.TitledDialog;
 import top.pigest.queuemanagerdemo.control.WhiteFontIcon;
 import top.pigest.queuemanagerdemo.window.music.MusicSystemPage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 public class MainScene extends Scene {
-    private final QMButton accountButton = Utils.make(new QMButton("正在登录……", null, false), qmButton -> qmButton.setOnAction(event -> {
+    private final QMButton accountButton = Utils.make(new QMButton("正在登录……", null), qmButton -> qmButton.setOnAction(event -> {
         if (isLogin()) {
             VBox vBox = new VBox(2);
             vBox.setAlignment(Pos.CENTER);
             TitledDialog dialog = new TitledDialog("操作", this.getRootDrawer(), vBox, JFXDialog.DialogTransition.CENTER, true);
-            QMButton accountSettings = new QMButton("账号设置", null, false);
-            QMButton exitLogin = new QMButton("退出登录", null, false);
+            QMButton accountSettings = new QMButton("账号设置", null);
+            QMButton exitLogin = new QMButton("退出登录", null);
             accountSettings.setOnAction(e -> dialog.close());
             accountSettings.setGraphic(new FontIcon("fas-user-cog"));
             exitLogin.setOnAction(e -> {
@@ -66,7 +69,7 @@ public class MainScene extends Scene {
         }
     }));
     private final HBox menuItems = Utils.make(new HBox(), hBox -> hBox.setAlignment(Pos.CENTER_LEFT));
-    private final QMButton bar = Utils.make(new QMButton("", null, false), qmButton -> qmButton.setOnAction(event -> showSidebar()));
+    private final QMButton bar = Utils.make(new QMButton("", null), qmButton -> qmButton.setOnAction(event -> showSidebar()));
     private final BorderPane top = Utils.make(new BorderPane(), border -> {
         bar.setGraphic(new FontIcon("fas-bars"));
         border.setLeft(new BorderPane(menuItems, null, null, null, bar));
@@ -128,28 +131,18 @@ public class MainScene extends Scene {
 
     public void refreshLoginState() {
         Settings.loadCookie();
-        try (CloseableHttpClient client = HttpClients.custom().setDefaultCookieStore(Settings.getCookieStore()).build()) {
-            HttpClientContext context = HttpClientContext.create();
-            context.setCookieStore(Settings.getCookieStore());
-            HttpGet httpGet = new HttpGet("https://api.bilibili.com/x/space/myinfo");
-            httpGet.setConfig(Settings.DEFAULT_REQUEST_CONFIG);
-            try (CloseableHttpResponse response = client.execute(httpGet, context)) {
-                JsonObject element = (JsonObject) JsonParser.parseString(EntityUtils.toString(response.getEntity()));
-                if (element.get("code").getAsInt() == 0) {
-                    Settings.setMID(element.getAsJsonObject("data").get("mid").getAsLong());
-                    loggedIn(element.getAsJsonObject("data").get("name").getAsString());
-                    if (Settings.getDanmakuServiceSettings().autoConnect) {
-                        try {
-                            LiveMessageService.connect();
-                        } catch (LiveMessageService.ConnectFailedException e) {
-                            Platform.runLater(() -> this.showDialogMessage("自动连接弹幕服务失败\n" + e.getMessage(), true));
-                        }
-                    }
-                } else {
-                    notLoggedIn();
+        try {
+            User user = Objects.requireNonNull(LiveRoomApi.uid());
+            loggedIn(user.getUsername());
+            QueueManager.INSTANCE.SELF = user;
+            if (Settings.getDanmakuServiceSettings().autoConnect) {
+                try {
+                    LiveMessageService.connect();
+                } catch (LiveMessageService.ConnectFailedException e) {
+                    Platform.runLater(() -> this.showDialogMessage("自动连接弹幕服务失败\n" + e.getMessage(), true));
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException | NullPointerException e) {
             notLoggedIn();
         }
         if (QueueManager.INSTANCE.isLoginOpen()) {
@@ -158,7 +151,7 @@ public class MainScene extends Scene {
     }
 
     private void notLoggedIn() {
-        Settings.setMID(-1);
+        QueueManager.INSTANCE.SELF = null;
         Platform.runLater(() -> {
             this.login = false;
             this.setMainContainer(new LoginPage(), "登录页");
@@ -169,7 +162,7 @@ public class MainScene extends Scene {
             }
             VBox vbox = new VBox();
             vbox.setAlignment(Pos.CENTER);
-            QMButton button = new QMButton("登录账号", null, false);
+            QMButton button = new QMButton("登录账号", null);
             button.setPrefWidth(200);
             button.setGraphic(new FontIcon("far-user-circle"));
             button.setOnAction(event -> {
@@ -254,7 +247,7 @@ public class MainScene extends Scene {
     }
 
     public QMButton createMainFunctionButton(String backgroundColor, String ripplerColor, String text, String iconCode, Supplier<Pane> supplier) {
-        QMButton button = new QMButton(null, backgroundColor, false);
+        QMButton button = new QMButton(null, backgroundColor);
         button.setId(text);
         button.setPrefSize(200, 200);
         FontIcon fontIcon = new WhiteFontIcon(iconCode + ":100");
@@ -268,7 +261,7 @@ public class MainScene extends Scene {
         button.setGraphic(stackPane);
         button.setRipplerFill(Paint.valueOf(ripplerColor));
         button.setOnAction(actionEvent -> this.setMainContainer(supplier, button));
-        QMButton button1 = new QMButton(text, null, false);
+        QMButton button1 = new QMButton(text, null);
         button1.setPrefWidth(200);
         button1.setId(text);
         button1.setGraphic(new FontIcon(iconCode));
@@ -281,7 +274,7 @@ public class MainScene extends Scene {
     }
 
     public QMButton createMiscFunctionButton(String backgroundColor, String text, String iconCode, Supplier<Pane> supplier) {
-        QMButton button = new QMButton(null, backgroundColor, false);
+        QMButton button = new QMButton(null, backgroundColor);
         button.setId(text);
         button.setPrefWidth(200);
         button.setPrefHeight(50);
@@ -296,7 +289,7 @@ public class MainScene extends Scene {
         if (this.getMainContainer() instanceof ChildPage childPage) {
             Pane parent = childPage.getParentPage();
             if (parent != null) {
-                QMButton back = new QMButton("", null, false);
+                QMButton back = new QMButton("", null);
                 back.setGraphic(new FontIcon("far-arrow-alt-circle-left"));
                 back.setOnAction(event -> this.setMainContainer(parent, parent.getId()));
                 this.menuItems.getChildren().add(back);

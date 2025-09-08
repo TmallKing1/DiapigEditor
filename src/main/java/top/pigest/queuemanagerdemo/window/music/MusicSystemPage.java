@@ -148,7 +148,7 @@ public class MusicSystemPage extends MultiMenuProvider<Pane> implements NamedPag
 
     private Pane initC0() {
         return new PagedContainerFactory("c0")
-                .addControl("打开播放器", Utils.make(new QMButton("打开播放器", "#fc3c55", false), button -> {
+                .addControl("打开播放器", Utils.make(new QMButton("打开播放器", "#fc3c55"), button -> {
                     button.setGraphic(new WhiteFontIcon("far-window-restore"));
                     button.setPrefWidth(180);
                     button.setOnAction(event -> {
@@ -638,7 +638,7 @@ public class MusicSystemPage extends MultiMenuProvider<Pane> implements NamedPag
                     button.setDisableVisualFocus(true);
                     button.setOnAction(event -> getMusicServiceSettings().setNoVipSongs(button.isSelected()));
                 }))
-                .addControl("退出登录", Utils.make(new QMButton("退出登录", "#fc3c55", false), button -> {
+                .addControl("退出登录", Utils.make(new QMButton("退出登录", "#fc3c55"), button -> {
                     button.setGraphic(new WhiteFontIcon("fas-sign-out-alt"));
                     button.setPrefWidth(180);
                     button.setOnAction(event -> {

@@ -12,6 +12,8 @@ public class SaveSettings {
     public DanmakuServiceSettings danmakuServiceSettings = new DanmakuServiceSettings();
     @SerializedName("music_service")
     public MusicServiceSettings musicServiceSettings = new MusicServiceSettings();
+    @SerializedName("toolbox")
+    public ToolboxSettings toolboxSettings = new ToolboxSettings();
 
     public String getRefreshToken() {
         return refreshToken;
@@ -37,6 +39,15 @@ public class SaveSettings {
 
     public void resetDanmakuServiceSettings() {
         this.danmakuServiceSettings = new DanmakuServiceSettings();
+        Settings.saveSettings();
+    }
+
+    public ToolboxSettings getToolboxSettings() {
+        return toolboxSettings;
+    }
+
+    public void resetToolboxSettings() {
+        this.toolboxSettings = new ToolboxSettings();
         Settings.saveSettings();
     }
 

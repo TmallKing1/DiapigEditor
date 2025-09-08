@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import top.pigest.queuemanagerdemo.liveroom.User;
 import top.pigest.queuemanagerdemo.util.Utils;
 import top.pigest.queuemanagerdemo.window.login.LoginMain;
 import top.pigest.queuemanagerdemo.window.main.MainScene;
@@ -14,6 +15,7 @@ import java.util.Objects;
 public class QueueManager extends Application {
     public static QueueManager INSTANCE;
 
+    public User SELF;
     private Stage primaryStage;
     private Stage login;
 
@@ -73,5 +75,9 @@ public class QueueManager extends Application {
 
     public MainScene getMainScene() {
         return ((MainScene) primaryStage.getScene());
+    }
+
+    public static long getSelfUid() {
+        return INSTANCE.SELF.getUid();
     }
 }

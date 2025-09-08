@@ -93,13 +93,13 @@ public class Utils {
         vBox.getChildren().add(label);
         HBox hBox = new HBox(40);
         hBox.setAlignment(Pos.CENTER);
-        QMButton ok = new QMButton(strA, QMButton.DEFAULT_COLOR, false);
+        QMButton ok = new QMButton(strA, QMButton.DEFAULT_COLOR);
         ok.setPrefWidth(80);
         ok.setOnAction(event -> {
             actionA.accept(event);
             dialog.close();
         });
-        QMButton cancel = new QMButton(strB, "#bb5555", false);
+        QMButton cancel = new QMButton(strB, "#bb5555");
         cancel.setPrefWidth(80);
         cancel.setOnAction(event -> {
             actionB.accept(event);

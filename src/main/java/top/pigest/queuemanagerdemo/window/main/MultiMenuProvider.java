@@ -40,7 +40,7 @@ public abstract class MultiMenuProvider<T extends Node> extends BorderPane imple
         Map<String, Supplier<T>> menus = getMenus();
         List<QMButton> menuButtons = new ArrayList<>();
         for (Map.Entry<String, Supplier<T>> menu : menus.entrySet()) {
-            QMButton e = new QMButton(menu.getKey(), null, false);
+            QMButton e = new QMButton(menu.getKey(), null);
             e.setRipplerFill(Paint.valueOf("BLACK"));
             e.setOnAction(event -> {
                 this.setInnerContainer(menu.getValue().get());

@@ -14,9 +14,9 @@ public class IntegerModifier extends HBox {
     private final int step;
     private final int min;
     private final int max;
-    private final QMButton decrementButton = new QMButton("", null, false);
+    private final QMButton decrementButton = new QMButton("", null);
     private final JFXTextField valueField = new JFXTextField();
-    private final QMButton incrementButton = new QMButton("", null, false);
+    private final QMButton incrementButton = new QMButton("", null);
     public IntegerModifier(int value) {
         this(value, 1, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }

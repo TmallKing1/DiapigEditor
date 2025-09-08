@@ -139,7 +139,7 @@ public class MusicPlayerScene extends Scene {
         });
         Color text = Color.valueOf(Settings.getMusicServiceSettings().textColor);
         if (Settings.getMusicServiceSettings().playPrevious) {
-            QMButton prev = new QMButton("", null, false);
+            QMButton prev = new QMButton("", null);
             prev.setMinSize(50, 50);
             FontIcon prevIcon = new FontIcon("fas-step-backward");
             prevIcon.setIconColor(text);
@@ -151,7 +151,7 @@ public class MusicPlayerScene extends Scene {
             this.upControl.getChildren().add(prev);
         }
 
-        QMButton curr = new QMButton("", null, false);
+        QMButton curr = new QMButton("", null);
         curr.setMinSize(50, 50);
         if (this.musicHandler.getState() == MusicHandler.State.DOWNLOADING || lock) {
             FontIcon bullsEye = new FontIcon("fas-bullseye");
@@ -179,7 +179,7 @@ public class MusicPlayerScene extends Scene {
         }
         this.upControl.getChildren().add(curr);
 
-        QMButton next = new QMButton("", null, false);
+        QMButton next = new QMButton("", null);
         next.setMinSize(50, 50);
         FontIcon nextIcon = new FontIcon("fas-step-forward");
         nextIcon.setIconColor(text);
@@ -190,7 +190,7 @@ public class MusicPlayerScene extends Scene {
         });
         this.upControl.getChildren().add(next);
 
-        QMButton thumbTack = new QMButton("", null, false);
+        QMButton thumbTack = new QMButton("", null);
         thumbTack.setMinSize(50, 50);
         FontIcon thumbIcon = new FontIcon("fas-thumbtack");
         thumbIcon.setIconColor(text);
@@ -205,7 +205,7 @@ public class MusicPlayerScene extends Scene {
         });
         this.upControl.getChildren().add(thumbTack);
 
-        QMButton close =  new QMButton("", null, false);
+        QMButton close =  new QMButton("", null);
         close.setMinSize(50, 50);
         FontIcon closeIcon = new FontIcon("fas-times");
         closeIcon.setIconColor(text);
@@ -499,25 +499,25 @@ public class MusicPlayerScene extends Scene {
                 }
             });
             if (index == 0) {
-                QMButton skip = new QMButton("", null, false);
+                QMButton skip = new QMButton("", null);
                 skip.setGraphic(new FontIcon("fas-step-forward"));
                 skip.setOnAction(event -> MusicPlayerScene.this.musicHandler.playNext(true));
                 control.getChildren().add(skip);
             } else {
                 if (index != 1) {
-                    QMButton top = new QMButton("", null, false);
+                    QMButton top = new QMButton("", null);
                     top.setGraphic(new FontIcon("fas-angle-double-up"));
                     top.setOnAction(event -> MusicPlayerScene.this.musicHandler.moveSong(song, 1));
                     control.getChildren().add(top);
                 }
-                QMButton play = new QMButton("", null, false);
+                QMButton play = new QMButton("", null);
                 play.setGraphic(new FontIcon("fas-play"));
                 play.setOnAction(event -> {
                     MusicPlayerScene.this.musicHandler.endFirst(true);
                     MusicPlayerScene.this.musicHandler.play(song);
                 });
                 control.getChildren().add(play);
-                QMButton remove = new QMButton("", null, false);
+                QMButton remove = new QMButton("", null);
                 remove.setGraphic(new FontIcon("fas-trash"));
                 remove.setOnAction(event -> MusicPlayerScene.this.musicHandler.removeSong(song));
                 control.getChildren().add(remove);

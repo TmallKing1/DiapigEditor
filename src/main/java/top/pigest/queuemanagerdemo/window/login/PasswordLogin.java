@@ -39,7 +39,7 @@ import java.util.List;
 class PasswordLogin extends VBox implements CaptchaLogin, LoginMethodLocker {
     private Stage captcha;
     private final LoginMain loginMain;
-    private final QMButton loginButton = Utils.make(new QMButton("登录", QMButton.DEFAULT_COLOR, false), button -> {
+    private final QMButton loginButton = Utils.make(new QMButton("登录", QMButton.DEFAULT_COLOR), button -> {
         button.disable(true);
         button.setPrefWidth(200);
         button.setOnAction(actionEvent -> login());

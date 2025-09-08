@@ -1,6 +1,7 @@
 package top.pigest.queuemanagerdemo.system;
 
 import javafx.util.Pair;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.URI;
@@ -49,7 +50,11 @@ public class WbiSign {
         return URLEncoder.encode(o.toString(), StandardCharsets.UTF_8).replace("+", "%20");
     }
 
-    public static URI getSignedUri(URIBuilder originalURI, TreeMap<String, Object> originalParameters) throws URISyntaxException {
+    public static URI getSignedUri(URIBuilder originalURI, List<NameValuePair> nameValuePairs) throws URISyntaxException {
+        TreeMap<String, Object> originalParameters = new TreeMap<>();
+        for (NameValuePair pair : nameValuePairs) {
+            originalParameters.put(pair.getName(), pair.getValue());
+        }
         Pair<String, Long> pair = getWbiSign(originalParameters);
         if (pair == null) {
             return null;

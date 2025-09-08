@@ -530,7 +530,7 @@ public class MusicHandler {
     private static boolean isPass(JsonArray info) {
         boolean pass = false;
         long uid = info.get(2).getAsJsonArray().get(0).getAsLong();
-        if (uid == Settings.MID && getMusicServiceSettings().skipUsers.contains(MusicServiceSettings.UserGroups.ANCHOR)) {
+        if (uid == QueueManager.getSelfUid() && getMusicServiceSettings().skipUsers.contains(MusicServiceSettings.UserGroups.ANCHOR)) {
             pass = true;
         }
         if (getMusicServiceSettings().skipUsers.contains(MusicServiceSettings.UserGroups.ALL)) {
@@ -554,7 +554,7 @@ public class MusicHandler {
             JsonElement element = info.get(0).getAsJsonArray().get(15).getAsJsonObject().getAsJsonObject("user").get("medal");
             if (element.isJsonObject()) {
                 JsonObject medalObject = element.getAsJsonObject();
-                pass = medalObject.get("ruid").getAsLong() == Settings.MID;
+                pass = medalObject.get("ruid").getAsLong() == QueueManager.getSelfUid();
             }
         }
         return pass;

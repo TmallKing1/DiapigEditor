@@ -43,7 +43,7 @@ public class CommandTestPage extends VBox implements NamedPage, ChildPage {
     }
 
     private static QMButton getExecute(WhiteFontIcon whiteFontIcon, JFXTextField textField) {
-        QMButton execute = new QMButton("执行", "#1a8bcc", false);
+        QMButton execute = new QMButton("执行", "#1a8bcc");
         execute.setGraphic(whiteFontIcon);
         execute.setDefaultButton(true);
         execute.setPrefWidth(150);
@@ -57,7 +57,7 @@ public class CommandTestPage extends VBox implements NamedPage, ChildPage {
             jsonArray.add(new JsonArray());
             jsonArray.add(textField.getText());
             JsonArray user = new JsonArray();
-            user.add(Settings.MID);
+            user.add(QueueManager.getSelfUid());
             user.add(QueueManager.INSTANCE.getMainScene().getUserName());
             jsonArray.add(user);
             jsonObject.add("info", jsonArray);

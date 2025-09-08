@@ -23,6 +23,8 @@ import org.apache.http.util.EntityUtils;
 import top.pigest.queuemanagerdemo.settings.DanmakuServiceSettings;
 import top.pigest.queuemanagerdemo.settings.MusicServiceSettings;
 import top.pigest.queuemanagerdemo.settings.SaveSettings;
+import top.pigest.queuemanagerdemo.settings.ToolboxSettings;
+import top.pigest.queuemanagerdemo.util.RequestUtils;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.OAEPParameterSpec;
@@ -57,8 +59,6 @@ public class Settings {
     public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0";
     private static CookieStore COOKIE_STORE = new BasicCookieStore();
     private static SaveSettings SAVE_SETTINGS;
-
-    public static long MID = -1;
 
     static {
         if (!DATA_DIRECTORY.exists()) {
@@ -118,12 +118,9 @@ public class Settings {
 
     private static void refreshCookie(String biliJct) {
         try (CloseableHttpClient client = HttpClients.custom().setDefaultCookieStore(COOKIE_STORE).build()) {
-            URI uri = new URIBuilder("https://passport.bilibili.com/x/passport-login/web/cookie/info")
-                    .addParameter("csrf", biliJct).build();
-            HttpGet httpGet = new HttpGet(uri);
-            httpGet.setConfig(DEFAULT_REQUEST_CONFIG);
-            CloseableHttpResponse response = client.execute(httpGet);
-            JsonObject object = JsonParser.parseString(EntityUtils.toString(response.getEntity())).getAsJsonObject();
+            JsonObject object = RequestUtils.request(
+                    RequestUtils.httpGet("https://passport.bilibili.com/x/passport-login/web/cookie/info")
+                    .appendUrlParameter("csrf", biliJct).build()).getAsJsonObject();
             if (object.get("code").getAsInt() == -101) {
                 COOKIE_STORE.clear();
                 SAVE_SETTINGS.setLastRefreshTime(System.currentTimeMillis());
@@ -150,36 +147,25 @@ public class Settings {
                     byte[] encryptedBytes = cipher.doFinal(plaintextBytes);
                     String correspondPath = new BigInteger(1, encryptedBytes).toString(16);
                     String url = "https://www.bilibili.com/correspond/1/" + correspondPath;
-                    HttpGet httpget = new HttpGet(url);
-                    httpget.setConfig(DEFAULT_REQUEST_CONFIG);
-                    CloseableHttpResponse response1 = client.execute(httpget);
-                    String s = EntityUtils.toString(response1.getEntity());
+                    String s = RequestUtils.requestToString(RequestUtils.httpGet(url).build());
                     String refreshCsrf = s.substring(s.indexOf("<div id=\"1-name\">") + "<div id=\"1-name\">".length());
                     refreshCsrf = refreshCsrf.substring(0, refreshCsrf.indexOf("</div>"));
-                    HttpPost httppost = new HttpPost("https://passport.bilibili.com/x/passport-login/web/cookie/refresh");
-                    httppost.setConfig(DEFAULT_REQUEST_CONFIG);
-                    httppost.setHeader("Content-Type", "application/x-www-form-urlencoded");
-                    List<NameValuePair> lp = new ArrayList<>();
-                    lp.add(new BasicNameValuePair("csrf", biliJct));
-                    lp.add(new BasicNameValuePair("refresh_csrf", refreshCsrf));
-                    lp.add(new BasicNameValuePair("source", "main_web"));
-                    lp.add(new BasicNameValuePair("refresh_token", SAVE_SETTINGS.getRefreshToken()));
-                    httppost.setEntity(new UrlEncodedFormEntity(lp));
-                    CloseableHttpResponse response2 = client.execute(httppost);
-                    JsonObject object1 = JsonParser.parseString(EntityUtils.toString(response2.getEntity())).getAsJsonObject();
+                    JsonObject object1 = RequestUtils.request(
+                            RequestUtils.httpPost("https://passport.bilibili.com/x/passport-login/web/cookie/refresh")
+                                    .appendFormDataParameter("csrf", biliJct)
+                                    .appendFormDataParameter("refresh_csrf", refreshCsrf)
+                                    .appendFormDataParameter("source", "main_web")
+                                    .appendFormDataParameter("refresh_token", SAVE_SETTINGS.getRefreshToken())
+                            .build()).getAsJsonObject();
                     if (object1.get("code").getAsInt() == 0) {
                         String newRefreshToken =  object1.getAsJsonObject("data").get("refresh_token").getAsString();
-                        HttpPost httpPost = new HttpPost("https://passport.bilibili.com/x/passport-login/web/confirm/refresh");
-                        httpPost.setConfig(DEFAULT_REQUEST_CONFIG);
-                        httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
                         Optional<Cookie> biliJct1 = COOKIE_STORE.getCookies().stream().filter(cookie -> cookie.getName().equals("bili_jct")).findAny();
                         assert biliJct1.isPresent();
-                        List<NameValuePair> lp2 = new ArrayList<>();
-                        lp2.add(new BasicNameValuePair("refresh_token", SAVE_SETTINGS.getRefreshToken()));
-                        lp2.add(new BasicNameValuePair("csrf", biliJct1.get().getValue()));
-                        httpPost.setEntity(new UrlEncodedFormEntity(lp2));
-                        CloseableHttpResponse response3 = client.execute(httpPost);
-                        JsonObject object2 = JsonParser.parseString(EntityUtils.toString(response3.getEntity())).getAsJsonObject();
+                        JsonObject object2 = RequestUtils.request(
+                                RequestUtils.httpPost("https://passport.bilibili.com/x/passport-login/web/confirm/refresh")
+                                        .appendFormDataParameter("csrf", biliJct1.get().getValue())
+                                        .appendFormDataParameter("refresh_tooken", SAVE_SETTINGS.getRefreshToken())
+                                .build()).getAsJsonObject();
                         if (object2.get("code").getAsInt() == 0) {
                             SAVE_SETTINGS.setLastRefreshTime(System.currentTimeMillis());
                         } else {
@@ -196,7 +182,6 @@ public class Settings {
         } catch (Exception e) {
             System.err.println("检测Cookie刷新状态失败，请注意Cookie可用性");
             System.err.println(e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -210,6 +195,10 @@ public class Settings {
 
     public static MusicServiceSettings getMusicServiceSettings() {
         return SAVE_SETTINGS.getMusicServiceSettings();
+    }
+
+    public static ToolboxSettings getToolboxSettings() {
+        return SAVE_SETTINGS.getToolboxSettings();
     }
 
     public static void setRefreshToken(String refreshToken) {
@@ -278,7 +267,4 @@ public class Settings {
                                                                          && !cookie.isExpired(new Date(System.currentTimeMillis())));
     }
 
-    public static void setMID(long MID) {
-        Settings.MID = MID;
-    }
 }

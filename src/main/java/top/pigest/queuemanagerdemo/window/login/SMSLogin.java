@@ -44,15 +44,15 @@ public class SMSLogin extends VBox implements CaptchaLogin, LoginMethodLocker {
     private final boolean fromPassword;
     private final LoginMain loginMain;
     private final List<Country> countries = new ArrayList<>();
-    private final QMButton countryButton = Utils.make(new QMButton("", "#1f1e33", false), button -> {
+    private final QMButton countryButton = Utils.make(new QMButton("", "#1f1e33"), button -> {
         button.setPrefWidth(100);
         button.setOnAction(actionEvent -> selectCountry());
     });
-    private final QMButton smsCodeButton = Utils.make(new QMButton("获取验证码", "#1f1e33", false), button -> {
+    private final QMButton smsCodeButton = Utils.make(new QMButton("获取验证码", "#1f1e33"), button -> {
         button.setPrefWidth(140);
         button.setOnAction(actionEvent -> startCaptcha());
     });
-    private final QMButton loginButton = Utils.make(new QMButton("登录", QMButton.DEFAULT_COLOR, false), button -> {
+    private final QMButton loginButton = Utils.make(new QMButton("登录", QMButton.DEFAULT_COLOR), button -> {
         button.disable(true);
         button.setPrefWidth(200);
         button.setOnAction(actionEvent -> login());
@@ -237,7 +237,7 @@ public class SMSLogin extends VBox implements CaptchaLogin, LoginMethodLocker {
         scrollPane.setContent(vBox);
         TitledDialog dialog = new TitledDialog("选择国家或地区", ((LoginMain) this.getScene()).getRootStackPane(), scrollPane, JFXDialog.DialogTransition.CENTER, false);
         this.countries.forEach(country -> {
-            QMButton button = new QMButton("%s (+%s)".formatted(country.cname, country.countryId), null, false);
+            QMButton button = new QMButton("%s (+%s)".formatted(country.cname, country.countryId), null);
             if (country.id == selectedCountry) {
                 button.setTextFill(Paint.valueOf("0x1a8bcc"));
             }

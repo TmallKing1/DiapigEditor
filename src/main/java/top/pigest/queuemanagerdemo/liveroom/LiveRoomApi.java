@@ -10,14 +10,100 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import top.pigest.queuemanagerdemo.QueueManager;
 import top.pigest.queuemanagerdemo.Settings;
+import top.pigest.queuemanagerdemo.util.RequestUtils;
 
+import java.io.IOException;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+/**
+ * 直播间相关 API 实用工具类
+ */
 public class LiveRoomApi {
+    /**
+     * 获取自己的用户名和 UID
+     * @return {@link User} 对象，仅包含用户名和 UID 信息
+     */
+    public static User uid() throws IOException {
+        JsonObject element = RequestUtils.request(RequestUtils.httpGet("https://api.bilibili.com/x/space/myinfo").build()).getAsJsonObject();
+        if (element.get("code").getAsInt() == 0) {
+            long uid = element.getAsJsonObject("data").get("mid").getAsLong();
+            String name = element.getAsJsonObject("data").get("name").getAsString();
+            return new User(name, uid);
+        }
+        return null;
+    }
+
+    /**
+     * 获取用户直播间真实 ID
+     * @param uid 用户 UID
+     * @return 直播间真实ID
+     */
+    public static long liveRoomId(long uid) throws Exception{
+        try (CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(Settings.getCookieStore()).build()) {
+            RequestUtils.httpGet("https://api.live.bilibili.com/live_user/v1/Master/info").appendUrlParameter("uid", uid).build();
+            URI uri = new URIBuilder("https://api.live.bilibili.com/live_user/v1/Master/info")
+                    .addParameter("uid", String.valueOf(uid)).build();
+            HttpGet httpget = new HttpGet(uri);
+            httpget.setConfig(Settings.DEFAULT_REQUEST_CONFIG);
+            CloseableHttpResponse response = httpclient.execute(httpget);
+            JsonObject object = JsonParser.parseString(EntityUtils.toString(response.getEntity())).getAsJsonObject();
+            if (object.get("code").getAsInt() == 0) {
+                long roomId = object.getAsJsonObject("data").get("room_id").getAsLong();
+                if (roomId != 0) {
+                    URI uri1 = new URIBuilder("https://api.live.bilibili.com/xlive/web-room/v1/index/getRoomBaseInfo")
+                            .addParameter("req_biz", "web_room_componet")
+                            .addParameter("room_ids", String.valueOf(roomId)).build();
+                    HttpGet httpget1 = new HttpGet(uri1);
+                    httpget1.setConfig(Settings.DEFAULT_REQUEST_CONFIG);
+                    CloseableHttpResponse response1 = httpclient.execute(httpget1);
+                    JsonObject obj1 = JsonParser.parseString(EntityUtils.toString(response1.getEntity())).getAsJsonObject();
+                    if (obj1.get("code").getAsInt() == 0) {
+                        roomId = Long.parseLong(obj1.getAsJsonObject("data").getAsJsonObject("by_room_ids").keySet().iterator().next());
+                        return roomId;
+                    } else {
+                        throw new RuntimeException(obj1.get("message").getAsString());
+                    }
+                } else {
+                    throw new RuntimeException("请先在 B 站开通直播间");
+                }
+            } else {
+                throw new RuntimeException(object.get("message").getAsString());
+            }
+        }
+    }
+
+    /**
+     * 获取直播间分区列表
+     * @return {@link LiveArea} 对象列表，所有直播大分区以及其子分区的信息
+     */
+    public static List<LiveArea> getLiveAreas() {
+        JsonObject object = RequestUtils.request(RequestUtils.httpGet("https://api.live.bilibili.com/room/v1/Area/getList").build()).getAsJsonObject();
+        if (object.get("code").getAsInt() == 0) {
+            JsonArray array = object.getAsJsonArray("data");
+            List<LiveArea> liveAreas = new ArrayList<>();
+            for (JsonElement jsonElement : array) {
+                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                int id = jsonObject.get("id").getAsInt();
+                String name = jsonObject.get("name").getAsString();
+                List<SubLiveArea> subLiveAreas = new ArrayList<>();
+                JsonArray sub = jsonObject.getAsJsonArray("list");
+                for (JsonElement element : sub) {
+                    JsonObject subObject = element.getAsJsonObject();
+                    subLiveAreas.add(new SubLiveArea(id, subObject.get("id").getAsInt(), subObject.get("name").getAsString()));
+                }
+                liveAreas.add(new LiveArea(id, name, subLiveAreas));
+            }
+            return liveAreas;
+        } else {
+            return List.of();
+        }
+    }
+
     /**
      * 获取当前登录账号的所有房管信息
      * @return 一个 {@link Map} 对象，键为房管 UID，值为房管用户名
@@ -61,7 +147,7 @@ public class LiveRoomApi {
      * @return 一个 {@link FansMedal} 对象，表示粉丝牌信息，若用户没有已登录主播账号的粉丝牌则为 {@code null}
      */
     public static FansMedal getFansMedalInfo(long uid) throws Exception {
-        return getFansMedalInfo(uid, Settings.MID);
+        return getFansMedalInfo(uid, QueueManager.getSelfUid());
     }
 
     /**
@@ -96,7 +182,7 @@ public class LiveRoomApi {
      * @return 一个 {@link FansMedal} 对象，表示粉丝牌信息，若用户没有已登录主播账号的粉丝牌则为 {@code null}
      */
     public static FansMedal getFansUInfoMedal(long uid) throws Exception {
-        return getFansUInfoMedal(uid, Settings.MID);
+        return getFansUInfoMedal(uid, QueueManager.getSelfUid());
     }
 
     /**
@@ -137,7 +223,7 @@ public class LiveRoomApi {
                         .addParameter("roomid", String.valueOf(LiveMessageService.getInstance().getRoomId()))
                         .addParameter("page", String.valueOf(page))
                         .addParameter("page_size", "20")
-                        .addParameter("ruid", String.valueOf(Settings.MID))
+                        .addParameter("ruid", String.valueOf(QueueManager.getSelfUid()))
                         .addParameter("typ", "5")
                         .build();
                 HttpGet httpGet = new HttpGet(uri);
@@ -180,7 +266,7 @@ public class LiveRoomApi {
             URI uri = new URIBuilder("https://api.live.bilibili.com/xlive/general-interface/v1/rank/getFansMembersRank")
                     .addParameter("page", String.valueOf(page))
                     .addParameter("page_size", "20")
-                    .addParameter("ruid", String.valueOf(Settings.MID))
+                    .addParameter("ruid", String.valueOf(QueueManager.getSelfUid()))
                     .addParameter("rank_type", String.valueOf(rankType))
                     .addParameter("ts", String.valueOf(System.currentTimeMillis()))
                     .build();
@@ -261,6 +347,11 @@ public class LiveRoomApi {
         return List.of();
     }
 
+    /**
+     * 根据多个用户 UID 获取用户名和头像链接
+     * @param uids UID 集合
+     * @return {@link User} 对象列表，每个对象仅包含用户名、UID和头像链接
+     */
     public static List<User> getUserBriefInfo(Collection<Long> uids) throws Exception {
         try (CloseableHttpClient client = HttpClients.custom().setDefaultCookieStore(Settings.getCookieStore()).build()) {
             List<User> users = new ArrayList<>();
@@ -284,6 +375,11 @@ public class LiveRoomApi {
         }
     }
 
+    /**
+     * 搜索多个用户名对应的 UID
+     * @param usernames 用户名集合
+     * @return {@link User} 对象列表，每个对象仅包含用户名和 UID
+     */
     public static List<User> userNameToUid(Collection<String> usernames) throws Exception {
         try (CloseableHttpClient client = HttpClients.custom().setDefaultCookieStore(Settings.getCookieStore()).build()) {
             List<User> users = new ArrayList<>();

@@ -48,7 +48,7 @@ public class DanmakuServicePage extends MultiMenuProvider<Pane> implements Named
 
     private QMButton connectButton() {
         boolean connected = isConnected();
-        QMButton qmButton = new QMButton("开始连接", "#55bb55", false);
+        QMButton qmButton = new QMButton("开始连接", "#55bb55");
         qmButton.setPrefWidth(160);
         qmButton.setGraphic(new WhiteFontIcon("fas-link"));
         if (connected) {
@@ -151,11 +151,11 @@ public class DanmakuServicePage extends MultiMenuProvider<Pane> implements Named
                     text.setPrefWidth(500);
                     HBox buttons = new HBox(20);
                     buttons.setAlignment(Pos.CENTER_RIGHT);
-                    QMButton start = new QMButton("播放测试语音", "#55bb55", false);
+                    QMButton start = new QMButton("播放测试语音", "#55bb55");
                     start.setPrefWidth(240);
                     start.setGraphic(new WhiteFontIcon("fas-volume-up"));
                     start.setOnAction(event -> NarratorService.addString(text.getText()));
-                    QMButton stop = new QMButton("停止所有播放", "#bb5555", false);
+                    QMButton stop = new QMButton("停止所有播放", "#bb5555");
                     stop.setPrefWidth(240);
                     stop.setGraphic(new WhiteFontIcon("fas-volume-mute"));
                     stop.setOnAction(event -> NarratorService.stopSpeaking());
@@ -213,7 +213,7 @@ public class DanmakuServicePage extends MultiMenuProvider<Pane> implements Named
                     hBox.getChildren().add(checkBox);
                     hBox.getChildren().add(textField);
                 }))
-                .addControl("恢复默认设置", Utils.make(new QMButton("恢复所有弹幕播报设置", "#bb5555", true), button -> {
+                .addControl("恢复默认设置", Utils.make(new QMButton("恢复所有弹幕播报设置", "#bb5555"), button -> {
                     button.setGraphic(new WhiteFontIcon("fas-undo"));
                     button.setOnAction(event -> {
                         Settings.resetDanmakuServiceSettings();

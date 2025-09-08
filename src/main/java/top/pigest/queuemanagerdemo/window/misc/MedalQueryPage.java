@@ -31,9 +31,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class MedalQueryPage extends VBox implements NamedPage, ChildPage {
     private Node display;
-    private JFXTextField user;
-    private JFXTextField up;
-    private QMButton execute;
+    private final JFXTextField user;
+    private final JFXTextField up;
+    private final QMButton execute;
     private Pane parentPage;
 
     public MedalQueryPage() {
@@ -59,7 +59,7 @@ public class MedalQueryPage extends VBox implements NamedPage, ChildPage {
     }
 
     private QMButton getExecute(WhiteFontIcon whiteFontIcon) {
-        QMButton execute = new QMButton("检索", "#1a8bcc", false);
+        QMButton execute = new QMButton("检索", "#1a8bcc");
         execute.setGraphic(whiteFontIcon);
         execute.setDefaultButton(true);
         execute.setPrefWidth(150);
@@ -110,15 +110,16 @@ public class MedalQueryPage extends VBox implements NamedPage, ChildPage {
                         up = u2.getFirst();
                     }
                     FansMedal fansMedal = LiveRoomApi.getFansUInfoMedal(user.getUid(), up.getUid());
+                    if (fansMedal == null) {
+                        Platform.runLater(() -> Utils.showDialogMessage("用户没有主播的粉丝勋章", true, QueueManager.INSTANCE.getMainScene().getRootDrawer()));
+                        return;
+                    }
                     user.setFansMedal(fansMedal);
                     User finalUser = user;
                     Platform.runLater(() -> {
                         display = getNode(finalUser);
                         this.getChildren().add(display);
                     });
-                    if (fansMedal == null) {
-                        Platform.runLater(() -> Utils.showDialogMessage("用户没有主播的粉丝勋章", true, QueueManager.INSTANCE.getMainScene().getRootDrawer()));
-                    }
                 } catch (Exception e) {
                     Platform.runLater(() -> Utils.showDialogMessage("请求错误", true, QueueManager.INSTANCE.getMainScene().getRootDrawer()));
                 }

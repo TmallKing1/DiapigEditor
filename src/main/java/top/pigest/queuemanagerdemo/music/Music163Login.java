@@ -53,7 +53,7 @@ public class Music163Login extends Scene {
         BorderPane.setMargin(label, new Insets(0, 0, 30, 0));
         BorderPane.setAlignment(label, Pos.CENTER);
     });
-    private final QMButton reset = Utils.make(new QMButton("重新生成", QMButton.DEFAULT_COLOR, false), button -> {
+    private final QMButton reset = Utils.make(new QMButton("重新生成", QMButton.DEFAULT_COLOR), button -> {
         button.setPrefWidth(200);
         button.setOnAction(event -> refreshQRCode());
         button.setGraphic(new WhiteFontIcon("fas-undo"));

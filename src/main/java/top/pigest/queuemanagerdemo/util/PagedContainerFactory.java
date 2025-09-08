@@ -16,8 +16,8 @@ import top.pigest.queuemanagerdemo.window.main.MultiMenuProvider;
 public class PagedContainerFactory {
     protected final BorderPane current;
     protected final IndexedArrayList<VBox> pages = new IndexedArrayList<>();
-    protected final QMButton left = new QMButton("", null, false);
-    protected final QMButton right = new QMButton("", null, false);
+    protected final QMButton left = new QMButton("", null);
+    protected final QMButton right = new QMButton("", null);
     protected final Label text = new Label();
 
     public PagedContainerFactory(String id) {
