@@ -103,17 +103,15 @@ public class BlindChancePage extends VBox implements ChildPage, NamedPage {
             startExecute();
             this.getChildren().remove(display);
             CompletableFuture.supplyAsync(() -> LiveRoomApi.getBlindInfo(giftComboBox.getValue()))
-                    .whenComplete((info, throwable) -> {
-                        Platform.runLater(() -> {
-                            endExecute();
-                            if (throwable != null) {
-                                Utils.showDialogMessage("请求错误", true, QueueManager.INSTANCE.getMainScene().getRootDrawer());
-                                return;
-                            }
-                            display = createScrollPane(info);
-                            this.getChildren().add(display);
-                        });
-                    });
+                    .whenComplete((info, throwable) -> Platform.runLater(() -> {
+                        endExecute();
+                        if (throwable != null) {
+                            Utils.showDialogMessage("请求错误", true, QueueManager.INSTANCE.getMainScene().getRootDrawer());
+                            return;
+                        }
+                        display = createScrollPane(info);
+                        this.getChildren().add(display);
+                    }));
         });
         return execute;
     }
