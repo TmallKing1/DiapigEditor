@@ -3,13 +3,17 @@ package top.pigest.queuemanagerdemo.music;
 import com.google.gson.JsonObject;
 import javafx.application.Platform;
 import org.apache.http.*;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import top.pigest.queuemanagerdemo.Settings;
-import top.pigest.queuemanagerdemo.util.RequestUtils;
 import top.pigest.queuemanagerdemo.util.Utils;
 
 import java.io.FileOutputStream;
 import java.util.concurrent.CompletableFuture;
+
+import static top.pigest.queuemanagerdemo.util.RequestUtils.getCookieStore;
 
 public class MusicDownloader {
     private CompletableFuture<String> future;
@@ -30,10 +34,16 @@ public class MusicDownloader {
         stopDownload();
         downloading = song;
         future = CompletableFuture.supplyAsync(() -> {
-            try {
+            try (CloseableHttpClient client = HttpClients.custom().setDefaultCookieStore(getCookieStore()).build()) {
                 JsonObject object = Music163Api.player(song.getId(), "aac", Settings.getMusicServiceSettings().musicLevel.toString());
                 String url = object.getAsJsonArray("data").get(0).getAsJsonObject().get("url").getAsString();
-                HttpResponse response = RequestUtils.request(RequestUtils.httpGet(url).build());
+                HttpGet httpGet = new HttpGet(url);
+                httpGet.setHeader("User-Agent", Settings.USER_AGENT);
+                HttpResponse response = client.execute(httpGet);
+                int statusCode = response.getStatusLine().getStatusCode();
+                if (statusCode != 200) {
+                    throw new RuntimeException("Failed : HTTP error code : " + statusCode);
+                }
                 HttpEntity entity = response.getEntity();
                 Header header = response.getFirstHeader("Content-Disposition");
                 String fileFormat = "m4a";

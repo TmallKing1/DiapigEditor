@@ -12,8 +12,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import top.pigest.queuemanagerdemo.Settings;
-import top.pigest.queuemanagerdemo.liveroom.FansMedal;
-import top.pigest.queuemanagerdemo.liveroom.GuardInfo;
 import top.pigest.queuemanagerdemo.liveroom.LiveRoomApi;
 import top.pigest.queuemanagerdemo.liveroom.User;
 import top.pigest.queuemanagerdemo.util.DynamicListPagedContainer;
