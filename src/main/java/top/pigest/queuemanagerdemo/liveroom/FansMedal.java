@@ -1,6 +1,7 @@
 package top.pigest.queuemanagerdemo.liveroom;
 
 import com.google.gson.JsonObject;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -206,7 +207,11 @@ public class FansMedal {
             imageView.setFitWidth(50);
             imageView.setFitHeight(50);
             CompletableFuture.supplyAsync(() -> new Image(this.guardIcon))
-                    .thenAccept(imageView::setImage).join();
+                    .whenComplete((image, ex) -> {
+                        if (ex == null) {
+                            Platform.runLater(() -> imageView.setImage(image));
+                        }
+                    });
             namePane.setPadding(new Insets(0, 5, 0, 25));
             StackPane.setMargin(hBox, new Insets(0, 0, 0, 25));
             root.getChildren().add(imageView);

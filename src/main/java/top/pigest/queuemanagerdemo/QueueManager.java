@@ -22,6 +22,8 @@ public class QueueManager extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        System.setProperty("javafx.animation.fullspeed", "true");
+        System.setProperty("javafx.animation.pulse", "60");
         INSTANCE = this;
         MiscRegistryManager.registerPrimary();
         this.primaryStage = primaryStage;
@@ -32,7 +34,7 @@ public class QueueManager extends Application {
         primaryStage.setOnCloseRequest(event -> {
             MainScene scene = (MainScene) primaryStage.getScene();
             if (scene.getRootDrawer().getChildren().stream().noneMatch(node -> node.getId() != null && node.getId().equals("close-confirm"))) {
-                Utils.showChoosingDialog("确认关闭程序？", "确认", "取消", event1 -> System.exit(0), event1 -> {}, scene.getRootDrawer());
+                Utils.showChoosingDialog("关闭程序", "确认要关闭 Queue Manager 吗？", "确认", "取消", event1 -> System.exit(0), event1 -> {}, scene.getRootDrawer());
             }
             event.consume();
         });

@@ -43,6 +43,7 @@ import java.util.*;
 public class Settings {
     public static final File DATA_DIRECTORY = new File(System.getProperty("user.dir") + "\\.PPDD");
     public static final Font DEFAULT_FONT;
+    public static final Font BOLD_FONT;
     public static final Font SPEC_FONT;
     private static final File SAVE_SETTINGS_FILE = DATA_DIRECTORY.toPath().resolve("settings.json").toFile();
     public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0";
@@ -61,6 +62,7 @@ public class Settings {
         }
         try {
             DEFAULT_FONT = loadFont("font.otf", 20);
+            BOLD_FONT = loadFont("font_bold.otf", 20);
             SPEC_FONT = loadFont("font_spec.ttf", 20);
         } catch (IOException e) {
             throw new RuntimeException(e);

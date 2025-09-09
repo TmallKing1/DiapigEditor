@@ -21,8 +21,8 @@ public class MiscRegistryManager {
         register(new MiscFunction("大航海船员表", GuardListPage::new, "#F08650", "fas-anchor"));
         register(new MiscFunction("二维码放大器", () -> null, "#3D3F70", "fas-qrcode"));
         register(new MiscFunction("粉丝勋章查询", MedalQueryPage::new, "#8B57E7", "far-eye"));
-        register(new MiscFunction("盲盒概率查询", () -> null, "#3B706F", "fas-percentage"));
-        register(new MiscFunction("流水信息确认", () -> null, "#00704E", "fas-search-dollar"));
+        register(new MiscFunction("盲盒概率查询", BlindChancePage::new, "#3B706F", "fas-percentage"));
+        register(new MiscFunction("礼物图片下载", () -> null, "#00704E", "fas-gift"));
     }
 
     public static List<MiscFunction> getRegistries() {

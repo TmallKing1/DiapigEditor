@@ -39,4 +39,5 @@ module top.pigest.queuemanagerdemo {
     opens top.pigest.queuemanagerdemo.music to com.google.gson;
     exports top.pigest.queuemanagerdemo.liveroom;
     opens top.pigest.queuemanagerdemo.liveroom to com.google.gson;
+    exports top.pigest.queuemanagerdemo.resource;
 }

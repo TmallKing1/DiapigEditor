@@ -42,7 +42,7 @@ public class WebStartLivePage extends BorderPane implements NamedPage, ChildPage
     private final JFXTextField codeField;
     public WebStartLivePage() {
         PagedContainerFactory factory = new PagedContainerFactory("c0");
-        areaSelect = Utils.make(new QMButton("正在加载", "#1a8bcc"), button -> {
+        areaSelect = Utils.make(new QMButton("正在加载", "#1f1e33"), button -> {
             button.setPrefWidth(300);
             button.disable(true);
         });
@@ -257,6 +257,10 @@ public class WebStartLivePage extends BorderPane implements NamedPage, ChildPage
 
     public SubLiveArea getSelectedArea() {
         return selectedArea;
+    }
+
+    public boolean isLiveStarted() {
+        return liveStarted;
     }
 
     @Override

@@ -299,7 +299,7 @@ public class DanmakuServicePage extends MultiMenuProvider<Pane> implements Named
                 }
                 if (newValue.requireRegistration()) {
                     comboBox.setValue(oldValue);
-                    Utils.showChoosingDialog("该语音目前安装在你的电脑上，但无法使用\n将其添加到注册表后即可使用（需要管理员权限）\n按【确认】按钮可快速添加至注册表", "确认", "取消", event -> new Thread(() -> {
+                    Utils.showChoosingDialog("语音未注册", "该语音目前安装在你的电脑上，但无法使用\n将其添加到注册表后即可使用（需要管理员权限）\n按【确认】按钮可快速添加至注册表", "确认", "取消", event -> new Thread(() -> {
                         String command = "Start-Process cmd -Verb runAs -ArgumentList '/c reg import \"%s\"'".formatted(newValue.registryPath().substring(1));
                         try {
                             Process process = Runtime.getRuntime().exec(new String[]{"powershell", command});

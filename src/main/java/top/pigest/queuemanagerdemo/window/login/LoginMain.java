@@ -51,7 +51,7 @@ public class LoginMain extends Scene {
 
         LoginMethodLocker loginMethodLocker = ((LoginMethodLocker) this.borderPane.getCenter());
         if (loginMethodLocker.lockLoginMethod()) {
-            Utils.showChoosingDialog("确认放弃当前的信息并切换登录方式？", "确认", "取消", actionEvent -> setLoginMethod(loginMethod), actionEvent -> {}, this.getRootStackPane());
+            Utils.showChoosingDialog("警告", "确认放弃当前的信息并切换登录方式？", "确认", "取消", actionEvent -> setLoginMethod(loginMethod), actionEvent -> {}, this.getRootStackPane());
         } else {
             setLoginMethod(loginMethod);
         }

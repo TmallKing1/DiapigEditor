@@ -21,6 +21,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 import org.apache.http.client.CookieStore;
@@ -70,30 +72,42 @@ public class Utils {
         toast.setTextFill(Paint.valueOf("WHITE"));
         StackPane toastContainer = new StackPane(toast);
         toastContainer.setPadding(new Insets(10, 20, 10, 20));
-        toastContainer.setBackground(new Background(new BackgroundFill(Paint.valueOf(isError ? "#ff6060" : "#1f1e33"), new CornerRadii(3), Insets.EMPTY)));
+        toastContainer.setBackground(new Background(new BackgroundFill(Paint.valueOf(isError ? "#8B0000" : "#1f1e33"), new CornerRadii(3), Insets.EMPTY)));
         JFXDepthManager.setDepth(toastContainer, 2);
         JFXSnackbar.SnackbarEvent snackbarEvent = new JFXSnackbar.SnackbarEvent(toastContainer, Duration.seconds(duration));
         snackbar.enqueue(snackbarEvent);
     }
 
-    public static void showChoosingDialog(String message, String strA, String strB, Consumer<ActionEvent> actionA, Consumer<ActionEvent> actionB, StackPane rootStackPane) {
+    public static void showChoosingDialog(String title, String message,
+                                          String strA, String strB,
+                                          Consumer<ActionEvent> actionA, Consumer<ActionEvent> actionB,
+                                          StackPane rootStackPane) {
         VBox vBox = new VBox();
+        vBox.setPrefWidth(500);
+        vBox.setAlignment(Pos.CENTER);
         JFXDialog dialog = new JFXDialog(rootStackPane, vBox, JFXDialog.DialogTransition.CENTER, false);
         dialog.setId("close-confirm");
         vBox.setPadding(new Insets(20, 20, 20, 20));
-        Label label = Utils.createLabel(message);
-        label.setTextAlignment(TextAlignment.CENTER);
-        label.setPadding(new Insets(0, 0, 20, 0));
-        vBox.getChildren().add(label);
+        Text titleNode = new Text(title);
+        titleNode.setFont(new Font(Settings.DEFAULT_FONT.getFamily(), 30));
+        titleNode.setFill(Color.DIMGRAY);
+        VBox.setMargin(titleNode, new Insets(0, 0, 10, 0));
+        vBox.getChildren().add(titleNode);
+        Text text = new Text(message);
+        text.setFont(Settings.DEFAULT_FONT);
+        VBox.setMargin(text, new Insets(0, 0, 30, 0));
+        vBox.getChildren().add(text);
         HBox hBox = new HBox(40);
         hBox.setAlignment(Pos.CENTER);
         QMButton ok = new QMButton(strA, QMButton.DEFAULT_COLOR);
+        ok.setCursor(Cursor.HAND);
         ok.setPrefWidth(80);
         ok.setOnAction(event -> {
             actionA.accept(event);
             dialog.close();
         });
         QMButton cancel = new QMButton(strB, "#bb5555");
+        cancel.setCursor(Cursor.HAND);
         cancel.setPrefWidth(80);
         cancel.setOnAction(event -> {
             actionB.accept(event);

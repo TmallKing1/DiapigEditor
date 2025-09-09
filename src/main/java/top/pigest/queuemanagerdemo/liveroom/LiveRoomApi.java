@@ -462,6 +462,55 @@ public class LiveRoomApi {
     }
 
     /**
+     * 查询当前登录主播账号直播间的所有礼物信息
+     * @return {@link Gift} 列表
+     */
+    public static List<Gift> getGiftList() {
+        List<Gift> gifts = new ArrayList<>();
+        JsonObject jsonObject = RequestUtils.requestToJson(RequestUtils.httpGet("https://api.live.bilibili.com/xlive/web-room/v1/giftPanel/roomGiftList")
+                .appendUrlParameter("platform", "pc")
+                .appendUrlParameter("room_id", QueueManager.INSTANCE.ROOM_ID)
+                .build());
+        if (jsonObject.get("code").getAsInt() == 0) {
+            JsonArray element = jsonObject.getAsJsonObject("data").getAsJsonObject("gift_config").getAsJsonObject("base_config").getAsJsonArray("list");
+            element.forEach(elem -> {
+                JsonObject obj = elem.getAsJsonObject();
+                int id = obj.get("id").getAsInt();
+                int price = obj.get("price").getAsInt();
+                String name = obj.get("name").getAsString();
+                int type = obj.get("gift_type").getAsInt();
+                gifts.add(new Gift(name, id).setPrice(price).setType(type));
+            });
+        }
+        return gifts;
+    }
+
+    /**
+     * 查询盲盒概率
+     * @return 一个以礼物内容为键、概率为值、按照价格降序排列的 {@link LinkedHashMap}
+     */
+    public static LinkedHashMap<Gift, String> getBlindInfo(Gift blind) {
+        LinkedHashMap<Gift, String> blinds = new LinkedHashMap<>();
+        JsonObject jsonObject = RequestUtils.requestToJson(RequestUtils.httpGet("https://api.live.bilibili.com/xlive/general-interface/v1/blindFirstWin/getInfo")
+                .appendUrlParameter("gift_id", blind.getId())
+                .build());
+        if (jsonObject.get("code").getAsInt() == 0) {
+            JsonArray element = jsonObject.getAsJsonObject("data").getAsJsonArray("gifts");
+            element.forEach(elem -> {
+                JsonObject obj = elem.getAsJsonObject();
+                int id = obj.get("gift_id").getAsInt();
+                String name = obj.get("gift_name").getAsString();
+                int price = obj.get("price").getAsInt();
+                String img = obj.get("gift_img").getAsString();
+                String win = obj.get("is_win_gift").getAsString();
+                String chance = obj.get("chance").getAsString();
+                blinds.put(new Gift(name, id).setPrice(price).setImgBasic(img).setProperty("win", win), chance);
+            });
+        }
+        return blinds;
+    }
+
+    /**
      * 根据多个用户 UID 获取用户名和头像链接
      *
      * @param uids UID 集合

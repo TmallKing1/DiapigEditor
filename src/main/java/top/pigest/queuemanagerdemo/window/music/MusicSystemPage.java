@@ -288,14 +288,16 @@ public class MusicSystemPage extends MultiMenuProvider<Pane> implements NamedPag
                             Platform.runLater(() -> Utils.showDialogMessage("获取用户歌单信息失败", true, QueueManager.INSTANCE.getMainScene().getRootDrawer()));
                             throw new RuntimeException(e);
                         }
-                    }).whenComplete((pl, throwable) -> Platform.runLater(() -> {
+                    }).whenComplete((pl, throwable) -> {
                         if (throwable == null) {
-                            comboBox.setDisable(false);
-                            comboBox.getItems().addAll(pl);
-                            Optional<Pair<String, String>> optional = comboBox.getItems().stream().filter(pl1 -> pl1.getKey().equals(getMusicServiceSettings().defaultPlaylist)).findFirst();
-                            optional.ifPresent(comboBox::setValue);
+                            Platform.runLater(() -> {
+                                comboBox.setDisable(false);
+                                comboBox.getItems().addAll(pl);
+                                Optional<Pair<String, String>> optional = comboBox.getItems().stream().filter(pl1 -> pl1.getKey().equals(getMusicServiceSettings().defaultPlaylist)).findFirst();
+                                optional.ifPresent(comboBox::setValue);
+                            });
                         }
-                    }));
+                    });
                     comboBox.setPrefWidth(500);
                     comboBox.setCellFactory(new Callback<>() {
                         @Override

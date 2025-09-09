@@ -1,5 +1,6 @@
 package top.pigest.queuemanagerdemo.window.misc;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -49,7 +50,11 @@ public class FansContainer extends DynamicListPagedContainer<User> {
         clip.setCenterY(30);
         clip.setRadius(30);
         face.setClip(clip);
-        CompletableFuture.supplyAsync(() -> new Image(item.getFace())).thenAccept(face::setImage);
+        CompletableFuture.supplyAsync(() -> new Image(item.getFace())).whenComplete((image, throwable) -> {
+            if (throwable != null) {
+                Platform.runLater(() -> face.setImage(image));
+            }
+        });
         face.setFitWidth(60);
         face.setFitHeight(60);
         borderPane.setLeft(face);

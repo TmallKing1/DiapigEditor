@@ -53,13 +53,12 @@ public class MedalQueryPage extends VBox implements NamedPage, ChildPage {
         up.setLabelFloat(true);
         up.setMaxWidth(400);
 
-        WhiteFontIcon whiteFontIcon = new WhiteFontIcon("fas-search");
-        execute = getExecute(whiteFontIcon);
+        execute = getExecute(new WhiteFontIcon("fas-search"));
         this.getChildren().addAll(label, user, up, execute);
     }
 
     private QMButton getExecute(WhiteFontIcon whiteFontIcon) {
-        QMButton execute = new QMButton("检索", "#1a8bcc");
+        QMButton execute = new QMButton("查询", "#1a8bcc");
         execute.setGraphic(whiteFontIcon);
         execute.setDefaultButton(true);
         execute.setPrefWidth(150);
@@ -149,7 +148,11 @@ public class MedalQueryPage extends VBox implements NamedPage, ChildPage {
         clip.setCenterY(30);
         clip.setRadius(30);
         face.setClip(clip);
-        CompletableFuture.supplyAsync(() -> new Image(item.getFace())).thenAccept(face::setImage);
+        CompletableFuture.supplyAsync(() -> new Image(item.getFace())).whenComplete((image, throwable) -> {
+            if (throwable != null) {
+                Platform.runLater(() -> face.setImage(image));
+            }
+        });
         face.setFitWidth(60);
         face.setFitHeight(60);
         borderPane.setLeft(face);

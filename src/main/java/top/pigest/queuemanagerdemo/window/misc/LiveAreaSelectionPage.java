@@ -1,6 +1,7 @@
 package top.pigest.queuemanagerdemo.window.misc;
 
 import com.jfoenix.controls.JFXScrollPane;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -14,6 +15,7 @@ import top.pigest.queuemanagerdemo.Settings;
 import top.pigest.queuemanagerdemo.control.QMButton;
 import top.pigest.queuemanagerdemo.control.ScrollableText;
 import top.pigest.queuemanagerdemo.liveroom.LiveArea;
+import top.pigest.queuemanagerdemo.liveroom.LiveRoomApi;
 import top.pigest.queuemanagerdemo.liveroom.SubLiveArea;
 import top.pigest.queuemanagerdemo.util.Utils;
 import top.pigest.queuemanagerdemo.window.main.ChildPage;
@@ -21,6 +23,7 @@ import top.pigest.queuemanagerdemo.window.main.NamedPage;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 public class LiveAreaSelectionPage extends VBox implements NamedPage, ChildPage {
     private QMButton currentSelected;
@@ -67,20 +70,32 @@ public class LiveAreaSelectionPage extends VBox implements NamedPage, ChildPage 
             ScrollableText text = new ScrollableText(subLiveArea.name(), 140, true);
             text.getText().setFont(Settings.DEFAULT_FONT);
             QMButton button = new QMButton("", null, false);
+            WebStartLivePage page = (WebStartLivePage) parentPage;
             button.setOnAction(event -> {
                 if (!(button == currentSelected)) {
                     if (currentSelected != null) {
                         currentSelected.setBackgroundColor(null);
                         ((ScrollableText) currentSelected.getGraphic()).getText().setFill(Paint.valueOf("BLACK"));
                     }
-                    button.setBackgroundColor("#1a8bcc");
+                    button.setBackgroundColor("#55bb55");
                     text.getText().setFill(Paint.valueOf("WHITE"));
                     currentSelected = button;
-                    ((WebStartLivePage) parentPage).setSelectedArea(subLiveArea);
+                    page.setSelectedArea(subLiveArea);
+                    if (page.isLiveStarted()) {
+                        Utils.showChoosingDialog("开播过程中分区切换", "是否要更新当前直播间分区", "确认", "取消", event1 ->
+                                CompletableFuture.supplyAsync(() -> LiveRoomApi.updateArea(subLiveArea))
+                                        .whenComplete((result, ex) -> {
+                                            if (ex != null) {
+                                                Platform.runLater(() -> Utils.showDialogMessage("更新失败", true, QueueManager.INSTANCE.getMainScene().getRootDrawer()));
+                                                return;
+                                            }
+                                            Platform.runLater(() -> Utils.showDialogMessage("更新成功", false, QueueManager.INSTANCE.getMainScene().getRootDrawer()));
+                        }), event1 -> {} , QueueManager.INSTANCE.getMainScene().getRootDrawer());
+                    }
                 }
             });
-            if (subLiveArea.equals(((WebStartLivePage) this.parentPage).getSelectedArea())) {
-                button.setBackgroundColor("#1a8bcc");
+            if (subLiveArea.equals(page.getSelectedArea())) {
+                button.setBackgroundColor("#55bb55");
                 text.getText().setFill(Paint.valueOf("WHITE"));
                 currentSelected = button;
             }
