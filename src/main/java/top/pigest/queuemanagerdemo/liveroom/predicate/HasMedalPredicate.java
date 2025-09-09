@@ -1,6 +1,6 @@
 package top.pigest.queuemanagerdemo.liveroom.predicate;
 
-import top.pigest.queuemanagerdemo.liveroom.User;
+import top.pigest.queuemanagerdemo.liveroom.data.User;
 
 public class HasMedalPredicate implements UserPredicate {
     @Override

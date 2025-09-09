@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import com.google.protobuf.InvalidProtocolBufferException;
 import top.pigest.queuemanagerdemo.QueueManager;
 import top.pigest.queuemanagerdemo.Settings;
-import top.pigest.queuemanagerdemo.settings.DanmakuServiceSettings;
 
 import java.io.*;
 import java.util.*;

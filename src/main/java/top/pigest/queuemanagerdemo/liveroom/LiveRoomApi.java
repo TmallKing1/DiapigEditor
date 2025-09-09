@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.util.Pair;
 import top.pigest.queuemanagerdemo.QueueManager;
+import top.pigest.queuemanagerdemo.liveroom.data.*;
 import top.pigest.queuemanagerdemo.util.RequestUtils;
 
 import java.io.IOException;

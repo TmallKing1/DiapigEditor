@@ -1,7 +1,7 @@
 package top.pigest.queuemanagerdemo.liveroom.predicate;
 
 import javafx.scene.Node;
-import top.pigest.queuemanagerdemo.liveroom.User;
+import top.pigest.queuemanagerdemo.liveroom.data.User;
 
 /**
  * 用户谓词，用于判断一个 {@link User} 对象是否满足谓词指定的条件

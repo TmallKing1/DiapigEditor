@@ -18,10 +18,10 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import top.pigest.queuemanagerdemo.settings.DanmakuServiceSettings;
-import top.pigest.queuemanagerdemo.settings.MusicServiceSettings;
-import top.pigest.queuemanagerdemo.settings.SaveSettings;
-import top.pigest.queuemanagerdemo.settings.ToolboxSettings;
+import top.pigest.queuemanagerdemo.liveroom.DanmakuServiceSettings;
+import top.pigest.queuemanagerdemo.music.MusicServiceSettings;
+import top.pigest.queuemanagerdemo.main.SaveSettings;
+import top.pigest.queuemanagerdemo.misc.ToolboxSettings;
 import top.pigest.queuemanagerdemo.util.RequestUtils;
 
 import javax.crypto.Cipher;

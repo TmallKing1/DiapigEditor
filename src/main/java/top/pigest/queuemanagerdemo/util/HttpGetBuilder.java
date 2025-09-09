@@ -4,7 +4,6 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
-import top.pigest.queuemanagerdemo.system.WbiSign;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;

@@ -23,11 +23,11 @@ import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 import org.kordamp.ikonli.javafx.FontIcon;
 import top.pigest.queuemanagerdemo.QueueManager;
+import top.pigest.queuemanagerdemo.music.ui.MusicSystemPage;
 import top.pigest.queuemanagerdemo.util.RequestUtils;
 import top.pigest.queuemanagerdemo.util.Utils;
 import top.pigest.queuemanagerdemo.control.QMButton;
 import top.pigest.queuemanagerdemo.control.WhiteFontIcon;
-import top.pigest.queuemanagerdemo.window.music.MusicSystemPage;
 
 import java.io.IOException;
 import java.util.HashMap;

@@ -5,7 +5,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
-import top.pigest.queuemanagerdemo.system.WbiSign;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;

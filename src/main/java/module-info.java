@@ -26,18 +26,26 @@ module top.pigest.queuemanagerdemo {
     requires javafx.base;
 
     opens top.pigest.queuemanagerdemo to javafx.fxml;
-    opens top.pigest.queuemanagerdemo.system to com.google.gson;
     exports top.pigest.queuemanagerdemo;
-    exports top.pigest.queuemanagerdemo.system;
-    exports top.pigest.queuemanagerdemo.settings;
     exports top.pigest.queuemanagerdemo.util;
     exports top.pigest.queuemanagerdemo.control;
-    exports top.pigest.queuemanagerdemo.window.main;
-    exports top.pigest.queuemanagerdemo.window.music;
-    opens top.pigest.queuemanagerdemo.settings to com.google.gson;
+    exports top.pigest.queuemanagerdemo.main;
     exports top.pigest.queuemanagerdemo.music;
     opens top.pigest.queuemanagerdemo.music to com.google.gson;
     exports top.pigest.queuemanagerdemo.liveroom;
     opens top.pigest.queuemanagerdemo.liveroom to com.google.gson;
     exports top.pigest.queuemanagerdemo.resource;
+    exports top.pigest.queuemanagerdemo.music.ui;
+    opens top.pigest.queuemanagerdemo.music.ui to com.google.gson;
+    exports top.pigest.queuemanagerdemo.liveroom.ui;
+    opens top.pigest.queuemanagerdemo.liveroom.ui to com.google.gson;
+    exports top.pigest.queuemanagerdemo.liveroom.data;
+    opens top.pigest.queuemanagerdemo.liveroom.data to com.google.gson;
+    exports top.pigest.queuemanagerdemo.music.data;
+    opens top.pigest.queuemanagerdemo.music.data to com.google.gson;
+    opens top.pigest.queuemanagerdemo.main to com.google.gson;
+    exports top.pigest.queuemanagerdemo.misc;
+    opens top.pigest.queuemanagerdemo.misc to com.google.gson;
+    opens top.pigest.queuemanagerdemo.util to com.google.gson;
+    opens top.pigest.queuemanagerdemo.control to com.google.gson;
 }

@@ -4,11 +4,11 @@ import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import top.pigest.queuemanagerdemo.liveroom.User;
+import top.pigest.queuemanagerdemo.liveroom.data.User;
 import top.pigest.queuemanagerdemo.util.Utils;
-import top.pigest.queuemanagerdemo.window.login.LoginMain;
-import top.pigest.queuemanagerdemo.window.main.MainScene;
-import top.pigest.queuemanagerdemo.window.misc.MiscRegistryManager;
+import top.pigest.queuemanagerdemo.login.LoginMain;
+import top.pigest.queuemanagerdemo.main.MainScene;
+import top.pigest.queuemanagerdemo.misc.MiscRegistryManager;
 
 import java.util.Objects;
 

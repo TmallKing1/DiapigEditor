@@ -10,10 +10,10 @@ import org.brotli.dec.BrotliInputStream;
 import top.pigest.queuemanagerdemo.QueueManager;
 import top.pigest.queuemanagerdemo.Settings;
 import top.pigest.queuemanagerdemo.control.QMButton;
+import top.pigest.queuemanagerdemo.liveroom.ui.DanmakuServicePage;
 import top.pigest.queuemanagerdemo.music.MusicHandler;
 import top.pigest.queuemanagerdemo.util.RequestUtils;
 import top.pigest.queuemanagerdemo.util.Utils;
-import top.pigest.queuemanagerdemo.window.main.DanmakuServicePage;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

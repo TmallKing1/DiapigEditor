@@ -8,6 +8,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import top.pigest.queuemanagerdemo.Settings;
+import top.pigest.queuemanagerdemo.music.data.Song;
 import top.pigest.queuemanagerdemo.util.Utils;
 
 import java.io.FileOutputStream;

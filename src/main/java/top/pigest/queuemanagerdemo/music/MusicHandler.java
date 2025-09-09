@@ -12,14 +12,14 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import top.pigest.queuemanagerdemo.QueueManager;
 import top.pigest.queuemanagerdemo.Settings;
-import top.pigest.queuemanagerdemo.liveroom.FansMedal;
+import top.pigest.queuemanagerdemo.liveroom.data.FansMedal;
 import top.pigest.queuemanagerdemo.liveroom.LiveRoomApi;
-import top.pigest.queuemanagerdemo.settings.MusicServiceSettings;
+import top.pigest.queuemanagerdemo.music.data.Song;
+import top.pigest.queuemanagerdemo.music.ui.MusicPlayerScene;
 import top.pigest.queuemanagerdemo.util.ArrayObservableList;
 import top.pigest.queuemanagerdemo.util.RequestUtils;
 import top.pigest.queuemanagerdemo.util.Three;
 import top.pigest.queuemanagerdemo.util.Utils;
-import top.pigest.queuemanagerdemo.window.music.MusicPlayerScene;
 
 import java.io.File;
 import java.nio.file.Path;
