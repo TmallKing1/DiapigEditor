@@ -38,7 +38,8 @@ public class FansListPage extends MultiMenuProvider<Pane> implements NamedPage {
     public LinkedHashMap<String, Supplier<Pane>> getMenus() {
         LinkedHashMap<String, Supplier<Pane>> map = new LinkedHashMap<>();
         map.put("已点亮灯牌成员", this::getC0);
-        map.put("20级及以下成员", this::getC1);
+        // B站API变化，无法获取到所有20级及以下成员
+        // map.put("20级及以下成员", this::getC1);
         return map;
     }
 

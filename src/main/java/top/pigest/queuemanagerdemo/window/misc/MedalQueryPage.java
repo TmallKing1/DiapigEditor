@@ -149,7 +149,7 @@ public class MedalQueryPage extends VBox implements NamedPage, ChildPage {
         clip.setRadius(30);
         face.setClip(clip);
         CompletableFuture.supplyAsync(() -> new Image(item.getFace())).whenComplete((image, throwable) -> {
-            if (throwable != null) {
+            if (throwable == null) {
                 Platform.runLater(() -> face.setImage(image));
             }
         });
