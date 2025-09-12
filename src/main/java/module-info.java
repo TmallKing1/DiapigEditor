@@ -24,7 +24,6 @@ module top.pigest.queuemanagerdemo {
     requires javafx.media;
     requires javafx.graphics;
     requires javafx.base;
-    requires top.pigest.queuemanagerdemo;
 
     opens top.pigest.queuemanagerdemo to javafx.fxml;
     exports top.pigest.queuemanagerdemo;
