@@ -1,5 +1,6 @@
 package top.pigest.queuemanagerdemo.liveroom.predicate;
 
+import com.google.gson.JsonElement;
 import javafx.scene.Node;
 import top.pigest.queuemanagerdemo.liveroom.data.User;
 
@@ -11,13 +12,11 @@ import top.pigest.queuemanagerdemo.liveroom.data.User;
 public interface UserPredicate {
     boolean test(User user);
 
-    /**
-     * 获得查看和编辑该谓词时的 UI 节点
-     * 为了使该接口成为一个 {@link FunctionalInterface} 编写了默认方法体<br>
-     * 实现接口时需要重新编写获得节点的实际代码
-     * @return 用于查看和编辑该谓词的 UI 节点
-     */
     default Node getNode() {
+        throw new UnsupportedOperationException();
+    }
+
+    default JsonElement toJson() {
         throw new UnsupportedOperationException();
     }
 }

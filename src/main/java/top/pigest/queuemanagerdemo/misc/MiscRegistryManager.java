@@ -1,16 +1,14 @@
 package top.pigest.queuemanagerdemo.misc;
 
+import top.pigest.queuemanagerdemo.misc.ui.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class MiscRegistryManager {
+public final class MiscRegistryManager {
     private static final List<MiscFunction> REGISTRIES = new ArrayList<>();
 
-    public static void register(MiscFunction miscFunction) {
-        REGISTRIES.add(miscFunction);
-    }
-
-    public static void registerPrimary() {
+    static {
         register(new MiscFunction("模拟弹幕测试", CommandTestPage::new, "#003847", "fas-code"));
         register(new MiscFunction("激励抢码助手", () -> null, "#802E5A", "fas-mouse"));
         register(new MiscFunction("代肝账号记录", () -> null, "#701617", "fas-exchange-alt"));
@@ -23,6 +21,10 @@ public class MiscRegistryManager {
         register(new MiscFunction("粉丝勋章查询", MedalQueryPage::new, "#8B57E7", "far-eye"));
         register(new MiscFunction("盲盒概率查询", BlindChancePage::new, "#3B706F", "fas-percentage"));
         register(new MiscFunction("礼物图片下载", () -> null, "#00704E", "fas-gift"));
+    }
+
+    public static void register(MiscFunction miscFunction) {
+        REGISTRIES.add(miscFunction);
     }
 
     public static List<MiscFunction> getRegistries() {

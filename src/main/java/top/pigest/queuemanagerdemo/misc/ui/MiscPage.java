@@ -1,4 +1,4 @@
-package top.pigest.queuemanagerdemo.misc;
+package top.pigest.queuemanagerdemo.misc.ui;
 
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
@@ -7,6 +7,8 @@ import javafx.scene.layout.VBox;
 import top.pigest.queuemanagerdemo.QueueManager;
 import top.pigest.queuemanagerdemo.control.ChildPage;
 import top.pigest.queuemanagerdemo.control.NamedPage;
+import top.pigest.queuemanagerdemo.misc.MiscFunction;
+import top.pigest.queuemanagerdemo.misc.MiscRegistryManager;
 
 public class MiscPage extends VBox implements ChildPage, NamedPage {
     private Pane parentPage;

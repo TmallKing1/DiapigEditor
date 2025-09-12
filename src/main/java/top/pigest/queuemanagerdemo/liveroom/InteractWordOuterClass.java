@@ -41,7 +41,7 @@ public final class InteractWordOuterClass {
      * <code>string uname = 2;</code>
      * @return The uname.
      */
-    java.lang.String getUname();
+    String getUname();
     /**
      * <code>string uname = 2;</code>
      * @return The bytes for uname.
@@ -54,6 +54,21 @@ public final class InteractWordOuterClass {
      * @return The msgType.
      */
     long getMsgType();
+
+    /**
+     * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo uinfo = 22;</code>
+     * @return Whether the uinfo field is set.
+     */
+    boolean hasUinfo();
+    /**
+     * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo uinfo = 22;</code>
+     * @return The uinfo.
+     */
+    InteractWord.UserInfo getUinfo();
+    /**
+     * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo uinfo = 22;</code>
+     */
+    InteractWord.UserInfoOrBuilder getUinfoOrBuilder();
   }
   /**
    * Protobuf type {@code top.pigest.queuemanagerdemo.liveroom.InteractWord}
@@ -82,44 +97,4247 @@ public final class InteractWordOuterClass {
 
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_descriptor;
+      return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_descriptor;
     }
 
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    @Override
+    protected FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_fieldAccessorTable
+      return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord.class, top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord.Builder.class);
+              InteractWord.class, Builder.class);
     }
 
+    public interface UserInfoOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>uint64 uid = 1;</code>
+       * @return The uid.
+       */
+      long getUid();
+
+      /**
+       * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo base = 2;</code>
+       * @return Whether the base field is set.
+       */
+      boolean hasBase();
+      /**
+       * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo base = 2;</code>
+       * @return The base.
+       */
+      UserInfo.BaseInfo getBase();
+      /**
+       * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo base = 2;</code>
+       */
+      UserInfo.BaseInfoOrBuilder getBaseOrBuilder();
+
+      /**
+       * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo medal_info = 3;</code>
+       * @return Whether the medalInfo field is set.
+       */
+      boolean hasMedalInfo();
+      /**
+       * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo medal_info = 3;</code>
+       * @return The medalInfo.
+       */
+      UserInfo.MedalInfo getMedalInfo();
+      /**
+       * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo medal_info = 3;</code>
+       */
+      UserInfo.MedalInfoOrBuilder getMedalInfoOrBuilder();
+
+      /**
+       * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo wealth = 4;</code>
+       * @return Whether the wealth field is set.
+       */
+      boolean hasWealth();
+      /**
+       * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo wealth = 4;</code>
+       * @return The wealth.
+       */
+      UserInfo.WealthInfo getWealth();
+      /**
+       * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo wealth = 4;</code>
+       */
+      UserInfo.WealthInfoOrBuilder getWealthOrBuilder();
+    }
+    /**
+     * Protobuf type {@code top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo}
+     */
+    public static final class UserInfo extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo)
+        UserInfoOrBuilder {
+    private static final long serialVersionUID = 0L;
+      static {
+        com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+          com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+          /* major= */ 4,
+          /* minor= */ 32,
+          /* patch= */ 0,
+          /* suffix= */ "",
+          UserInfo.class.getName());
+      }
+      // Use UserInfo.newBuilder() to construct.
+      private UserInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+      }
+      private UserInfo() {
+      }
+
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_descriptor;
+      }
+
+      @Override
+      protected FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                UserInfo.class, Builder.class);
+      }
+
+      public interface BaseInfoOrBuilder extends
+          // @@protoc_insertion_point(interface_extends:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo)
+          com.google.protobuf.MessageOrBuilder {
+
+        /**
+         * <code>string uname = 1;</code>
+         * @return The uname.
+         */
+        String getUname();
+        /**
+         * <code>string uname = 1;</code>
+         * @return The bytes for uname.
+         */
+        com.google.protobuf.ByteString
+            getUnameBytes();
+
+        /**
+         * <code>string face = 2;</code>
+         * @return The face.
+         */
+        String getFace();
+        /**
+         * <code>string face = 2;</code>
+         * @return The bytes for face.
+         */
+        com.google.protobuf.ByteString
+            getFaceBytes();
+      }
+      /**
+       * Protobuf type {@code top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo}
+       */
+      public static final class BaseInfo extends
+          com.google.protobuf.GeneratedMessage implements
+          // @@protoc_insertion_point(message_implements:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo)
+          BaseInfoOrBuilder {
+      private static final long serialVersionUID = 0L;
+        static {
+          com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+            com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+            /* major= */ 4,
+            /* minor= */ 32,
+            /* patch= */ 0,
+            /* suffix= */ "",
+            BaseInfo.class.getName());
+        }
+        // Use BaseInfo.newBuilder() to construct.
+        private BaseInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+          super(builder);
+        }
+        private BaseInfo() {
+          uname_ = "";
+          face_ = "";
+        }
+
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_BaseInfo_descriptor;
+        }
+
+        @Override
+        protected FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_BaseInfo_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  BaseInfo.class, Builder.class);
+        }
+
+        public static final int UNAME_FIELD_NUMBER = 1;
+        @SuppressWarnings("serial")
+        private volatile Object uname_ = "";
+        /**
+         * <code>string uname = 1;</code>
+         * @return The uname.
+         */
+        @Override
+        public String getUname() {
+          Object ref = uname_;
+          if (ref instanceof String) {
+            return (String) ref;
+          } else {
+            com.google.protobuf.ByteString bs = 
+                (com.google.protobuf.ByteString) ref;
+            String s = bs.toStringUtf8();
+            uname_ = s;
+            return s;
+          }
+        }
+        /**
+         * <code>string uname = 1;</code>
+         * @return The bytes for uname.
+         */
+        @Override
+        public com.google.protobuf.ByteString
+            getUnameBytes() {
+          Object ref = uname_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (String) ref);
+            uname_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+
+        public static final int FACE_FIELD_NUMBER = 2;
+        @SuppressWarnings("serial")
+        private volatile Object face_ = "";
+        /**
+         * <code>string face = 2;</code>
+         * @return The face.
+         */
+        @Override
+        public String getFace() {
+          Object ref = face_;
+          if (ref instanceof String) {
+            return (String) ref;
+          } else {
+            com.google.protobuf.ByteString bs = 
+                (com.google.protobuf.ByteString) ref;
+            String s = bs.toStringUtf8();
+            face_ = s;
+            return s;
+          }
+        }
+        /**
+         * <code>string face = 2;</code>
+         * @return The bytes for face.
+         */
+        @Override
+        public com.google.protobuf.ByteString
+            getFaceBytes() {
+          Object ref = face_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (String) ref);
+            face_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+
+        private byte memoizedIsInitialized = -1;
+        @Override
+        public final boolean isInitialized() {
+          byte isInitialized = memoizedIsInitialized;
+          if (isInitialized == 1) return true;
+          if (isInitialized == 0) return false;
+
+          memoizedIsInitialized = 1;
+          return true;
+        }
+
+        @Override
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                            throws java.io.IOException {
+          if (!com.google.protobuf.GeneratedMessage.isStringEmpty(uname_)) {
+            com.google.protobuf.GeneratedMessage.writeString(output, 1, uname_);
+          }
+          if (!com.google.protobuf.GeneratedMessage.isStringEmpty(face_)) {
+            com.google.protobuf.GeneratedMessage.writeString(output, 2, face_);
+          }
+          getUnknownFields().writeTo(output);
+        }
+
+        @Override
+        public int getSerializedSize() {
+          int size = memoizedSize;
+          if (size != -1) return size;
+
+          size = 0;
+          if (!com.google.protobuf.GeneratedMessage.isStringEmpty(uname_)) {
+            size += com.google.protobuf.GeneratedMessage.computeStringSize(1, uname_);
+          }
+          if (!com.google.protobuf.GeneratedMessage.isStringEmpty(face_)) {
+            size += com.google.protobuf.GeneratedMessage.computeStringSize(2, face_);
+          }
+          size += getUnknownFields().getSerializedSize();
+          memoizedSize = size;
+          return size;
+        }
+
+        @Override
+        public boolean equals(final Object obj) {
+          if (obj == this) {
+           return true;
+          }
+          if (!(obj instanceof BaseInfo)) {
+            return super.equals(obj);
+          }
+          BaseInfo other = (BaseInfo) obj;
+
+          if (!getUname()
+              .equals(other.getUname())) return false;
+          if (!getFace()
+              .equals(other.getFace())) return false;
+          if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+          return true;
+        }
+
+        @Override
+        public int hashCode() {
+          if (memoizedHashCode != 0) {
+            return memoizedHashCode;
+          }
+          int hash = 41;
+          hash = (19 * hash) + getDescriptor().hashCode();
+          hash = (37 * hash) + UNAME_FIELD_NUMBER;
+          hash = (53 * hash) + getUname().hashCode();
+          hash = (37 * hash) + FACE_FIELD_NUMBER;
+          hash = (53 * hash) + getFace().hashCode();
+          hash = (29 * hash) + getUnknownFields().hashCode();
+          memoizedHashCode = hash;
+          return hash;
+        }
+
+        public static BaseInfo parseFrom(
+            java.nio.ByteBuffer data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static BaseInfo parseFrom(
+            java.nio.ByteBuffer data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static BaseInfo parseFrom(
+            com.google.protobuf.ByteString data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static BaseInfo parseFrom(
+            com.google.protobuf.ByteString data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static BaseInfo parseFrom(byte[] data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static BaseInfo parseFrom(
+            byte[] data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static BaseInfo parseFrom(java.io.InputStream input)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseWithIOException(PARSER, input);
+        }
+        public static BaseInfo parseFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static BaseInfo parseDelimitedFrom(java.io.InputStream input)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseDelimitedWithIOException(PARSER, input);
+        }
+
+        public static BaseInfo parseDelimitedFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+        }
+        public static BaseInfo parseFrom(
+            com.google.protobuf.CodedInputStream input)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseWithIOException(PARSER, input);
+        }
+        public static BaseInfo parseFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        @Override
+        public Builder newBuilderForType() { return newBuilder(); }
+        public static Builder newBuilder() {
+          return DEFAULT_INSTANCE.toBuilder();
+        }
+        public static Builder newBuilder(BaseInfo prototype) {
+          return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+        }
+        @Override
+        public Builder toBuilder() {
+          return this == DEFAULT_INSTANCE
+              ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        @Override
+        protected Builder newBuilderForType(
+            BuilderParent parent) {
+          Builder builder = new Builder(parent);
+          return builder;
+        }
+        /**
+         * Protobuf type {@code top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo}
+         */
+        public static final class Builder extends
+            com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+            // @@protoc_insertion_point(builder_implements:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo)
+            BaseInfoOrBuilder {
+          public static final com.google.protobuf.Descriptors.Descriptor
+              getDescriptor() {
+            return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_BaseInfo_descriptor;
+          }
+
+          @Override
+          protected FieldAccessorTable
+              internalGetFieldAccessorTable() {
+            return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_BaseInfo_fieldAccessorTable
+                .ensureFieldAccessorsInitialized(
+                    BaseInfo.class, Builder.class);
+          }
+
+          // Construct using top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord.UserInfo.BaseInfo.newBuilder()
+          private Builder() {
+
+          }
+
+          private Builder(
+              BuilderParent parent) {
+            super(parent);
+
+          }
+          @Override
+          public Builder clear() {
+            super.clear();
+            bitField0_ = 0;
+            uname_ = "";
+            face_ = "";
+            return this;
+          }
+
+          @Override
+          public com.google.protobuf.Descriptors.Descriptor
+              getDescriptorForType() {
+            return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_BaseInfo_descriptor;
+          }
+
+          @Override
+          public BaseInfo getDefaultInstanceForType() {
+            return BaseInfo.getDefaultInstance();
+          }
+
+          @Override
+          public BaseInfo build() {
+            BaseInfo result = buildPartial();
+            if (!result.isInitialized()) {
+              throw newUninitializedMessageException(result);
+            }
+            return result;
+          }
+
+          @Override
+          public BaseInfo buildPartial() {
+            BaseInfo result = new BaseInfo(this);
+            if (bitField0_ != 0) { buildPartial0(result); }
+            onBuilt();
+            return result;
+          }
+
+          private void buildPartial0(BaseInfo result) {
+            int from_bitField0_ = bitField0_;
+            if (((from_bitField0_ & 0x00000001) != 0)) {
+              result.uname_ = uname_;
+            }
+            if (((from_bitField0_ & 0x00000002) != 0)) {
+              result.face_ = face_;
+            }
+          }
+
+          @Override
+          public Builder mergeFrom(com.google.protobuf.Message other) {
+            if (other instanceof BaseInfo) {
+              return mergeFrom((BaseInfo)other);
+            } else {
+              super.mergeFrom(other);
+              return this;
+            }
+          }
+
+          public Builder mergeFrom(BaseInfo other) {
+            if (other == BaseInfo.getDefaultInstance()) return this;
+            if (!other.getUname().isEmpty()) {
+              uname_ = other.uname_;
+              bitField0_ |= 0x00000001;
+              onChanged();
+            }
+            if (!other.getFace().isEmpty()) {
+              face_ = other.face_;
+              bitField0_ |= 0x00000002;
+              onChanged();
+            }
+            this.mergeUnknownFields(other.getUnknownFields());
+            onChanged();
+            return this;
+          }
+
+          @Override
+          public final boolean isInitialized() {
+            return true;
+          }
+
+          @Override
+          public Builder mergeFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+            if (extensionRegistry == null) {
+              throw new NullPointerException();
+            }
+            try {
+              boolean done = false;
+              while (!done) {
+                int tag = input.readTag();
+                switch (tag) {
+                  case 0:
+                    done = true;
+                    break;
+                  case 10: {
+                    uname_ = input.readStringRequireUtf8();
+                    bitField0_ |= 0x00000001;
+                    break;
+                  } // case 10
+                  case 18: {
+                    face_ = input.readStringRequireUtf8();
+                    bitField0_ |= 0x00000002;
+                    break;
+                  } // case 18
+                  default: {
+                    if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                      done = true; // was an endgroup tag
+                    }
+                    break;
+                  } // default:
+                } // switch (tag)
+              } // while (!done)
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+              throw e.unwrapIOException();
+            } finally {
+              onChanged();
+            } // finally
+            return this;
+          }
+          private int bitField0_;
+
+          private Object uname_ = "";
+          /**
+           * <code>string uname = 1;</code>
+           * @return The uname.
+           */
+          public String getUname() {
+            Object ref = uname_;
+            if (!(ref instanceof String)) {
+              com.google.protobuf.ByteString bs =
+                  (com.google.protobuf.ByteString) ref;
+              String s = bs.toStringUtf8();
+              uname_ = s;
+              return s;
+            } else {
+              return (String) ref;
+            }
+          }
+          /**
+           * <code>string uname = 1;</code>
+           * @return The bytes for uname.
+           */
+          public com.google.protobuf.ByteString
+              getUnameBytes() {
+            Object ref = uname_;
+            if (ref instanceof String) {
+              com.google.protobuf.ByteString b = 
+                  com.google.protobuf.ByteString.copyFromUtf8(
+                      (String) ref);
+              uname_ = b;
+              return b;
+            } else {
+              return (com.google.protobuf.ByteString) ref;
+            }
+          }
+          /**
+           * <code>string uname = 1;</code>
+           * @param value The uname to set.
+           * @return This builder for chaining.
+           */
+          public Builder setUname(
+              String value) {
+            if (value == null) { throw new NullPointerException(); }
+            uname_ = value;
+            bitField0_ |= 0x00000001;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>string uname = 1;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearUname() {
+            uname_ = getDefaultInstance().getUname();
+            bitField0_ = (bitField0_ & ~0x00000001);
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>string uname = 1;</code>
+           * @param value The bytes for uname to set.
+           * @return This builder for chaining.
+           */
+          public Builder setUnameBytes(
+              com.google.protobuf.ByteString value) {
+            if (value == null) { throw new NullPointerException(); }
+            checkByteStringIsUtf8(value);
+            uname_ = value;
+            bitField0_ |= 0x00000001;
+            onChanged();
+            return this;
+          }
+
+          private Object face_ = "";
+          /**
+           * <code>string face = 2;</code>
+           * @return The face.
+           */
+          public String getFace() {
+            Object ref = face_;
+            if (!(ref instanceof String)) {
+              com.google.protobuf.ByteString bs =
+                  (com.google.protobuf.ByteString) ref;
+              String s = bs.toStringUtf8();
+              face_ = s;
+              return s;
+            } else {
+              return (String) ref;
+            }
+          }
+          /**
+           * <code>string face = 2;</code>
+           * @return The bytes for face.
+           */
+          public com.google.protobuf.ByteString
+              getFaceBytes() {
+            Object ref = face_;
+            if (ref instanceof String) {
+              com.google.protobuf.ByteString b = 
+                  com.google.protobuf.ByteString.copyFromUtf8(
+                      (String) ref);
+              face_ = b;
+              return b;
+            } else {
+              return (com.google.protobuf.ByteString) ref;
+            }
+          }
+          /**
+           * <code>string face = 2;</code>
+           * @param value The face to set.
+           * @return This builder for chaining.
+           */
+          public Builder setFace(
+              String value) {
+            if (value == null) { throw new NullPointerException(); }
+            face_ = value;
+            bitField0_ |= 0x00000002;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>string face = 2;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearFace() {
+            face_ = getDefaultInstance().getFace();
+            bitField0_ = (bitField0_ & ~0x00000002);
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>string face = 2;</code>
+           * @param value The bytes for face to set.
+           * @return This builder for chaining.
+           */
+          public Builder setFaceBytes(
+              com.google.protobuf.ByteString value) {
+            if (value == null) { throw new NullPointerException(); }
+            checkByteStringIsUtf8(value);
+            face_ = value;
+            bitField0_ |= 0x00000002;
+            onChanged();
+            return this;
+          }
+
+          // @@protoc_insertion_point(builder_scope:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo)
+        }
+
+        // @@protoc_insertion_point(class_scope:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo)
+        private static final BaseInfo DEFAULT_INSTANCE;
+        static {
+          DEFAULT_INSTANCE = new BaseInfo();
+        }
+
+        public static BaseInfo getDefaultInstance() {
+          return DEFAULT_INSTANCE;
+        }
+
+        private static final com.google.protobuf.Parser<BaseInfo>
+            PARSER = new com.google.protobuf.AbstractParser<BaseInfo>() {
+          @Override
+          public BaseInfo parsePartialFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+            Builder builder = newBuilder();
+            try {
+              builder.mergeFrom(input, extensionRegistry);
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+              throw e.setUnfinishedMessage(builder.buildPartial());
+            } catch (com.google.protobuf.UninitializedMessageException e) {
+              throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+            } catch (java.io.IOException e) {
+              throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                  .setUnfinishedMessage(builder.buildPartial());
+            }
+            return builder.buildPartial();
+          }
+        };
+
+        public static com.google.protobuf.Parser<BaseInfo> parser() {
+          return PARSER;
+        }
+
+        @Override
+        public com.google.protobuf.Parser<BaseInfo> getParserForType() {
+          return PARSER;
+        }
+
+        @Override
+        public BaseInfo getDefaultInstanceForType() {
+          return DEFAULT_INSTANCE;
+        }
+
+      }
+
+      public interface MedalInfoOrBuilder extends
+          // @@protoc_insertion_point(interface_extends:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo)
+          com.google.protobuf.MessageOrBuilder {
+
+        /**
+         * <code>string medal_name = 1;</code>
+         * @return The medalName.
+         */
+        String getMedalName();
+        /**
+         * <code>string medal_name = 1;</code>
+         * @return The bytes for medalName.
+         */
+        com.google.protobuf.ByteString
+            getMedalNameBytes();
+
+        /**
+         * <code>uint32 medal_level = 2;</code>
+         * @return The medalLevel.
+         */
+        int getMedalLevel();
+
+        /**
+         * <code>uint32 color_start = 3;</code>
+         * @return The colorStart.
+         */
+        int getColorStart();
+
+        /**
+         * <code>uint32 color_end = 4;</code>
+         * @return The colorEnd.
+         */
+        int getColorEnd();
+
+        /**
+         * <code>uint32 color_border = 5;</code>
+         * @return The colorBorder.
+         */
+        int getColorBorder();
+
+        /**
+         * <code>uint32 color = 6;</code>
+         * @return The color.
+         */
+        int getColor();
+
+        /**
+         * <code>uint32 is_lighted = 9;</code>
+         * @return The isLighted.
+         */
+        int getIsLighted();
+
+        /**
+         * <pre>
+         * also named target_id or anchor_id
+         * </pre>
+         *
+         * <code>uint64 ruid = 10;</code>
+         * @return The ruid.
+         */
+        long getRuid();
+
+        /**
+         * <code>uint32 guard_level = 11;</code>
+         * @return The guardLevel.
+         */
+        int getGuardLevel();
+
+        /**
+         * <code>uint32 score = 12;</code>
+         * @return The score.
+         */
+        int getScore();
+
+        /**
+         * <code>string guard_icon = 13;</code>
+         * @return The guardIcon.
+         */
+        String getGuardIcon();
+        /**
+         * <code>string guard_icon = 13;</code>
+         * @return The bytes for guardIcon.
+         */
+        com.google.protobuf.ByteString
+            getGuardIconBytes();
+
+        /**
+         * <code>string v2_medal_color_start = 15;</code>
+         * @return The v2MedalColorStart.
+         */
+        String getV2MedalColorStart();
+        /**
+         * <code>string v2_medal_color_start = 15;</code>
+         * @return The bytes for v2MedalColorStart.
+         */
+        com.google.protobuf.ByteString
+            getV2MedalColorStartBytes();
+
+        /**
+         * <code>string v2_medal_color_end = 16;</code>
+         * @return The v2MedalColorEnd.
+         */
+        String getV2MedalColorEnd();
+        /**
+         * <code>string v2_medal_color_end = 16;</code>
+         * @return The bytes for v2MedalColorEnd.
+         */
+        com.google.protobuf.ByteString
+            getV2MedalColorEndBytes();
+
+        /**
+         * <code>string v2_medal_color_border = 17;</code>
+         * @return The v2MedalColorBorder.
+         */
+        String getV2MedalColorBorder();
+        /**
+         * <code>string v2_medal_color_border = 17;</code>
+         * @return The bytes for v2MedalColorBorder.
+         */
+        com.google.protobuf.ByteString
+            getV2MedalColorBorderBytes();
+
+        /**
+         * <code>string v2_medal_color_text = 18;</code>
+         * @return The v2MedalColorText.
+         */
+        String getV2MedalColorText();
+        /**
+         * <code>string v2_medal_color_text = 18;</code>
+         * @return The bytes for v2MedalColorText.
+         */
+        com.google.protobuf.ByteString
+            getV2MedalColorTextBytes();
+
+        /**
+         * <code>string v2_medal_color_level = 19;</code>
+         * @return The v2MedalColorLevel.
+         */
+        String getV2MedalColorLevel();
+        /**
+         * <code>string v2_medal_color_level = 19;</code>
+         * @return The bytes for v2MedalColorLevel.
+         */
+        com.google.protobuf.ByteString
+            getV2MedalColorLevelBytes();
+      }
+      /**
+       * Protobuf type {@code top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo}
+       */
+      public static final class MedalInfo extends
+          com.google.protobuf.GeneratedMessage implements
+          // @@protoc_insertion_point(message_implements:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo)
+          MedalInfoOrBuilder {
+      private static final long serialVersionUID = 0L;
+        static {
+          com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+            com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+            /* major= */ 4,
+            /* minor= */ 32,
+            /* patch= */ 0,
+            /* suffix= */ "",
+            MedalInfo.class.getName());
+        }
+        // Use MedalInfo.newBuilder() to construct.
+        private MedalInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+          super(builder);
+        }
+        private MedalInfo() {
+          medalName_ = "";
+          guardIcon_ = "";
+          v2MedalColorStart_ = "";
+          v2MedalColorEnd_ = "";
+          v2MedalColorBorder_ = "";
+          v2MedalColorText_ = "";
+          v2MedalColorLevel_ = "";
+        }
+
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_MedalInfo_descriptor;
+        }
+
+        @Override
+        protected FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_MedalInfo_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  MedalInfo.class, Builder.class);
+        }
+
+        public static final int MEDAL_NAME_FIELD_NUMBER = 1;
+        @SuppressWarnings("serial")
+        private volatile Object medalName_ = "";
+        /**
+         * <code>string medal_name = 1;</code>
+         * @return The medalName.
+         */
+        @Override
+        public String getMedalName() {
+          Object ref = medalName_;
+          if (ref instanceof String) {
+            return (String) ref;
+          } else {
+            com.google.protobuf.ByteString bs = 
+                (com.google.protobuf.ByteString) ref;
+            String s = bs.toStringUtf8();
+            medalName_ = s;
+            return s;
+          }
+        }
+        /**
+         * <code>string medal_name = 1;</code>
+         * @return The bytes for medalName.
+         */
+        @Override
+        public com.google.protobuf.ByteString
+            getMedalNameBytes() {
+          Object ref = medalName_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (String) ref);
+            medalName_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+
+        public static final int MEDAL_LEVEL_FIELD_NUMBER = 2;
+        private int medalLevel_ = 0;
+        /**
+         * <code>uint32 medal_level = 2;</code>
+         * @return The medalLevel.
+         */
+        @Override
+        public int getMedalLevel() {
+          return medalLevel_;
+        }
+
+        public static final int COLOR_START_FIELD_NUMBER = 3;
+        private int colorStart_ = 0;
+        /**
+         * <code>uint32 color_start = 3;</code>
+         * @return The colorStart.
+         */
+        @Override
+        public int getColorStart() {
+          return colorStart_;
+        }
+
+        public static final int COLOR_END_FIELD_NUMBER = 4;
+        private int colorEnd_ = 0;
+        /**
+         * <code>uint32 color_end = 4;</code>
+         * @return The colorEnd.
+         */
+        @Override
+        public int getColorEnd() {
+          return colorEnd_;
+        }
+
+        public static final int COLOR_BORDER_FIELD_NUMBER = 5;
+        private int colorBorder_ = 0;
+        /**
+         * <code>uint32 color_border = 5;</code>
+         * @return The colorBorder.
+         */
+        @Override
+        public int getColorBorder() {
+          return colorBorder_;
+        }
+
+        public static final int COLOR_FIELD_NUMBER = 6;
+        private int color_ = 0;
+        /**
+         * <code>uint32 color = 6;</code>
+         * @return The color.
+         */
+        @Override
+        public int getColor() {
+          return color_;
+        }
+
+        public static final int IS_LIGHTED_FIELD_NUMBER = 9;
+        private int isLighted_ = 0;
+        /**
+         * <code>uint32 is_lighted = 9;</code>
+         * @return The isLighted.
+         */
+        @Override
+        public int getIsLighted() {
+          return isLighted_;
+        }
+
+        public static final int RUID_FIELD_NUMBER = 10;
+        private long ruid_ = 0L;
+        /**
+         * <pre>
+         * also named target_id or anchor_id
+         * </pre>
+         *
+         * <code>uint64 ruid = 10;</code>
+         * @return The ruid.
+         */
+        @Override
+        public long getRuid() {
+          return ruid_;
+        }
+
+        public static final int GUARD_LEVEL_FIELD_NUMBER = 11;
+        private int guardLevel_ = 0;
+        /**
+         * <code>uint32 guard_level = 11;</code>
+         * @return The guardLevel.
+         */
+        @Override
+        public int getGuardLevel() {
+          return guardLevel_;
+        }
+
+        public static final int SCORE_FIELD_NUMBER = 12;
+        private int score_ = 0;
+        /**
+         * <code>uint32 score = 12;</code>
+         * @return The score.
+         */
+        @Override
+        public int getScore() {
+          return score_;
+        }
+
+        public static final int GUARD_ICON_FIELD_NUMBER = 13;
+        @SuppressWarnings("serial")
+        private volatile Object guardIcon_ = "";
+        /**
+         * <code>string guard_icon = 13;</code>
+         * @return The guardIcon.
+         */
+        @Override
+        public String getGuardIcon() {
+          Object ref = guardIcon_;
+          if (ref instanceof String) {
+            return (String) ref;
+          } else {
+            com.google.protobuf.ByteString bs = 
+                (com.google.protobuf.ByteString) ref;
+            String s = bs.toStringUtf8();
+            guardIcon_ = s;
+            return s;
+          }
+        }
+        /**
+         * <code>string guard_icon = 13;</code>
+         * @return The bytes for guardIcon.
+         */
+        @Override
+        public com.google.protobuf.ByteString
+            getGuardIconBytes() {
+          Object ref = guardIcon_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (String) ref);
+            guardIcon_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+
+        public static final int V2_MEDAL_COLOR_START_FIELD_NUMBER = 15;
+        @SuppressWarnings("serial")
+        private volatile Object v2MedalColorStart_ = "";
+        /**
+         * <code>string v2_medal_color_start = 15;</code>
+         * @return The v2MedalColorStart.
+         */
+        @Override
+        public String getV2MedalColorStart() {
+          Object ref = v2MedalColorStart_;
+          if (ref instanceof String) {
+            return (String) ref;
+          } else {
+            com.google.protobuf.ByteString bs = 
+                (com.google.protobuf.ByteString) ref;
+            String s = bs.toStringUtf8();
+            v2MedalColorStart_ = s;
+            return s;
+          }
+        }
+        /**
+         * <code>string v2_medal_color_start = 15;</code>
+         * @return The bytes for v2MedalColorStart.
+         */
+        @Override
+        public com.google.protobuf.ByteString
+            getV2MedalColorStartBytes() {
+          Object ref = v2MedalColorStart_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (String) ref);
+            v2MedalColorStart_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+
+        public static final int V2_MEDAL_COLOR_END_FIELD_NUMBER = 16;
+        @SuppressWarnings("serial")
+        private volatile Object v2MedalColorEnd_ = "";
+        /**
+         * <code>string v2_medal_color_end = 16;</code>
+         * @return The v2MedalColorEnd.
+         */
+        @Override
+        public String getV2MedalColorEnd() {
+          Object ref = v2MedalColorEnd_;
+          if (ref instanceof String) {
+            return (String) ref;
+          } else {
+            com.google.protobuf.ByteString bs = 
+                (com.google.protobuf.ByteString) ref;
+            String s = bs.toStringUtf8();
+            v2MedalColorEnd_ = s;
+            return s;
+          }
+        }
+        /**
+         * <code>string v2_medal_color_end = 16;</code>
+         * @return The bytes for v2MedalColorEnd.
+         */
+        @Override
+        public com.google.protobuf.ByteString
+            getV2MedalColorEndBytes() {
+          Object ref = v2MedalColorEnd_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (String) ref);
+            v2MedalColorEnd_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+
+        public static final int V2_MEDAL_COLOR_BORDER_FIELD_NUMBER = 17;
+        @SuppressWarnings("serial")
+        private volatile Object v2MedalColorBorder_ = "";
+        /**
+         * <code>string v2_medal_color_border = 17;</code>
+         * @return The v2MedalColorBorder.
+         */
+        @Override
+        public String getV2MedalColorBorder() {
+          Object ref = v2MedalColorBorder_;
+          if (ref instanceof String) {
+            return (String) ref;
+          } else {
+            com.google.protobuf.ByteString bs = 
+                (com.google.protobuf.ByteString) ref;
+            String s = bs.toStringUtf8();
+            v2MedalColorBorder_ = s;
+            return s;
+          }
+        }
+        /**
+         * <code>string v2_medal_color_border = 17;</code>
+         * @return The bytes for v2MedalColorBorder.
+         */
+        @Override
+        public com.google.protobuf.ByteString
+            getV2MedalColorBorderBytes() {
+          Object ref = v2MedalColorBorder_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (String) ref);
+            v2MedalColorBorder_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+
+        public static final int V2_MEDAL_COLOR_TEXT_FIELD_NUMBER = 18;
+        @SuppressWarnings("serial")
+        private volatile Object v2MedalColorText_ = "";
+        /**
+         * <code>string v2_medal_color_text = 18;</code>
+         * @return The v2MedalColorText.
+         */
+        @Override
+        public String getV2MedalColorText() {
+          Object ref = v2MedalColorText_;
+          if (ref instanceof String) {
+            return (String) ref;
+          } else {
+            com.google.protobuf.ByteString bs = 
+                (com.google.protobuf.ByteString) ref;
+            String s = bs.toStringUtf8();
+            v2MedalColorText_ = s;
+            return s;
+          }
+        }
+        /**
+         * <code>string v2_medal_color_text = 18;</code>
+         * @return The bytes for v2MedalColorText.
+         */
+        @Override
+        public com.google.protobuf.ByteString
+            getV2MedalColorTextBytes() {
+          Object ref = v2MedalColorText_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (String) ref);
+            v2MedalColorText_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+
+        public static final int V2_MEDAL_COLOR_LEVEL_FIELD_NUMBER = 19;
+        @SuppressWarnings("serial")
+        private volatile Object v2MedalColorLevel_ = "";
+        /**
+         * <code>string v2_medal_color_level = 19;</code>
+         * @return The v2MedalColorLevel.
+         */
+        @Override
+        public String getV2MedalColorLevel() {
+          Object ref = v2MedalColorLevel_;
+          if (ref instanceof String) {
+            return (String) ref;
+          } else {
+            com.google.protobuf.ByteString bs = 
+                (com.google.protobuf.ByteString) ref;
+            String s = bs.toStringUtf8();
+            v2MedalColorLevel_ = s;
+            return s;
+          }
+        }
+        /**
+         * <code>string v2_medal_color_level = 19;</code>
+         * @return The bytes for v2MedalColorLevel.
+         */
+        @Override
+        public com.google.protobuf.ByteString
+            getV2MedalColorLevelBytes() {
+          Object ref = v2MedalColorLevel_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (String) ref);
+            v2MedalColorLevel_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+
+        private byte memoizedIsInitialized = -1;
+        @Override
+        public final boolean isInitialized() {
+          byte isInitialized = memoizedIsInitialized;
+          if (isInitialized == 1) return true;
+          if (isInitialized == 0) return false;
+
+          memoizedIsInitialized = 1;
+          return true;
+        }
+
+        @Override
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                            throws java.io.IOException {
+          if (!com.google.protobuf.GeneratedMessage.isStringEmpty(medalName_)) {
+            com.google.protobuf.GeneratedMessage.writeString(output, 1, medalName_);
+          }
+          if (medalLevel_ != 0) {
+            output.writeUInt32(2, medalLevel_);
+          }
+          if (colorStart_ != 0) {
+            output.writeUInt32(3, colorStart_);
+          }
+          if (colorEnd_ != 0) {
+            output.writeUInt32(4, colorEnd_);
+          }
+          if (colorBorder_ != 0) {
+            output.writeUInt32(5, colorBorder_);
+          }
+          if (color_ != 0) {
+            output.writeUInt32(6, color_);
+          }
+          if (isLighted_ != 0) {
+            output.writeUInt32(9, isLighted_);
+          }
+          if (ruid_ != 0L) {
+            output.writeUInt64(10, ruid_);
+          }
+          if (guardLevel_ != 0) {
+            output.writeUInt32(11, guardLevel_);
+          }
+          if (score_ != 0) {
+            output.writeUInt32(12, score_);
+          }
+          if (!com.google.protobuf.GeneratedMessage.isStringEmpty(guardIcon_)) {
+            com.google.protobuf.GeneratedMessage.writeString(output, 13, guardIcon_);
+          }
+          if (!com.google.protobuf.GeneratedMessage.isStringEmpty(v2MedalColorStart_)) {
+            com.google.protobuf.GeneratedMessage.writeString(output, 15, v2MedalColorStart_);
+          }
+          if (!com.google.protobuf.GeneratedMessage.isStringEmpty(v2MedalColorEnd_)) {
+            com.google.protobuf.GeneratedMessage.writeString(output, 16, v2MedalColorEnd_);
+          }
+          if (!com.google.protobuf.GeneratedMessage.isStringEmpty(v2MedalColorBorder_)) {
+            com.google.protobuf.GeneratedMessage.writeString(output, 17, v2MedalColorBorder_);
+          }
+          if (!com.google.protobuf.GeneratedMessage.isStringEmpty(v2MedalColorText_)) {
+            com.google.protobuf.GeneratedMessage.writeString(output, 18, v2MedalColorText_);
+          }
+          if (!com.google.protobuf.GeneratedMessage.isStringEmpty(v2MedalColorLevel_)) {
+            com.google.protobuf.GeneratedMessage.writeString(output, 19, v2MedalColorLevel_);
+          }
+          getUnknownFields().writeTo(output);
+        }
+
+        @Override
+        public int getSerializedSize() {
+          int size = memoizedSize;
+          if (size != -1) return size;
+
+          size = 0;
+          if (!com.google.protobuf.GeneratedMessage.isStringEmpty(medalName_)) {
+            size += com.google.protobuf.GeneratedMessage.computeStringSize(1, medalName_);
+          }
+          if (medalLevel_ != 0) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeUInt32Size(2, medalLevel_);
+          }
+          if (colorStart_ != 0) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeUInt32Size(3, colorStart_);
+          }
+          if (colorEnd_ != 0) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeUInt32Size(4, colorEnd_);
+          }
+          if (colorBorder_ != 0) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeUInt32Size(5, colorBorder_);
+          }
+          if (color_ != 0) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeUInt32Size(6, color_);
+          }
+          if (isLighted_ != 0) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeUInt32Size(9, isLighted_);
+          }
+          if (ruid_ != 0L) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeUInt64Size(10, ruid_);
+          }
+          if (guardLevel_ != 0) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeUInt32Size(11, guardLevel_);
+          }
+          if (score_ != 0) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeUInt32Size(12, score_);
+          }
+          if (!com.google.protobuf.GeneratedMessage.isStringEmpty(guardIcon_)) {
+            size += com.google.protobuf.GeneratedMessage.computeStringSize(13, guardIcon_);
+          }
+          if (!com.google.protobuf.GeneratedMessage.isStringEmpty(v2MedalColorStart_)) {
+            size += com.google.protobuf.GeneratedMessage.computeStringSize(15, v2MedalColorStart_);
+          }
+          if (!com.google.protobuf.GeneratedMessage.isStringEmpty(v2MedalColorEnd_)) {
+            size += com.google.protobuf.GeneratedMessage.computeStringSize(16, v2MedalColorEnd_);
+          }
+          if (!com.google.protobuf.GeneratedMessage.isStringEmpty(v2MedalColorBorder_)) {
+            size += com.google.protobuf.GeneratedMessage.computeStringSize(17, v2MedalColorBorder_);
+          }
+          if (!com.google.protobuf.GeneratedMessage.isStringEmpty(v2MedalColorText_)) {
+            size += com.google.protobuf.GeneratedMessage.computeStringSize(18, v2MedalColorText_);
+          }
+          if (!com.google.protobuf.GeneratedMessage.isStringEmpty(v2MedalColorLevel_)) {
+            size += com.google.protobuf.GeneratedMessage.computeStringSize(19, v2MedalColorLevel_);
+          }
+          size += getUnknownFields().getSerializedSize();
+          memoizedSize = size;
+          return size;
+        }
+
+        @Override
+        public boolean equals(final Object obj) {
+          if (obj == this) {
+           return true;
+          }
+          if (!(obj instanceof MedalInfo)) {
+            return super.equals(obj);
+          }
+          MedalInfo other = (MedalInfo) obj;
+
+          if (!getMedalName()
+              .equals(other.getMedalName())) return false;
+          if (getMedalLevel()
+              != other.getMedalLevel()) return false;
+          if (getColorStart()
+              != other.getColorStart()) return false;
+          if (getColorEnd()
+              != other.getColorEnd()) return false;
+          if (getColorBorder()
+              != other.getColorBorder()) return false;
+          if (getColor()
+              != other.getColor()) return false;
+          if (getIsLighted()
+              != other.getIsLighted()) return false;
+          if (getRuid()
+              != other.getRuid()) return false;
+          if (getGuardLevel()
+              != other.getGuardLevel()) return false;
+          if (getScore()
+              != other.getScore()) return false;
+          if (!getGuardIcon()
+              .equals(other.getGuardIcon())) return false;
+          if (!getV2MedalColorStart()
+              .equals(other.getV2MedalColorStart())) return false;
+          if (!getV2MedalColorEnd()
+              .equals(other.getV2MedalColorEnd())) return false;
+          if (!getV2MedalColorBorder()
+              .equals(other.getV2MedalColorBorder())) return false;
+          if (!getV2MedalColorText()
+              .equals(other.getV2MedalColorText())) return false;
+          if (!getV2MedalColorLevel()
+              .equals(other.getV2MedalColorLevel())) return false;
+          if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+          return true;
+        }
+
+        @Override
+        public int hashCode() {
+          if (memoizedHashCode != 0) {
+            return memoizedHashCode;
+          }
+          int hash = 41;
+          hash = (19 * hash) + getDescriptor().hashCode();
+          hash = (37 * hash) + MEDAL_NAME_FIELD_NUMBER;
+          hash = (53 * hash) + getMedalName().hashCode();
+          hash = (37 * hash) + MEDAL_LEVEL_FIELD_NUMBER;
+          hash = (53 * hash) + getMedalLevel();
+          hash = (37 * hash) + COLOR_START_FIELD_NUMBER;
+          hash = (53 * hash) + getColorStart();
+          hash = (37 * hash) + COLOR_END_FIELD_NUMBER;
+          hash = (53 * hash) + getColorEnd();
+          hash = (37 * hash) + COLOR_BORDER_FIELD_NUMBER;
+          hash = (53 * hash) + getColorBorder();
+          hash = (37 * hash) + COLOR_FIELD_NUMBER;
+          hash = (53 * hash) + getColor();
+          hash = (37 * hash) + IS_LIGHTED_FIELD_NUMBER;
+          hash = (53 * hash) + getIsLighted();
+          hash = (37 * hash) + RUID_FIELD_NUMBER;
+          hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+              getRuid());
+          hash = (37 * hash) + GUARD_LEVEL_FIELD_NUMBER;
+          hash = (53 * hash) + getGuardLevel();
+          hash = (37 * hash) + SCORE_FIELD_NUMBER;
+          hash = (53 * hash) + getScore();
+          hash = (37 * hash) + GUARD_ICON_FIELD_NUMBER;
+          hash = (53 * hash) + getGuardIcon().hashCode();
+          hash = (37 * hash) + V2_MEDAL_COLOR_START_FIELD_NUMBER;
+          hash = (53 * hash) + getV2MedalColorStart().hashCode();
+          hash = (37 * hash) + V2_MEDAL_COLOR_END_FIELD_NUMBER;
+          hash = (53 * hash) + getV2MedalColorEnd().hashCode();
+          hash = (37 * hash) + V2_MEDAL_COLOR_BORDER_FIELD_NUMBER;
+          hash = (53 * hash) + getV2MedalColorBorder().hashCode();
+          hash = (37 * hash) + V2_MEDAL_COLOR_TEXT_FIELD_NUMBER;
+          hash = (53 * hash) + getV2MedalColorText().hashCode();
+          hash = (37 * hash) + V2_MEDAL_COLOR_LEVEL_FIELD_NUMBER;
+          hash = (53 * hash) + getV2MedalColorLevel().hashCode();
+          hash = (29 * hash) + getUnknownFields().hashCode();
+          memoizedHashCode = hash;
+          return hash;
+        }
+
+        public static MedalInfo parseFrom(
+            java.nio.ByteBuffer data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static MedalInfo parseFrom(
+            java.nio.ByteBuffer data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static MedalInfo parseFrom(
+            com.google.protobuf.ByteString data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static MedalInfo parseFrom(
+            com.google.protobuf.ByteString data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static MedalInfo parseFrom(byte[] data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static MedalInfo parseFrom(
+            byte[] data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static MedalInfo parseFrom(java.io.InputStream input)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseWithIOException(PARSER, input);
+        }
+        public static MedalInfo parseFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static MedalInfo parseDelimitedFrom(java.io.InputStream input)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseDelimitedWithIOException(PARSER, input);
+        }
+
+        public static MedalInfo parseDelimitedFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+        }
+        public static MedalInfo parseFrom(
+            com.google.protobuf.CodedInputStream input)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseWithIOException(PARSER, input);
+        }
+        public static MedalInfo parseFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        @Override
+        public Builder newBuilderForType() { return newBuilder(); }
+        public static Builder newBuilder() {
+          return DEFAULT_INSTANCE.toBuilder();
+        }
+        public static Builder newBuilder(MedalInfo prototype) {
+          return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+        }
+        @Override
+        public Builder toBuilder() {
+          return this == DEFAULT_INSTANCE
+              ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        @Override
+        protected Builder newBuilderForType(
+            BuilderParent parent) {
+          Builder builder = new Builder(parent);
+          return builder;
+        }
+        /**
+         * Protobuf type {@code top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo}
+         */
+        public static final class Builder extends
+            com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+            // @@protoc_insertion_point(builder_implements:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo)
+            MedalInfoOrBuilder {
+          public static final com.google.protobuf.Descriptors.Descriptor
+              getDescriptor() {
+            return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_MedalInfo_descriptor;
+          }
+
+          @Override
+          protected FieldAccessorTable
+              internalGetFieldAccessorTable() {
+            return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_MedalInfo_fieldAccessorTable
+                .ensureFieldAccessorsInitialized(
+                    MedalInfo.class, Builder.class);
+          }
+
+          // Construct using top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord.UserInfo.MedalInfo.newBuilder()
+          private Builder() {
+
+          }
+
+          private Builder(
+              BuilderParent parent) {
+            super(parent);
+
+          }
+          @Override
+          public Builder clear() {
+            super.clear();
+            bitField0_ = 0;
+            medalName_ = "";
+            medalLevel_ = 0;
+            colorStart_ = 0;
+            colorEnd_ = 0;
+            colorBorder_ = 0;
+            color_ = 0;
+            isLighted_ = 0;
+            ruid_ = 0L;
+            guardLevel_ = 0;
+            score_ = 0;
+            guardIcon_ = "";
+            v2MedalColorStart_ = "";
+            v2MedalColorEnd_ = "";
+            v2MedalColorBorder_ = "";
+            v2MedalColorText_ = "";
+            v2MedalColorLevel_ = "";
+            return this;
+          }
+
+          @Override
+          public com.google.protobuf.Descriptors.Descriptor
+              getDescriptorForType() {
+            return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_MedalInfo_descriptor;
+          }
+
+          @Override
+          public MedalInfo getDefaultInstanceForType() {
+            return MedalInfo.getDefaultInstance();
+          }
+
+          @Override
+          public MedalInfo build() {
+            MedalInfo result = buildPartial();
+            if (!result.isInitialized()) {
+              throw newUninitializedMessageException(result);
+            }
+            return result;
+          }
+
+          @Override
+          public MedalInfo buildPartial() {
+            MedalInfo result = new MedalInfo(this);
+            if (bitField0_ != 0) { buildPartial0(result); }
+            onBuilt();
+            return result;
+          }
+
+          private void buildPartial0(MedalInfo result) {
+            int from_bitField0_ = bitField0_;
+            if (((from_bitField0_ & 0x00000001) != 0)) {
+              result.medalName_ = medalName_;
+            }
+            if (((from_bitField0_ & 0x00000002) != 0)) {
+              result.medalLevel_ = medalLevel_;
+            }
+            if (((from_bitField0_ & 0x00000004) != 0)) {
+              result.colorStart_ = colorStart_;
+            }
+            if (((from_bitField0_ & 0x00000008) != 0)) {
+              result.colorEnd_ = colorEnd_;
+            }
+            if (((from_bitField0_ & 0x00000010) != 0)) {
+              result.colorBorder_ = colorBorder_;
+            }
+            if (((from_bitField0_ & 0x00000020) != 0)) {
+              result.color_ = color_;
+            }
+            if (((from_bitField0_ & 0x00000040) != 0)) {
+              result.isLighted_ = isLighted_;
+            }
+            if (((from_bitField0_ & 0x00000080) != 0)) {
+              result.ruid_ = ruid_;
+            }
+            if (((from_bitField0_ & 0x00000100) != 0)) {
+              result.guardLevel_ = guardLevel_;
+            }
+            if (((from_bitField0_ & 0x00000200) != 0)) {
+              result.score_ = score_;
+            }
+            if (((from_bitField0_ & 0x00000400) != 0)) {
+              result.guardIcon_ = guardIcon_;
+            }
+            if (((from_bitField0_ & 0x00000800) != 0)) {
+              result.v2MedalColorStart_ = v2MedalColorStart_;
+            }
+            if (((from_bitField0_ & 0x00001000) != 0)) {
+              result.v2MedalColorEnd_ = v2MedalColorEnd_;
+            }
+            if (((from_bitField0_ & 0x00002000) != 0)) {
+              result.v2MedalColorBorder_ = v2MedalColorBorder_;
+            }
+            if (((from_bitField0_ & 0x00004000) != 0)) {
+              result.v2MedalColorText_ = v2MedalColorText_;
+            }
+            if (((from_bitField0_ & 0x00008000) != 0)) {
+              result.v2MedalColorLevel_ = v2MedalColorLevel_;
+            }
+          }
+
+          @Override
+          public Builder mergeFrom(com.google.protobuf.Message other) {
+            if (other instanceof MedalInfo) {
+              return mergeFrom((MedalInfo)other);
+            } else {
+              super.mergeFrom(other);
+              return this;
+            }
+          }
+
+          public Builder mergeFrom(MedalInfo other) {
+            if (other == MedalInfo.getDefaultInstance()) return this;
+            if (!other.getMedalName().isEmpty()) {
+              medalName_ = other.medalName_;
+              bitField0_ |= 0x00000001;
+              onChanged();
+            }
+            if (other.getMedalLevel() != 0) {
+              setMedalLevel(other.getMedalLevel());
+            }
+            if (other.getColorStart() != 0) {
+              setColorStart(other.getColorStart());
+            }
+            if (other.getColorEnd() != 0) {
+              setColorEnd(other.getColorEnd());
+            }
+            if (other.getColorBorder() != 0) {
+              setColorBorder(other.getColorBorder());
+            }
+            if (other.getColor() != 0) {
+              setColor(other.getColor());
+            }
+            if (other.getIsLighted() != 0) {
+              setIsLighted(other.getIsLighted());
+            }
+            if (other.getRuid() != 0L) {
+              setRuid(other.getRuid());
+            }
+            if (other.getGuardLevel() != 0) {
+              setGuardLevel(other.getGuardLevel());
+            }
+            if (other.getScore() != 0) {
+              setScore(other.getScore());
+            }
+            if (!other.getGuardIcon().isEmpty()) {
+              guardIcon_ = other.guardIcon_;
+              bitField0_ |= 0x00000400;
+              onChanged();
+            }
+            if (!other.getV2MedalColorStart().isEmpty()) {
+              v2MedalColorStart_ = other.v2MedalColorStart_;
+              bitField0_ |= 0x00000800;
+              onChanged();
+            }
+            if (!other.getV2MedalColorEnd().isEmpty()) {
+              v2MedalColorEnd_ = other.v2MedalColorEnd_;
+              bitField0_ |= 0x00001000;
+              onChanged();
+            }
+            if (!other.getV2MedalColorBorder().isEmpty()) {
+              v2MedalColorBorder_ = other.v2MedalColorBorder_;
+              bitField0_ |= 0x00002000;
+              onChanged();
+            }
+            if (!other.getV2MedalColorText().isEmpty()) {
+              v2MedalColorText_ = other.v2MedalColorText_;
+              bitField0_ |= 0x00004000;
+              onChanged();
+            }
+            if (!other.getV2MedalColorLevel().isEmpty()) {
+              v2MedalColorLevel_ = other.v2MedalColorLevel_;
+              bitField0_ |= 0x00008000;
+              onChanged();
+            }
+            this.mergeUnknownFields(other.getUnknownFields());
+            onChanged();
+            return this;
+          }
+
+          @Override
+          public final boolean isInitialized() {
+            return true;
+          }
+
+          @Override
+          public Builder mergeFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+            if (extensionRegistry == null) {
+              throw new NullPointerException();
+            }
+            try {
+              boolean done = false;
+              while (!done) {
+                int tag = input.readTag();
+                switch (tag) {
+                  case 0:
+                    done = true;
+                    break;
+                  case 10: {
+                    medalName_ = input.readStringRequireUtf8();
+                    bitField0_ |= 0x00000001;
+                    break;
+                  } // case 10
+                  case 16: {
+                    medalLevel_ = input.readUInt32();
+                    bitField0_ |= 0x00000002;
+                    break;
+                  } // case 16
+                  case 24: {
+                    colorStart_ = input.readUInt32();
+                    bitField0_ |= 0x00000004;
+                    break;
+                  } // case 24
+                  case 32: {
+                    colorEnd_ = input.readUInt32();
+                    bitField0_ |= 0x00000008;
+                    break;
+                  } // case 32
+                  case 40: {
+                    colorBorder_ = input.readUInt32();
+                    bitField0_ |= 0x00000010;
+                    break;
+                  } // case 40
+                  case 48: {
+                    color_ = input.readUInt32();
+                    bitField0_ |= 0x00000020;
+                    break;
+                  } // case 48
+                  case 72: {
+                    isLighted_ = input.readUInt32();
+                    bitField0_ |= 0x00000040;
+                    break;
+                  } // case 72
+                  case 80: {
+                    ruid_ = input.readUInt64();
+                    bitField0_ |= 0x00000080;
+                    break;
+                  } // case 80
+                  case 88: {
+                    guardLevel_ = input.readUInt32();
+                    bitField0_ |= 0x00000100;
+                    break;
+                  } // case 88
+                  case 96: {
+                    score_ = input.readUInt32();
+                    bitField0_ |= 0x00000200;
+                    break;
+                  } // case 96
+                  case 106: {
+                    guardIcon_ = input.readStringRequireUtf8();
+                    bitField0_ |= 0x00000400;
+                    break;
+                  } // case 106
+                  case 122: {
+                    v2MedalColorStart_ = input.readStringRequireUtf8();
+                    bitField0_ |= 0x00000800;
+                    break;
+                  } // case 122
+                  case 130: {
+                    v2MedalColorEnd_ = input.readStringRequireUtf8();
+                    bitField0_ |= 0x00001000;
+                    break;
+                  } // case 130
+                  case 138: {
+                    v2MedalColorBorder_ = input.readStringRequireUtf8();
+                    bitField0_ |= 0x00002000;
+                    break;
+                  } // case 138
+                  case 146: {
+                    v2MedalColorText_ = input.readStringRequireUtf8();
+                    bitField0_ |= 0x00004000;
+                    break;
+                  } // case 146
+                  case 154: {
+                    v2MedalColorLevel_ = input.readStringRequireUtf8();
+                    bitField0_ |= 0x00008000;
+                    break;
+                  } // case 154
+                  default: {
+                    if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                      done = true; // was an endgroup tag
+                    }
+                    break;
+                  } // default:
+                } // switch (tag)
+              } // while (!done)
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+              throw e.unwrapIOException();
+            } finally {
+              onChanged();
+            } // finally
+            return this;
+          }
+          private int bitField0_;
+
+          private Object medalName_ = "";
+          /**
+           * <code>string medal_name = 1;</code>
+           * @return The medalName.
+           */
+          public String getMedalName() {
+            Object ref = medalName_;
+            if (!(ref instanceof String)) {
+              com.google.protobuf.ByteString bs =
+                  (com.google.protobuf.ByteString) ref;
+              String s = bs.toStringUtf8();
+              medalName_ = s;
+              return s;
+            } else {
+              return (String) ref;
+            }
+          }
+          /**
+           * <code>string medal_name = 1;</code>
+           * @return The bytes for medalName.
+           */
+          public com.google.protobuf.ByteString
+              getMedalNameBytes() {
+            Object ref = medalName_;
+            if (ref instanceof String) {
+              com.google.protobuf.ByteString b = 
+                  com.google.protobuf.ByteString.copyFromUtf8(
+                      (String) ref);
+              medalName_ = b;
+              return b;
+            } else {
+              return (com.google.protobuf.ByteString) ref;
+            }
+          }
+          /**
+           * <code>string medal_name = 1;</code>
+           * @param value The medalName to set.
+           * @return This builder for chaining.
+           */
+          public Builder setMedalName(
+              String value) {
+            if (value == null) { throw new NullPointerException(); }
+            medalName_ = value;
+            bitField0_ |= 0x00000001;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>string medal_name = 1;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearMedalName() {
+            medalName_ = getDefaultInstance().getMedalName();
+            bitField0_ = (bitField0_ & ~0x00000001);
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>string medal_name = 1;</code>
+           * @param value The bytes for medalName to set.
+           * @return This builder for chaining.
+           */
+          public Builder setMedalNameBytes(
+              com.google.protobuf.ByteString value) {
+            if (value == null) { throw new NullPointerException(); }
+            checkByteStringIsUtf8(value);
+            medalName_ = value;
+            bitField0_ |= 0x00000001;
+            onChanged();
+            return this;
+          }
+
+          private int medalLevel_ ;
+          /**
+           * <code>uint32 medal_level = 2;</code>
+           * @return The medalLevel.
+           */
+          @Override
+          public int getMedalLevel() {
+            return medalLevel_;
+          }
+          /**
+           * <code>uint32 medal_level = 2;</code>
+           * @param value The medalLevel to set.
+           * @return This builder for chaining.
+           */
+          public Builder setMedalLevel(int value) {
+
+            medalLevel_ = value;
+            bitField0_ |= 0x00000002;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>uint32 medal_level = 2;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearMedalLevel() {
+            bitField0_ = (bitField0_ & ~0x00000002);
+            medalLevel_ = 0;
+            onChanged();
+            return this;
+          }
+
+          private int colorStart_ ;
+          /**
+           * <code>uint32 color_start = 3;</code>
+           * @return The colorStart.
+           */
+          @Override
+          public int getColorStart() {
+            return colorStart_;
+          }
+          /**
+           * <code>uint32 color_start = 3;</code>
+           * @param value The colorStart to set.
+           * @return This builder for chaining.
+           */
+          public Builder setColorStart(int value) {
+
+            colorStart_ = value;
+            bitField0_ |= 0x00000004;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>uint32 color_start = 3;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearColorStart() {
+            bitField0_ = (bitField0_ & ~0x00000004);
+            colorStart_ = 0;
+            onChanged();
+            return this;
+          }
+
+          private int colorEnd_ ;
+          /**
+           * <code>uint32 color_end = 4;</code>
+           * @return The colorEnd.
+           */
+          @Override
+          public int getColorEnd() {
+            return colorEnd_;
+          }
+          /**
+           * <code>uint32 color_end = 4;</code>
+           * @param value The colorEnd to set.
+           * @return This builder for chaining.
+           */
+          public Builder setColorEnd(int value) {
+
+            colorEnd_ = value;
+            bitField0_ |= 0x00000008;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>uint32 color_end = 4;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearColorEnd() {
+            bitField0_ = (bitField0_ & ~0x00000008);
+            colorEnd_ = 0;
+            onChanged();
+            return this;
+          }
+
+          private int colorBorder_ ;
+          /**
+           * <code>uint32 color_border = 5;</code>
+           * @return The colorBorder.
+           */
+          @Override
+          public int getColorBorder() {
+            return colorBorder_;
+          }
+          /**
+           * <code>uint32 color_border = 5;</code>
+           * @param value The colorBorder to set.
+           * @return This builder for chaining.
+           */
+          public Builder setColorBorder(int value) {
+
+            colorBorder_ = value;
+            bitField0_ |= 0x00000010;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>uint32 color_border = 5;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearColorBorder() {
+            bitField0_ = (bitField0_ & ~0x00000010);
+            colorBorder_ = 0;
+            onChanged();
+            return this;
+          }
+
+          private int color_ ;
+          /**
+           * <code>uint32 color = 6;</code>
+           * @return The color.
+           */
+          @Override
+          public int getColor() {
+            return color_;
+          }
+          /**
+           * <code>uint32 color = 6;</code>
+           * @param value The color to set.
+           * @return This builder for chaining.
+           */
+          public Builder setColor(int value) {
+
+            color_ = value;
+            bitField0_ |= 0x00000020;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>uint32 color = 6;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearColor() {
+            bitField0_ = (bitField0_ & ~0x00000020);
+            color_ = 0;
+            onChanged();
+            return this;
+          }
+
+          private int isLighted_ ;
+          /**
+           * <code>uint32 is_lighted = 9;</code>
+           * @return The isLighted.
+           */
+          @Override
+          public int getIsLighted() {
+            return isLighted_;
+          }
+          /**
+           * <code>uint32 is_lighted = 9;</code>
+           * @param value The isLighted to set.
+           * @return This builder for chaining.
+           */
+          public Builder setIsLighted(int value) {
+
+            isLighted_ = value;
+            bitField0_ |= 0x00000040;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>uint32 is_lighted = 9;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearIsLighted() {
+            bitField0_ = (bitField0_ & ~0x00000040);
+            isLighted_ = 0;
+            onChanged();
+            return this;
+          }
+
+          private long ruid_ ;
+          /**
+           * <pre>
+           * also named target_id or anchor_id
+           * </pre>
+           *
+           * <code>uint64 ruid = 10;</code>
+           * @return The ruid.
+           */
+          @Override
+          public long getRuid() {
+            return ruid_;
+          }
+          /**
+           * <pre>
+           * also named target_id or anchor_id
+           * </pre>
+           *
+           * <code>uint64 ruid = 10;</code>
+           * @param value The ruid to set.
+           * @return This builder for chaining.
+           */
+          public Builder setRuid(long value) {
+
+            ruid_ = value;
+            bitField0_ |= 0x00000080;
+            onChanged();
+            return this;
+          }
+          /**
+           * <pre>
+           * also named target_id or anchor_id
+           * </pre>
+           *
+           * <code>uint64 ruid = 10;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearRuid() {
+            bitField0_ = (bitField0_ & ~0x00000080);
+            ruid_ = 0L;
+            onChanged();
+            return this;
+          }
+
+          private int guardLevel_ ;
+          /**
+           * <code>uint32 guard_level = 11;</code>
+           * @return The guardLevel.
+           */
+          @Override
+          public int getGuardLevel() {
+            return guardLevel_;
+          }
+          /**
+           * <code>uint32 guard_level = 11;</code>
+           * @param value The guardLevel to set.
+           * @return This builder for chaining.
+           */
+          public Builder setGuardLevel(int value) {
+
+            guardLevel_ = value;
+            bitField0_ |= 0x00000100;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>uint32 guard_level = 11;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearGuardLevel() {
+            bitField0_ = (bitField0_ & ~0x00000100);
+            guardLevel_ = 0;
+            onChanged();
+            return this;
+          }
+
+          private int score_ ;
+          /**
+           * <code>uint32 score = 12;</code>
+           * @return The score.
+           */
+          @Override
+          public int getScore() {
+            return score_;
+          }
+          /**
+           * <code>uint32 score = 12;</code>
+           * @param value The score to set.
+           * @return This builder for chaining.
+           */
+          public Builder setScore(int value) {
+
+            score_ = value;
+            bitField0_ |= 0x00000200;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>uint32 score = 12;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearScore() {
+            bitField0_ = (bitField0_ & ~0x00000200);
+            score_ = 0;
+            onChanged();
+            return this;
+          }
+
+          private Object guardIcon_ = "";
+          /**
+           * <code>string guard_icon = 13;</code>
+           * @return The guardIcon.
+           */
+          public String getGuardIcon() {
+            Object ref = guardIcon_;
+            if (!(ref instanceof String)) {
+              com.google.protobuf.ByteString bs =
+                  (com.google.protobuf.ByteString) ref;
+              String s = bs.toStringUtf8();
+              guardIcon_ = s;
+              return s;
+            } else {
+              return (String) ref;
+            }
+          }
+          /**
+           * <code>string guard_icon = 13;</code>
+           * @return The bytes for guardIcon.
+           */
+          public com.google.protobuf.ByteString
+              getGuardIconBytes() {
+            Object ref = guardIcon_;
+            if (ref instanceof String) {
+              com.google.protobuf.ByteString b = 
+                  com.google.protobuf.ByteString.copyFromUtf8(
+                      (String) ref);
+              guardIcon_ = b;
+              return b;
+            } else {
+              return (com.google.protobuf.ByteString) ref;
+            }
+          }
+          /**
+           * <code>string guard_icon = 13;</code>
+           * @param value The guardIcon to set.
+           * @return This builder for chaining.
+           */
+          public Builder setGuardIcon(
+              String value) {
+            if (value == null) { throw new NullPointerException(); }
+            guardIcon_ = value;
+            bitField0_ |= 0x00000400;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>string guard_icon = 13;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearGuardIcon() {
+            guardIcon_ = getDefaultInstance().getGuardIcon();
+            bitField0_ = (bitField0_ & ~0x00000400);
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>string guard_icon = 13;</code>
+           * @param value The bytes for guardIcon to set.
+           * @return This builder for chaining.
+           */
+          public Builder setGuardIconBytes(
+              com.google.protobuf.ByteString value) {
+            if (value == null) { throw new NullPointerException(); }
+            checkByteStringIsUtf8(value);
+            guardIcon_ = value;
+            bitField0_ |= 0x00000400;
+            onChanged();
+            return this;
+          }
+
+          private Object v2MedalColorStart_ = "";
+          /**
+           * <code>string v2_medal_color_start = 15;</code>
+           * @return The v2MedalColorStart.
+           */
+          public String getV2MedalColorStart() {
+            Object ref = v2MedalColorStart_;
+            if (!(ref instanceof String)) {
+              com.google.protobuf.ByteString bs =
+                  (com.google.protobuf.ByteString) ref;
+              String s = bs.toStringUtf8();
+              v2MedalColorStart_ = s;
+              return s;
+            } else {
+              return (String) ref;
+            }
+          }
+          /**
+           * <code>string v2_medal_color_start = 15;</code>
+           * @return The bytes for v2MedalColorStart.
+           */
+          public com.google.protobuf.ByteString
+              getV2MedalColorStartBytes() {
+            Object ref = v2MedalColorStart_;
+            if (ref instanceof String) {
+              com.google.protobuf.ByteString b = 
+                  com.google.protobuf.ByteString.copyFromUtf8(
+                      (String) ref);
+              v2MedalColorStart_ = b;
+              return b;
+            } else {
+              return (com.google.protobuf.ByteString) ref;
+            }
+          }
+          /**
+           * <code>string v2_medal_color_start = 15;</code>
+           * @param value The v2MedalColorStart to set.
+           * @return This builder for chaining.
+           */
+          public Builder setV2MedalColorStart(
+              String value) {
+            if (value == null) { throw new NullPointerException(); }
+            v2MedalColorStart_ = value;
+            bitField0_ |= 0x00000800;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>string v2_medal_color_start = 15;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearV2MedalColorStart() {
+            v2MedalColorStart_ = getDefaultInstance().getV2MedalColorStart();
+            bitField0_ = (bitField0_ & ~0x00000800);
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>string v2_medal_color_start = 15;</code>
+           * @param value The bytes for v2MedalColorStart to set.
+           * @return This builder for chaining.
+           */
+          public Builder setV2MedalColorStartBytes(
+              com.google.protobuf.ByteString value) {
+            if (value == null) { throw new NullPointerException(); }
+            checkByteStringIsUtf8(value);
+            v2MedalColorStart_ = value;
+            bitField0_ |= 0x00000800;
+            onChanged();
+            return this;
+          }
+
+          private Object v2MedalColorEnd_ = "";
+          /**
+           * <code>string v2_medal_color_end = 16;</code>
+           * @return The v2MedalColorEnd.
+           */
+          public String getV2MedalColorEnd() {
+            Object ref = v2MedalColorEnd_;
+            if (!(ref instanceof String)) {
+              com.google.protobuf.ByteString bs =
+                  (com.google.protobuf.ByteString) ref;
+              String s = bs.toStringUtf8();
+              v2MedalColorEnd_ = s;
+              return s;
+            } else {
+              return (String) ref;
+            }
+          }
+          /**
+           * <code>string v2_medal_color_end = 16;</code>
+           * @return The bytes for v2MedalColorEnd.
+           */
+          public com.google.protobuf.ByteString
+              getV2MedalColorEndBytes() {
+            Object ref = v2MedalColorEnd_;
+            if (ref instanceof String) {
+              com.google.protobuf.ByteString b = 
+                  com.google.protobuf.ByteString.copyFromUtf8(
+                      (String) ref);
+              v2MedalColorEnd_ = b;
+              return b;
+            } else {
+              return (com.google.protobuf.ByteString) ref;
+            }
+          }
+          /**
+           * <code>string v2_medal_color_end = 16;</code>
+           * @param value The v2MedalColorEnd to set.
+           * @return This builder for chaining.
+           */
+          public Builder setV2MedalColorEnd(
+              String value) {
+            if (value == null) { throw new NullPointerException(); }
+            v2MedalColorEnd_ = value;
+            bitField0_ |= 0x00001000;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>string v2_medal_color_end = 16;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearV2MedalColorEnd() {
+            v2MedalColorEnd_ = getDefaultInstance().getV2MedalColorEnd();
+            bitField0_ = (bitField0_ & ~0x00001000);
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>string v2_medal_color_end = 16;</code>
+           * @param value The bytes for v2MedalColorEnd to set.
+           * @return This builder for chaining.
+           */
+          public Builder setV2MedalColorEndBytes(
+              com.google.protobuf.ByteString value) {
+            if (value == null) { throw new NullPointerException(); }
+            checkByteStringIsUtf8(value);
+            v2MedalColorEnd_ = value;
+            bitField0_ |= 0x00001000;
+            onChanged();
+            return this;
+          }
+
+          private Object v2MedalColorBorder_ = "";
+          /**
+           * <code>string v2_medal_color_border = 17;</code>
+           * @return The v2MedalColorBorder.
+           */
+          public String getV2MedalColorBorder() {
+            Object ref = v2MedalColorBorder_;
+            if (!(ref instanceof String)) {
+              com.google.protobuf.ByteString bs =
+                  (com.google.protobuf.ByteString) ref;
+              String s = bs.toStringUtf8();
+              v2MedalColorBorder_ = s;
+              return s;
+            } else {
+              return (String) ref;
+            }
+          }
+          /**
+           * <code>string v2_medal_color_border = 17;</code>
+           * @return The bytes for v2MedalColorBorder.
+           */
+          public com.google.protobuf.ByteString
+              getV2MedalColorBorderBytes() {
+            Object ref = v2MedalColorBorder_;
+            if (ref instanceof String) {
+              com.google.protobuf.ByteString b = 
+                  com.google.protobuf.ByteString.copyFromUtf8(
+                      (String) ref);
+              v2MedalColorBorder_ = b;
+              return b;
+            } else {
+              return (com.google.protobuf.ByteString) ref;
+            }
+          }
+          /**
+           * <code>string v2_medal_color_border = 17;</code>
+           * @param value The v2MedalColorBorder to set.
+           * @return This builder for chaining.
+           */
+          public Builder setV2MedalColorBorder(
+              String value) {
+            if (value == null) { throw new NullPointerException(); }
+            v2MedalColorBorder_ = value;
+            bitField0_ |= 0x00002000;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>string v2_medal_color_border = 17;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearV2MedalColorBorder() {
+            v2MedalColorBorder_ = getDefaultInstance().getV2MedalColorBorder();
+            bitField0_ = (bitField0_ & ~0x00002000);
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>string v2_medal_color_border = 17;</code>
+           * @param value The bytes for v2MedalColorBorder to set.
+           * @return This builder for chaining.
+           */
+          public Builder setV2MedalColorBorderBytes(
+              com.google.protobuf.ByteString value) {
+            if (value == null) { throw new NullPointerException(); }
+            checkByteStringIsUtf8(value);
+            v2MedalColorBorder_ = value;
+            bitField0_ |= 0x00002000;
+            onChanged();
+            return this;
+          }
+
+          private Object v2MedalColorText_ = "";
+          /**
+           * <code>string v2_medal_color_text = 18;</code>
+           * @return The v2MedalColorText.
+           */
+          public String getV2MedalColorText() {
+            Object ref = v2MedalColorText_;
+            if (!(ref instanceof String)) {
+              com.google.protobuf.ByteString bs =
+                  (com.google.protobuf.ByteString) ref;
+              String s = bs.toStringUtf8();
+              v2MedalColorText_ = s;
+              return s;
+            } else {
+              return (String) ref;
+            }
+          }
+          /**
+           * <code>string v2_medal_color_text = 18;</code>
+           * @return The bytes for v2MedalColorText.
+           */
+          public com.google.protobuf.ByteString
+              getV2MedalColorTextBytes() {
+            Object ref = v2MedalColorText_;
+            if (ref instanceof String) {
+              com.google.protobuf.ByteString b = 
+                  com.google.protobuf.ByteString.copyFromUtf8(
+                      (String) ref);
+              v2MedalColorText_ = b;
+              return b;
+            } else {
+              return (com.google.protobuf.ByteString) ref;
+            }
+          }
+          /**
+           * <code>string v2_medal_color_text = 18;</code>
+           * @param value The v2MedalColorText to set.
+           * @return This builder for chaining.
+           */
+          public Builder setV2MedalColorText(
+              String value) {
+            if (value == null) { throw new NullPointerException(); }
+            v2MedalColorText_ = value;
+            bitField0_ |= 0x00004000;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>string v2_medal_color_text = 18;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearV2MedalColorText() {
+            v2MedalColorText_ = getDefaultInstance().getV2MedalColorText();
+            bitField0_ = (bitField0_ & ~0x00004000);
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>string v2_medal_color_text = 18;</code>
+           * @param value The bytes for v2MedalColorText to set.
+           * @return This builder for chaining.
+           */
+          public Builder setV2MedalColorTextBytes(
+              com.google.protobuf.ByteString value) {
+            if (value == null) { throw new NullPointerException(); }
+            checkByteStringIsUtf8(value);
+            v2MedalColorText_ = value;
+            bitField0_ |= 0x00004000;
+            onChanged();
+            return this;
+          }
+
+          private Object v2MedalColorLevel_ = "";
+          /**
+           * <code>string v2_medal_color_level = 19;</code>
+           * @return The v2MedalColorLevel.
+           */
+          public String getV2MedalColorLevel() {
+            Object ref = v2MedalColorLevel_;
+            if (!(ref instanceof String)) {
+              com.google.protobuf.ByteString bs =
+                  (com.google.protobuf.ByteString) ref;
+              String s = bs.toStringUtf8();
+              v2MedalColorLevel_ = s;
+              return s;
+            } else {
+              return (String) ref;
+            }
+          }
+          /**
+           * <code>string v2_medal_color_level = 19;</code>
+           * @return The bytes for v2MedalColorLevel.
+           */
+          public com.google.protobuf.ByteString
+              getV2MedalColorLevelBytes() {
+            Object ref = v2MedalColorLevel_;
+            if (ref instanceof String) {
+              com.google.protobuf.ByteString b = 
+                  com.google.protobuf.ByteString.copyFromUtf8(
+                      (String) ref);
+              v2MedalColorLevel_ = b;
+              return b;
+            } else {
+              return (com.google.protobuf.ByteString) ref;
+            }
+          }
+          /**
+           * <code>string v2_medal_color_level = 19;</code>
+           * @param value The v2MedalColorLevel to set.
+           * @return This builder for chaining.
+           */
+          public Builder setV2MedalColorLevel(
+              String value) {
+            if (value == null) { throw new NullPointerException(); }
+            v2MedalColorLevel_ = value;
+            bitField0_ |= 0x00008000;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>string v2_medal_color_level = 19;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearV2MedalColorLevel() {
+            v2MedalColorLevel_ = getDefaultInstance().getV2MedalColorLevel();
+            bitField0_ = (bitField0_ & ~0x00008000);
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>string v2_medal_color_level = 19;</code>
+           * @param value The bytes for v2MedalColorLevel to set.
+           * @return This builder for chaining.
+           */
+          public Builder setV2MedalColorLevelBytes(
+              com.google.protobuf.ByteString value) {
+            if (value == null) { throw new NullPointerException(); }
+            checkByteStringIsUtf8(value);
+            v2MedalColorLevel_ = value;
+            bitField0_ |= 0x00008000;
+            onChanged();
+            return this;
+          }
+
+          // @@protoc_insertion_point(builder_scope:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo)
+        }
+
+        // @@protoc_insertion_point(class_scope:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo)
+        private static final MedalInfo DEFAULT_INSTANCE;
+        static {
+          DEFAULT_INSTANCE = new MedalInfo();
+        }
+
+        public static MedalInfo getDefaultInstance() {
+          return DEFAULT_INSTANCE;
+        }
+
+        private static final com.google.protobuf.Parser<MedalInfo>
+            PARSER = new com.google.protobuf.AbstractParser<MedalInfo>() {
+          @Override
+          public MedalInfo parsePartialFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+            Builder builder = newBuilder();
+            try {
+              builder.mergeFrom(input, extensionRegistry);
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+              throw e.setUnfinishedMessage(builder.buildPartial());
+            } catch (com.google.protobuf.UninitializedMessageException e) {
+              throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+            } catch (java.io.IOException e) {
+              throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                  .setUnfinishedMessage(builder.buildPartial());
+            }
+            return builder.buildPartial();
+          }
+        };
+
+        public static com.google.protobuf.Parser<MedalInfo> parser() {
+          return PARSER;
+        }
+
+        @Override
+        public com.google.protobuf.Parser<MedalInfo> getParserForType() {
+          return PARSER;
+        }
+
+        @Override
+        public MedalInfo getDefaultInstanceForType() {
+          return DEFAULT_INSTANCE;
+        }
+
+      }
+
+      public interface WealthInfoOrBuilder extends
+          // @@protoc_insertion_point(interface_extends:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo)
+          com.google.protobuf.MessageOrBuilder {
+
+        /**
+         * <code>uint32 level = 1;</code>
+         * @return The level.
+         */
+        int getLevel();
+      }
+      /**
+       * Protobuf type {@code top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo}
+       */
+      public static final class WealthInfo extends
+          com.google.protobuf.GeneratedMessage implements
+          // @@protoc_insertion_point(message_implements:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo)
+          WealthInfoOrBuilder {
+      private static final long serialVersionUID = 0L;
+        static {
+          com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+            com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+            /* major= */ 4,
+            /* minor= */ 32,
+            /* patch= */ 0,
+            /* suffix= */ "",
+            WealthInfo.class.getName());
+        }
+        // Use WealthInfo.newBuilder() to construct.
+        private WealthInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+          super(builder);
+        }
+        private WealthInfo() {
+        }
+
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_WealthInfo_descriptor;
+        }
+
+        @Override
+        protected FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_WealthInfo_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  WealthInfo.class, Builder.class);
+        }
+
+        public static final int LEVEL_FIELD_NUMBER = 1;
+        private int level_ = 0;
+        /**
+         * <code>uint32 level = 1;</code>
+         * @return The level.
+         */
+        @Override
+        public int getLevel() {
+          return level_;
+        }
+
+        private byte memoizedIsInitialized = -1;
+        @Override
+        public final boolean isInitialized() {
+          byte isInitialized = memoizedIsInitialized;
+          if (isInitialized == 1) return true;
+          if (isInitialized == 0) return false;
+
+          memoizedIsInitialized = 1;
+          return true;
+        }
+
+        @Override
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                            throws java.io.IOException {
+          if (level_ != 0) {
+            output.writeUInt32(1, level_);
+          }
+          getUnknownFields().writeTo(output);
+        }
+
+        @Override
+        public int getSerializedSize() {
+          int size = memoizedSize;
+          if (size != -1) return size;
+
+          size = 0;
+          if (level_ != 0) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeUInt32Size(1, level_);
+          }
+          size += getUnknownFields().getSerializedSize();
+          memoizedSize = size;
+          return size;
+        }
+
+        @Override
+        public boolean equals(final Object obj) {
+          if (obj == this) {
+           return true;
+          }
+          if (!(obj instanceof WealthInfo)) {
+            return super.equals(obj);
+          }
+          WealthInfo other = (WealthInfo) obj;
+
+          if (getLevel()
+              != other.getLevel()) return false;
+          if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+          return true;
+        }
+
+        @Override
+        public int hashCode() {
+          if (memoizedHashCode != 0) {
+            return memoizedHashCode;
+          }
+          int hash = 41;
+          hash = (19 * hash) + getDescriptor().hashCode();
+          hash = (37 * hash) + LEVEL_FIELD_NUMBER;
+          hash = (53 * hash) + getLevel();
+          hash = (29 * hash) + getUnknownFields().hashCode();
+          memoizedHashCode = hash;
+          return hash;
+        }
+
+        public static WealthInfo parseFrom(
+            java.nio.ByteBuffer data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static WealthInfo parseFrom(
+            java.nio.ByteBuffer data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static WealthInfo parseFrom(
+            com.google.protobuf.ByteString data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static WealthInfo parseFrom(
+            com.google.protobuf.ByteString data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static WealthInfo parseFrom(byte[] data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static WealthInfo parseFrom(
+            byte[] data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static WealthInfo parseFrom(java.io.InputStream input)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseWithIOException(PARSER, input);
+        }
+        public static WealthInfo parseFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        public static WealthInfo parseDelimitedFrom(java.io.InputStream input)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseDelimitedWithIOException(PARSER, input);
+        }
+
+        public static WealthInfo parseDelimitedFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+        }
+        public static WealthInfo parseFrom(
+            com.google.protobuf.CodedInputStream input)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseWithIOException(PARSER, input);
+        }
+        public static WealthInfo parseFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return com.google.protobuf.GeneratedMessage
+              .parseWithIOException(PARSER, input, extensionRegistry);
+        }
+
+        @Override
+        public Builder newBuilderForType() { return newBuilder(); }
+        public static Builder newBuilder() {
+          return DEFAULT_INSTANCE.toBuilder();
+        }
+        public static Builder newBuilder(WealthInfo prototype) {
+          return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+        }
+        @Override
+        public Builder toBuilder() {
+          return this == DEFAULT_INSTANCE
+              ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        @Override
+        protected Builder newBuilderForType(
+            BuilderParent parent) {
+          Builder builder = new Builder(parent);
+          return builder;
+        }
+        /**
+         * Protobuf type {@code top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo}
+         */
+        public static final class Builder extends
+            com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+            // @@protoc_insertion_point(builder_implements:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo)
+            WealthInfoOrBuilder {
+          public static final com.google.protobuf.Descriptors.Descriptor
+              getDescriptor() {
+            return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_WealthInfo_descriptor;
+          }
+
+          @Override
+          protected FieldAccessorTable
+              internalGetFieldAccessorTable() {
+            return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_WealthInfo_fieldAccessorTable
+                .ensureFieldAccessorsInitialized(
+                    WealthInfo.class, Builder.class);
+          }
+
+          // Construct using top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord.UserInfo.WealthInfo.newBuilder()
+          private Builder() {
+
+          }
+
+          private Builder(
+              BuilderParent parent) {
+            super(parent);
+
+          }
+          @Override
+          public Builder clear() {
+            super.clear();
+            bitField0_ = 0;
+            level_ = 0;
+            return this;
+          }
+
+          @Override
+          public com.google.protobuf.Descriptors.Descriptor
+              getDescriptorForType() {
+            return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_WealthInfo_descriptor;
+          }
+
+          @Override
+          public WealthInfo getDefaultInstanceForType() {
+            return WealthInfo.getDefaultInstance();
+          }
+
+          @Override
+          public WealthInfo build() {
+            WealthInfo result = buildPartial();
+            if (!result.isInitialized()) {
+              throw newUninitializedMessageException(result);
+            }
+            return result;
+          }
+
+          @Override
+          public WealthInfo buildPartial() {
+            WealthInfo result = new WealthInfo(this);
+            if (bitField0_ != 0) { buildPartial0(result); }
+            onBuilt();
+            return result;
+          }
+
+          private void buildPartial0(WealthInfo result) {
+            int from_bitField0_ = bitField0_;
+            if (((from_bitField0_ & 0x00000001) != 0)) {
+              result.level_ = level_;
+            }
+          }
+
+          @Override
+          public Builder mergeFrom(com.google.protobuf.Message other) {
+            if (other instanceof WealthInfo) {
+              return mergeFrom((WealthInfo)other);
+            } else {
+              super.mergeFrom(other);
+              return this;
+            }
+          }
+
+          public Builder mergeFrom(WealthInfo other) {
+            if (other == WealthInfo.getDefaultInstance()) return this;
+            if (other.getLevel() != 0) {
+              setLevel(other.getLevel());
+            }
+            this.mergeUnknownFields(other.getUnknownFields());
+            onChanged();
+            return this;
+          }
+
+          @Override
+          public final boolean isInitialized() {
+            return true;
+          }
+
+          @Override
+          public Builder mergeFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+            if (extensionRegistry == null) {
+              throw new NullPointerException();
+            }
+            try {
+              boolean done = false;
+              while (!done) {
+                int tag = input.readTag();
+                switch (tag) {
+                  case 0:
+                    done = true;
+                    break;
+                  case 8: {
+                    level_ = input.readUInt32();
+                    bitField0_ |= 0x00000001;
+                    break;
+                  } // case 8
+                  default: {
+                    if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                      done = true; // was an endgroup tag
+                    }
+                    break;
+                  } // default:
+                } // switch (tag)
+              } // while (!done)
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+              throw e.unwrapIOException();
+            } finally {
+              onChanged();
+            } // finally
+            return this;
+          }
+          private int bitField0_;
+
+          private int level_ ;
+          /**
+           * <code>uint32 level = 1;</code>
+           * @return The level.
+           */
+          @Override
+          public int getLevel() {
+            return level_;
+          }
+          /**
+           * <code>uint32 level = 1;</code>
+           * @param value The level to set.
+           * @return This builder for chaining.
+           */
+          public Builder setLevel(int value) {
+
+            level_ = value;
+            bitField0_ |= 0x00000001;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>uint32 level = 1;</code>
+           * @return This builder for chaining.
+           */
+          public Builder clearLevel() {
+            bitField0_ = (bitField0_ & ~0x00000001);
+            level_ = 0;
+            onChanged();
+            return this;
+          }
+
+          // @@protoc_insertion_point(builder_scope:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo)
+        }
+
+        // @@protoc_insertion_point(class_scope:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo)
+        private static final WealthInfo DEFAULT_INSTANCE;
+        static {
+          DEFAULT_INSTANCE = new WealthInfo();
+        }
+
+        public static WealthInfo getDefaultInstance() {
+          return DEFAULT_INSTANCE;
+        }
+
+        private static final com.google.protobuf.Parser<WealthInfo>
+            PARSER = new com.google.protobuf.AbstractParser<WealthInfo>() {
+          @Override
+          public WealthInfo parsePartialFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+            Builder builder = newBuilder();
+            try {
+              builder.mergeFrom(input, extensionRegistry);
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+              throw e.setUnfinishedMessage(builder.buildPartial());
+            } catch (com.google.protobuf.UninitializedMessageException e) {
+              throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+            } catch (java.io.IOException e) {
+              throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                  .setUnfinishedMessage(builder.buildPartial());
+            }
+            return builder.buildPartial();
+          }
+        };
+
+        public static com.google.protobuf.Parser<WealthInfo> parser() {
+          return PARSER;
+        }
+
+        @Override
+        public com.google.protobuf.Parser<WealthInfo> getParserForType() {
+          return PARSER;
+        }
+
+        @Override
+        public WealthInfo getDefaultInstanceForType() {
+          return DEFAULT_INSTANCE;
+        }
+
+      }
+
+      private int bitField0_;
+      public static final int UID_FIELD_NUMBER = 1;
+      private long uid_ = 0L;
+      /**
+       * <code>uint64 uid = 1;</code>
+       * @return The uid.
+       */
+      @Override
+      public long getUid() {
+        return uid_;
+      }
+
+      public static final int BASE_FIELD_NUMBER = 2;
+      private BaseInfo base_;
+      /**
+       * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo base = 2;</code>
+       * @return Whether the base field is set.
+       */
+      @Override
+      public boolean hasBase() {
+        return ((bitField0_ & 0x00000001) != 0);
+      }
+      /**
+       * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo base = 2;</code>
+       * @return The base.
+       */
+      @Override
+      public BaseInfo getBase() {
+        return base_ == null ? BaseInfo.getDefaultInstance() : base_;
+      }
+      /**
+       * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo base = 2;</code>
+       */
+      @Override
+      public BaseInfoOrBuilder getBaseOrBuilder() {
+        return base_ == null ? BaseInfo.getDefaultInstance() : base_;
+      }
+
+      public static final int MEDAL_INFO_FIELD_NUMBER = 3;
+      private MedalInfo medalInfo_;
+      /**
+       * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo medal_info = 3;</code>
+       * @return Whether the medalInfo field is set.
+       */
+      @Override
+      public boolean hasMedalInfo() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo medal_info = 3;</code>
+       * @return The medalInfo.
+       */
+      @Override
+      public MedalInfo getMedalInfo() {
+        return medalInfo_ == null ? MedalInfo.getDefaultInstance() : medalInfo_;
+      }
+      /**
+       * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo medal_info = 3;</code>
+       */
+      @Override
+      public MedalInfoOrBuilder getMedalInfoOrBuilder() {
+        return medalInfo_ == null ? MedalInfo.getDefaultInstance() : medalInfo_;
+      }
+
+      public static final int WEALTH_FIELD_NUMBER = 4;
+      private WealthInfo wealth_;
+      /**
+       * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo wealth = 4;</code>
+       * @return Whether the wealth field is set.
+       */
+      @Override
+      public boolean hasWealth() {
+        return ((bitField0_ & 0x00000004) != 0);
+      }
+      /**
+       * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo wealth = 4;</code>
+       * @return The wealth.
+       */
+      @Override
+      public WealthInfo getWealth() {
+        return wealth_ == null ? WealthInfo.getDefaultInstance() : wealth_;
+      }
+      /**
+       * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo wealth = 4;</code>
+       */
+      @Override
+      public WealthInfoOrBuilder getWealthOrBuilder() {
+        return wealth_ == null ? WealthInfo.getDefaultInstance() : wealth_;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (uid_ != 0L) {
+          output.writeUInt64(1, uid_);
+        }
+        if (((bitField0_ & 0x00000001) != 0)) {
+          output.writeMessage(2, getBase());
+        }
+        if (((bitField0_ & 0x00000002) != 0)) {
+          output.writeMessage(3, getMedalInfo());
+        }
+        if (((bitField0_ & 0x00000004) != 0)) {
+          output.writeMessage(4, getWealth());
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      @Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (uid_ != 0L) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeUInt64Size(1, uid_);
+        }
+        if (((bitField0_ & 0x00000001) != 0)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(2, getBase());
+        }
+        if (((bitField0_ & 0x00000002) != 0)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(3, getMedalInfo());
+        }
+        if (((bitField0_ & 0x00000004) != 0)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(4, getWealth());
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @Override
+      public boolean equals(final Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof UserInfo)) {
+          return super.equals(obj);
+        }
+        UserInfo other = (UserInfo) obj;
+
+        if (getUid()
+            != other.getUid()) return false;
+        if (hasBase() != other.hasBase()) return false;
+        if (hasBase()) {
+          if (!getBase()
+              .equals(other.getBase())) return false;
+        }
+        if (hasMedalInfo() != other.hasMedalInfo()) return false;
+        if (hasMedalInfo()) {
+          if (!getMedalInfo()
+              .equals(other.getMedalInfo())) return false;
+        }
+        if (hasWealth() != other.hasWealth()) return false;
+        if (hasWealth()) {
+          if (!getWealth()
+              .equals(other.getWealth())) return false;
+        }
+        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+        return true;
+      }
+
+      @Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + UID_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getUid());
+        if (hasBase()) {
+          hash = (37 * hash) + BASE_FIELD_NUMBER;
+          hash = (53 * hash) + getBase().hashCode();
+        }
+        if (hasMedalInfo()) {
+          hash = (37 * hash) + MEDAL_INFO_FIELD_NUMBER;
+          hash = (53 * hash) + getMedalInfo().hashCode();
+        }
+        if (hasWealth()) {
+          hash = (37 * hash) + WEALTH_FIELD_NUMBER;
+          hash = (53 * hash) + getWealth().hashCode();
+        }
+        hash = (29 * hash) + getUnknownFields().hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static UserInfo parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static UserInfo parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static UserInfo parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static UserInfo parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static UserInfo parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static UserInfo parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static UserInfo parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static UserInfo parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      public static UserInfo parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+
+      public static UserInfo parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static UserInfo parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
+      }
+      public static UserInfo parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(UserInfo prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @Override
+      protected Builder newBuilderForType(
+          BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo)
+          UserInfoOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_descriptor;
+        }
+
+        @Override
+        protected FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  UserInfo.class, Builder.class);
+        }
+
+        // Construct using top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord.UserInfo.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessage
+                  .alwaysUseFieldBuilders) {
+            internalGetBaseFieldBuilder();
+            internalGetMedalInfoFieldBuilder();
+            internalGetWealthFieldBuilder();
+          }
+        }
+        @Override
+        public Builder clear() {
+          super.clear();
+          bitField0_ = 0;
+          uid_ = 0L;
+          base_ = null;
+          if (baseBuilder_ != null) {
+            baseBuilder_.dispose();
+            baseBuilder_ = null;
+          }
+          medalInfo_ = null;
+          if (medalInfoBuilder_ != null) {
+            medalInfoBuilder_.dispose();
+            medalInfoBuilder_ = null;
+          }
+          wealth_ = null;
+          if (wealthBuilder_ != null) {
+            wealthBuilder_.dispose();
+            wealthBuilder_ = null;
+          }
+          return this;
+        }
+
+        @Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_descriptor;
+        }
+
+        @Override
+        public UserInfo getDefaultInstanceForType() {
+          return UserInfo.getDefaultInstance();
+        }
+
+        @Override
+        public UserInfo build() {
+          UserInfo result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @Override
+        public UserInfo buildPartial() {
+          UserInfo result = new UserInfo(this);
+          if (bitField0_ != 0) { buildPartial0(result); }
+          onBuilt();
+          return result;
+        }
+
+        private void buildPartial0(UserInfo result) {
+          int from_bitField0_ = bitField0_;
+          if (((from_bitField0_ & 0x00000001) != 0)) {
+            result.uid_ = uid_;
+          }
+          int to_bitField0_ = 0;
+          if (((from_bitField0_ & 0x00000002) != 0)) {
+            result.base_ = baseBuilder_ == null
+                ? base_
+                : baseBuilder_.build();
+            to_bitField0_ |= 0x00000001;
+          }
+          if (((from_bitField0_ & 0x00000004) != 0)) {
+            result.medalInfo_ = medalInfoBuilder_ == null
+                ? medalInfo_
+                : medalInfoBuilder_.build();
+            to_bitField0_ |= 0x00000002;
+          }
+          if (((from_bitField0_ & 0x00000008) != 0)) {
+            result.wealth_ = wealthBuilder_ == null
+                ? wealth_
+                : wealthBuilder_.build();
+            to_bitField0_ |= 0x00000004;
+          }
+          result.bitField0_ |= to_bitField0_;
+        }
+
+        @Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof UserInfo) {
+            return mergeFrom((UserInfo)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(UserInfo other) {
+          if (other == UserInfo.getDefaultInstance()) return this;
+          if (other.getUid() != 0L) {
+            setUid(other.getUid());
+          }
+          if (other.hasBase()) {
+            mergeBase(other.getBase());
+          }
+          if (other.hasMedalInfo()) {
+            mergeMedalInfo(other.getMedalInfo());
+          }
+          if (other.hasWealth()) {
+            mergeWealth(other.getWealth());
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          onChanged();
+          return this;
+        }
+
+        @Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          if (extensionRegistry == null) {
+            throw new NullPointerException();
+          }
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                case 8: {
+                  uid_ = input.readUInt64();
+                  bitField0_ |= 0x00000001;
+                  break;
+                } // case 8
+                case 18: {
+                  input.readMessage(
+                      internalGetBaseFieldBuilder().getBuilder(),
+                      extensionRegistry);
+                  bitField0_ |= 0x00000002;
+                  break;
+                } // case 18
+                case 26: {
+                  input.readMessage(
+                      internalGetMedalInfoFieldBuilder().getBuilder(),
+                      extensionRegistry);
+                  bitField0_ |= 0x00000004;
+                  break;
+                } // case 26
+                case 34: {
+                  input.readMessage(
+                      internalGetWealthFieldBuilder().getBuilder(),
+                      extensionRegistry);
+                  bitField0_ |= 0x00000008;
+                  break;
+                } // case 34
+                default: {
+                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                    done = true; // was an endgroup tag
+                  }
+                  break;
+                } // default:
+              } // switch (tag)
+            } // while (!done)
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.unwrapIOException();
+          } finally {
+            onChanged();
+          } // finally
+          return this;
+        }
+        private int bitField0_;
+
+        private long uid_ ;
+        /**
+         * <code>uint64 uid = 1;</code>
+         * @return The uid.
+         */
+        @Override
+        public long getUid() {
+          return uid_;
+        }
+        /**
+         * <code>uint64 uid = 1;</code>
+         * @param value The uid to set.
+         * @return This builder for chaining.
+         */
+        public Builder setUid(long value) {
+
+          uid_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>uint64 uid = 1;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearUid() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          uid_ = 0L;
+          onChanged();
+          return this;
+        }
+
+        private BaseInfo base_;
+        private com.google.protobuf.SingleFieldBuilder<
+            BaseInfo, BaseInfo.Builder, BaseInfoOrBuilder> baseBuilder_;
+        /**
+         * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo base = 2;</code>
+         * @return Whether the base field is set.
+         */
+        public boolean hasBase() {
+          return ((bitField0_ & 0x00000002) != 0);
+        }
+        /**
+         * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo base = 2;</code>
+         * @return The base.
+         */
+        public BaseInfo getBase() {
+          if (baseBuilder_ == null) {
+            return base_ == null ? BaseInfo.getDefaultInstance() : base_;
+          } else {
+            return baseBuilder_.getMessage();
+          }
+        }
+        /**
+         * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo base = 2;</code>
+         */
+        public Builder setBase(BaseInfo value) {
+          if (baseBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            base_ = value;
+          } else {
+            baseBuilder_.setMessage(value);
+          }
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo base = 2;</code>
+         */
+        public Builder setBase(
+            BaseInfo.Builder builderForValue) {
+          if (baseBuilder_ == null) {
+            base_ = builderForValue.build();
+          } else {
+            baseBuilder_.setMessage(builderForValue.build());
+          }
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo base = 2;</code>
+         */
+        public Builder mergeBase(BaseInfo value) {
+          if (baseBuilder_ == null) {
+            if (((bitField0_ & 0x00000002) != 0) &&
+              base_ != null &&
+              base_ != BaseInfo.getDefaultInstance()) {
+              getBaseBuilder().mergeFrom(value);
+            } else {
+              base_ = value;
+            }
+          } else {
+            baseBuilder_.mergeFrom(value);
+          }
+          if (base_ != null) {
+            bitField0_ |= 0x00000002;
+            onChanged();
+          }
+          return this;
+        }
+        /**
+         * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo base = 2;</code>
+         */
+        public Builder clearBase() {
+          bitField0_ = (bitField0_ & ~0x00000002);
+          base_ = null;
+          if (baseBuilder_ != null) {
+            baseBuilder_.dispose();
+            baseBuilder_ = null;
+          }
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo base = 2;</code>
+         */
+        public BaseInfo.Builder getBaseBuilder() {
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return internalGetBaseFieldBuilder().getBuilder();
+        }
+        /**
+         * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo base = 2;</code>
+         */
+        public BaseInfoOrBuilder getBaseOrBuilder() {
+          if (baseBuilder_ != null) {
+            return baseBuilder_.getMessageOrBuilder();
+          } else {
+            return base_ == null ?
+                BaseInfo.getDefaultInstance() : base_;
+          }
+        }
+        /**
+         * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.BaseInfo base = 2;</code>
+         */
+        private com.google.protobuf.SingleFieldBuilder<
+            BaseInfo, BaseInfo.Builder, BaseInfoOrBuilder>
+            internalGetBaseFieldBuilder() {
+          if (baseBuilder_ == null) {
+            baseBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+                BaseInfo, BaseInfo.Builder, BaseInfoOrBuilder>(
+                    getBase(),
+                    getParentForChildren(),
+                    isClean());
+            base_ = null;
+          }
+          return baseBuilder_;
+        }
+
+        private MedalInfo medalInfo_;
+        private com.google.protobuf.SingleFieldBuilder<
+            MedalInfo, MedalInfo.Builder, MedalInfoOrBuilder> medalInfoBuilder_;
+        /**
+         * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo medal_info = 3;</code>
+         * @return Whether the medalInfo field is set.
+         */
+        public boolean hasMedalInfo() {
+          return ((bitField0_ & 0x00000004) != 0);
+        }
+        /**
+         * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo medal_info = 3;</code>
+         * @return The medalInfo.
+         */
+        public MedalInfo getMedalInfo() {
+          if (medalInfoBuilder_ == null) {
+            return medalInfo_ == null ? MedalInfo.getDefaultInstance() : medalInfo_;
+          } else {
+            return medalInfoBuilder_.getMessage();
+          }
+        }
+        /**
+         * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo medal_info = 3;</code>
+         */
+        public Builder setMedalInfo(MedalInfo value) {
+          if (medalInfoBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            medalInfo_ = value;
+          } else {
+            medalInfoBuilder_.setMessage(value);
+          }
+          bitField0_ |= 0x00000004;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo medal_info = 3;</code>
+         */
+        public Builder setMedalInfo(
+            MedalInfo.Builder builderForValue) {
+          if (medalInfoBuilder_ == null) {
+            medalInfo_ = builderForValue.build();
+          } else {
+            medalInfoBuilder_.setMessage(builderForValue.build());
+          }
+          bitField0_ |= 0x00000004;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo medal_info = 3;</code>
+         */
+        public Builder mergeMedalInfo(MedalInfo value) {
+          if (medalInfoBuilder_ == null) {
+            if (((bitField0_ & 0x00000004) != 0) &&
+              medalInfo_ != null &&
+              medalInfo_ != MedalInfo.getDefaultInstance()) {
+              getMedalInfoBuilder().mergeFrom(value);
+            } else {
+              medalInfo_ = value;
+            }
+          } else {
+            medalInfoBuilder_.mergeFrom(value);
+          }
+          if (medalInfo_ != null) {
+            bitField0_ |= 0x00000004;
+            onChanged();
+          }
+          return this;
+        }
+        /**
+         * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo medal_info = 3;</code>
+         */
+        public Builder clearMedalInfo() {
+          bitField0_ = (bitField0_ & ~0x00000004);
+          medalInfo_ = null;
+          if (medalInfoBuilder_ != null) {
+            medalInfoBuilder_.dispose();
+            medalInfoBuilder_ = null;
+          }
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo medal_info = 3;</code>
+         */
+        public MedalInfo.Builder getMedalInfoBuilder() {
+          bitField0_ |= 0x00000004;
+          onChanged();
+          return internalGetMedalInfoFieldBuilder().getBuilder();
+        }
+        /**
+         * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo medal_info = 3;</code>
+         */
+        public MedalInfoOrBuilder getMedalInfoOrBuilder() {
+          if (medalInfoBuilder_ != null) {
+            return medalInfoBuilder_.getMessageOrBuilder();
+          } else {
+            return medalInfo_ == null ?
+                MedalInfo.getDefaultInstance() : medalInfo_;
+          }
+        }
+        /**
+         * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.MedalInfo medal_info = 3;</code>
+         */
+        private com.google.protobuf.SingleFieldBuilder<
+            MedalInfo, MedalInfo.Builder, MedalInfoOrBuilder>
+            internalGetMedalInfoFieldBuilder() {
+          if (medalInfoBuilder_ == null) {
+            medalInfoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+                MedalInfo, MedalInfo.Builder, MedalInfoOrBuilder>(
+                    getMedalInfo(),
+                    getParentForChildren(),
+                    isClean());
+            medalInfo_ = null;
+          }
+          return medalInfoBuilder_;
+        }
+
+        private WealthInfo wealth_;
+        private com.google.protobuf.SingleFieldBuilder<
+            WealthInfo, WealthInfo.Builder, WealthInfoOrBuilder> wealthBuilder_;
+        /**
+         * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo wealth = 4;</code>
+         * @return Whether the wealth field is set.
+         */
+        public boolean hasWealth() {
+          return ((bitField0_ & 0x00000008) != 0);
+        }
+        /**
+         * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo wealth = 4;</code>
+         * @return The wealth.
+         */
+        public WealthInfo getWealth() {
+          if (wealthBuilder_ == null) {
+            return wealth_ == null ? WealthInfo.getDefaultInstance() : wealth_;
+          } else {
+            return wealthBuilder_.getMessage();
+          }
+        }
+        /**
+         * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo wealth = 4;</code>
+         */
+        public Builder setWealth(WealthInfo value) {
+          if (wealthBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            wealth_ = value;
+          } else {
+            wealthBuilder_.setMessage(value);
+          }
+          bitField0_ |= 0x00000008;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo wealth = 4;</code>
+         */
+        public Builder setWealth(
+            WealthInfo.Builder builderForValue) {
+          if (wealthBuilder_ == null) {
+            wealth_ = builderForValue.build();
+          } else {
+            wealthBuilder_.setMessage(builderForValue.build());
+          }
+          bitField0_ |= 0x00000008;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo wealth = 4;</code>
+         */
+        public Builder mergeWealth(WealthInfo value) {
+          if (wealthBuilder_ == null) {
+            if (((bitField0_ & 0x00000008) != 0) &&
+              wealth_ != null &&
+              wealth_ != WealthInfo.getDefaultInstance()) {
+              getWealthBuilder().mergeFrom(value);
+            } else {
+              wealth_ = value;
+            }
+          } else {
+            wealthBuilder_.mergeFrom(value);
+          }
+          if (wealth_ != null) {
+            bitField0_ |= 0x00000008;
+            onChanged();
+          }
+          return this;
+        }
+        /**
+         * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo wealth = 4;</code>
+         */
+        public Builder clearWealth() {
+          bitField0_ = (bitField0_ & ~0x00000008);
+          wealth_ = null;
+          if (wealthBuilder_ != null) {
+            wealthBuilder_.dispose();
+            wealthBuilder_ = null;
+          }
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo wealth = 4;</code>
+         */
+        public WealthInfo.Builder getWealthBuilder() {
+          bitField0_ |= 0x00000008;
+          onChanged();
+          return internalGetWealthFieldBuilder().getBuilder();
+        }
+        /**
+         * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo wealth = 4;</code>
+         */
+        public WealthInfoOrBuilder getWealthOrBuilder() {
+          if (wealthBuilder_ != null) {
+            return wealthBuilder_.getMessageOrBuilder();
+          } else {
+            return wealth_ == null ?
+                WealthInfo.getDefaultInstance() : wealth_;
+          }
+        }
+        /**
+         * <code>optional .top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo.WealthInfo wealth = 4;</code>
+         */
+        private com.google.protobuf.SingleFieldBuilder<
+            WealthInfo, WealthInfo.Builder, WealthInfoOrBuilder>
+            internalGetWealthFieldBuilder() {
+          if (wealthBuilder_ == null) {
+            wealthBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+                WealthInfo, WealthInfo.Builder, WealthInfoOrBuilder>(
+                    getWealth(),
+                    getParentForChildren(),
+                    isClean());
+            wealth_ = null;
+          }
+          return wealthBuilder_;
+        }
+
+        // @@protoc_insertion_point(builder_scope:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo)
+      }
+
+      // @@protoc_insertion_point(class_scope:top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo)
+      private static final UserInfo DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new UserInfo();
+      }
+
+      public static UserInfo getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<UserInfo>
+          PARSER = new com.google.protobuf.AbstractParser<UserInfo>() {
+        @Override
+        public UserInfo parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          Builder builder = newBuilder();
+          try {
+            builder.mergeFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(builder.buildPartial());
+          } catch (com.google.protobuf.UninitializedMessageException e) {
+            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+          } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                .setUnfinishedMessage(builder.buildPartial());
+          }
+          return builder.buildPartial();
+        }
+      };
+
+      public static com.google.protobuf.Parser<UserInfo> parser() {
+        return PARSER;
+      }
+
+      @Override
+      public com.google.protobuf.Parser<UserInfo> getParserForType() {
+        return PARSER;
+      }
+
+      @Override
+      public UserInfo getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
+    private int bitField0_;
     public static final int UID_FIELD_NUMBER = 1;
     private long uid_ = 0L;
     /**
      * <code>int64 uid = 1;</code>
      * @return The uid.
      */
-    @java.lang.Override
+    @Override
     public long getUid() {
       return uid_;
     }
 
     public static final int UNAME_FIELD_NUMBER = 2;
     @SuppressWarnings("serial")
-    private volatile java.lang.Object uname_ = "";
+    private volatile Object uname_ = "";
     /**
      * <code>string uname = 2;</code>
      * @return The uname.
      */
-    @java.lang.Override
-    public java.lang.String getUname() {
-      java.lang.Object ref = uname_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
+    @Override
+    public String getUname() {
+      Object ref = uname_;
+      if (ref instanceof String) {
+        return (String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
+        String s = bs.toStringUtf8();
         uname_ = s;
         return s;
       }
@@ -128,14 +4346,14 @@ public final class InteractWordOuterClass {
      * <code>string uname = 2;</code>
      * @return The bytes for uname.
      */
-    @java.lang.Override
+    @Override
     public com.google.protobuf.ByteString
         getUnameBytes() {
-      java.lang.Object ref = uname_;
-      if (ref instanceof java.lang.String) {
+      Object ref = uname_;
+      if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
+                (String) ref);
         uname_ = b;
         return b;
       } else {
@@ -149,13 +4367,39 @@ public final class InteractWordOuterClass {
      * <code>int64 msg_type = 5;</code>
      * @return The msgType.
      */
-    @java.lang.Override
+    @Override
     public long getMsgType() {
       return msgType_;
     }
 
+    public static final int UINFO_FIELD_NUMBER = 22;
+    private UserInfo uinfo_;
+    /**
+     * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo uinfo = 22;</code>
+     * @return Whether the uinfo field is set.
+     */
+    @Override
+    public boolean hasUinfo() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo uinfo = 22;</code>
+     * @return The uinfo.
+     */
+    @Override
+    public UserInfo getUinfo() {
+      return uinfo_ == null ? UserInfo.getDefaultInstance() : uinfo_;
+    }
+    /**
+     * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo uinfo = 22;</code>
+     */
+    @Override
+    public UserInfoOrBuilder getUinfoOrBuilder() {
+      return uinfo_ == null ? UserInfo.getDefaultInstance() : uinfo_;
+    }
+
     private byte memoizedIsInitialized = -1;
-    @java.lang.Override
+    @Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -165,7 +4409,7 @@ public final class InteractWordOuterClass {
       return true;
     }
 
-    @java.lang.Override
+    @Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (uid_ != 0L) {
@@ -177,10 +4421,13 @@ public final class InteractWordOuterClass {
       if (msgType_ != 0L) {
         output.writeInt64(5, msgType_);
       }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeMessage(22, getUinfo());
+      }
       getUnknownFields().writeTo(output);
     }
 
-    @java.lang.Override
+    @Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -197,20 +4444,24 @@ public final class InteractWordOuterClass {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(5, msgType_);
       }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(22, getUinfo());
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
+    @Override
+    public boolean equals(final Object obj) {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord)) {
+      if (!(obj instanceof InteractWord)) {
         return super.equals(obj);
       }
-      top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord other = (top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord) obj;
+      InteractWord other = (InteractWord) obj;
 
       if (getUid()
           != other.getUid()) return false;
@@ -218,11 +4469,16 @@ public final class InteractWordOuterClass {
           .equals(other.getUname())) return false;
       if (getMsgType()
           != other.getMsgType()) return false;
+      if (hasUinfo() != other.hasUinfo()) return false;
+      if (hasUinfo()) {
+        if (!getUinfo()
+            .equals(other.getUinfo())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
-    @java.lang.Override
+    @Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
@@ -237,49 +4493,53 @@ public final class InteractWordOuterClass {
       hash = (37 * hash) + MSG_TYPE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getMsgType());
+      if (hasUinfo()) {
+        hash = (37 * hash) + UINFO_FIELD_NUMBER;
+        hash = (53 * hash) + getUinfo().hashCode();
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord parseFrom(
+    public static InteractWord parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord parseFrom(
+    public static InteractWord parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord parseFrom(
+    public static InteractWord parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord parseFrom(
+    public static InteractWord parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord parseFrom(byte[] data)
+    public static InteractWord parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord parseFrom(
+    public static InteractWord parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord parseFrom(java.io.InputStream input)
+    public static InteractWord parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseWithIOException(PARSER, input);
     }
-    public static top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord parseFrom(
+    public static InteractWord parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -287,26 +4547,26 @@ public final class InteractWordOuterClass {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    public static top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord parseDelimitedFrom(java.io.InputStream input)
+    public static InteractWord parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseDelimitedWithIOException(PARSER, input);
     }
 
-    public static top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord parseDelimitedFrom(
+    public static InteractWord parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord parseFrom(
+    public static InteractWord parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessage
           .parseWithIOException(PARSER, input);
     }
-    public static top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord parseFrom(
+    public static InteractWord parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -314,23 +4574,23 @@ public final class InteractWordOuterClass {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @java.lang.Override
+    @Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord prototype) {
+    public static Builder newBuilder(InteractWord prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @java.lang.Override
+    @Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @java.lang.Override
+    @Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -340,69 +4600,80 @@ public final class InteractWordOuterClass {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:top.pigest.queuemanagerdemo.liveroom.InteractWord)
-        top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWordOrBuilder {
+        InteractWordOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_descriptor;
+        return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_descriptor;
       }
 
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      @Override
+      protected FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_fieldAccessorTable
+        return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord.class, top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord.Builder.class);
+                InteractWord.class, Builder.class);
       }
 
       // Construct using top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
       }
-      @java.lang.Override
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage
+                .alwaysUseFieldBuilders) {
+          internalGetUinfoFieldBuilder();
+        }
+      }
+      @Override
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
         uid_ = 0L;
         uname_ = "";
         msgType_ = 0L;
+        uinfo_ = null;
+        if (uinfoBuilder_ != null) {
+          uinfoBuilder_.dispose();
+          uinfoBuilder_ = null;
+        }
         return this;
       }
 
-      @java.lang.Override
+      @Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_descriptor;
+        return InteractWordOuterClass.internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_descriptor;
       }
 
-      @java.lang.Override
-      public top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord getDefaultInstanceForType() {
-        return top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord.getDefaultInstance();
+      @Override
+      public InteractWord getDefaultInstanceForType() {
+        return InteractWord.getDefaultInstance();
       }
 
-      @java.lang.Override
-      public top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord build() {
-        top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord result = buildPartial();
+      @Override
+      public InteractWord build() {
+        InteractWord result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      @java.lang.Override
-      public top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord buildPartial() {
-        top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord result = new top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord(this);
+      @Override
+      public InteractWord buildPartial() {
+        InteractWord result = new InteractWord(this);
         if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
-      private void buildPartial0(top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord result) {
+      private void buildPartial0(InteractWord result) {
         int from_bitField0_ = bitField0_;
         if (((from_bitField0_ & 0x00000001) != 0)) {
           result.uid_ = uid_;
@@ -413,20 +4684,28 @@ public final class InteractWordOuterClass {
         if (((from_bitField0_ & 0x00000004) != 0)) {
           result.msgType_ = msgType_;
         }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.uinfo_ = uinfoBuilder_ == null
+              ? uinfo_
+              : uinfoBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        result.bitField0_ |= to_bitField0_;
       }
 
-      @java.lang.Override
+      @Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord) {
-          return mergeFrom((top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord)other);
+        if (other instanceof InteractWord) {
+          return mergeFrom((InteractWord)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord other) {
-        if (other == top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord.getDefaultInstance()) return this;
+      public Builder mergeFrom(InteractWord other) {
+        if (other == InteractWord.getDefaultInstance()) return this;
         if (other.getUid() != 0L) {
           setUid(other.getUid());
         }
@@ -438,23 +4717,26 @@ public final class InteractWordOuterClass {
         if (other.getMsgType() != 0L) {
           setMsgType(other.getMsgType());
         }
+        if (other.hasUinfo()) {
+          mergeUinfo(other.getUinfo());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
 
-      @java.lang.Override
+      @Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @java.lang.Override
+      @Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         if (extensionRegistry == null) {
-          throw new java.lang.NullPointerException();
+          throw new NullPointerException();
         }
         try {
           boolean done = false;
@@ -479,6 +4761,13 @@ public final class InteractWordOuterClass {
                 bitField0_ |= 0x00000004;
                 break;
               } // case 40
+              case 178: {
+                input.readMessage(
+                    internalGetUinfoFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 178
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -501,7 +4790,7 @@ public final class InteractWordOuterClass {
        * <code>int64 uid = 1;</code>
        * @return The uid.
        */
-      @java.lang.Override
+      @Override
       public long getUid() {
         return uid_;
       }
@@ -528,21 +4817,21 @@ public final class InteractWordOuterClass {
         return this;
       }
 
-      private java.lang.Object uname_ = "";
+      private Object uname_ = "";
       /**
        * <code>string uname = 2;</code>
        * @return The uname.
        */
-      public java.lang.String getUname() {
-        java.lang.Object ref = uname_;
-        if (!(ref instanceof java.lang.String)) {
+      public String getUname() {
+        Object ref = uname_;
+        if (!(ref instanceof String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
+          String s = bs.toStringUtf8();
           uname_ = s;
           return s;
         } else {
-          return (java.lang.String) ref;
+          return (String) ref;
         }
       }
       /**
@@ -551,11 +4840,11 @@ public final class InteractWordOuterClass {
        */
       public com.google.protobuf.ByteString
           getUnameBytes() {
-        java.lang.Object ref = uname_;
+        Object ref = uname_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
+                  (String) ref);
           uname_ = b;
           return b;
         } else {
@@ -568,7 +4857,7 @@ public final class InteractWordOuterClass {
        * @return This builder for chaining.
        */
       public Builder setUname(
-          java.lang.String value) {
+          String value) {
         if (value == null) { throw new NullPointerException(); }
         uname_ = value;
         bitField0_ |= 0x00000002;
@@ -605,7 +4894,7 @@ public final class InteractWordOuterClass {
        * <code>int64 msg_type = 5;</code>
        * @return The msgType.
        */
-      @java.lang.Override
+      @Override
       public long getMsgType() {
         return msgType_;
       }
@@ -632,22 +4921,143 @@ public final class InteractWordOuterClass {
         return this;
       }
 
+      private UserInfo uinfo_;
+      private com.google.protobuf.SingleFieldBuilder<
+          UserInfo, UserInfo.Builder, UserInfoOrBuilder> uinfoBuilder_;
+      /**
+       * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo uinfo = 22;</code>
+       * @return Whether the uinfo field is set.
+       */
+      public boolean hasUinfo() {
+        return ((bitField0_ & 0x00000008) != 0);
+      }
+      /**
+       * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo uinfo = 22;</code>
+       * @return The uinfo.
+       */
+      public UserInfo getUinfo() {
+        if (uinfoBuilder_ == null) {
+          return uinfo_ == null ? UserInfo.getDefaultInstance() : uinfo_;
+        } else {
+          return uinfoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo uinfo = 22;</code>
+       */
+      public Builder setUinfo(UserInfo value) {
+        if (uinfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          uinfo_ = value;
+        } else {
+          uinfoBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo uinfo = 22;</code>
+       */
+      public Builder setUinfo(
+          UserInfo.Builder builderForValue) {
+        if (uinfoBuilder_ == null) {
+          uinfo_ = builderForValue.build();
+        } else {
+          uinfoBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo uinfo = 22;</code>
+       */
+      public Builder mergeUinfo(UserInfo value) {
+        if (uinfoBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) != 0) &&
+            uinfo_ != null &&
+            uinfo_ != UserInfo.getDefaultInstance()) {
+            getUinfoBuilder().mergeFrom(value);
+          } else {
+            uinfo_ = value;
+          }
+        } else {
+          uinfoBuilder_.mergeFrom(value);
+        }
+        if (uinfo_ != null) {
+          bitField0_ |= 0x00000008;
+          onChanged();
+        }
+        return this;
+      }
+      /**
+       * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo uinfo = 22;</code>
+       */
+      public Builder clearUinfo() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        uinfo_ = null;
+        if (uinfoBuilder_ != null) {
+          uinfoBuilder_.dispose();
+          uinfoBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo uinfo = 22;</code>
+       */
+      public UserInfo.Builder getUinfoBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return internalGetUinfoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo uinfo = 22;</code>
+       */
+      public UserInfoOrBuilder getUinfoOrBuilder() {
+        if (uinfoBuilder_ != null) {
+          return uinfoBuilder_.getMessageOrBuilder();
+        } else {
+          return uinfo_ == null ?
+              UserInfo.getDefaultInstance() : uinfo_;
+        }
+      }
+      /**
+       * <code>.top.pigest.queuemanagerdemo.liveroom.InteractWord.UserInfo uinfo = 22;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          UserInfo, UserInfo.Builder, UserInfoOrBuilder>
+          internalGetUinfoFieldBuilder() {
+        if (uinfoBuilder_ == null) {
+          uinfoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              UserInfo, UserInfo.Builder, UserInfoOrBuilder>(
+                  getUinfo(),
+                  getParentForChildren(),
+                  isClean());
+          uinfo_ = null;
+        }
+        return uinfoBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:top.pigest.queuemanagerdemo.liveroom.InteractWord)
     }
 
     // @@protoc_insertion_point(class_scope:top.pigest.queuemanagerdemo.liveroom.InteractWord)
-    private static final top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord DEFAULT_INSTANCE;
+    private static final InteractWord DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord();
+      DEFAULT_INSTANCE = new InteractWord();
     }
 
-    public static top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord getDefaultInstance() {
+    public static InteractWord getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
     private static final com.google.protobuf.Parser<InteractWord>
         PARSER = new com.google.protobuf.AbstractParser<InteractWord>() {
-      @java.lang.Override
+      @Override
       public InteractWord parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -671,13 +5081,13 @@ public final class InteractWordOuterClass {
       return PARSER;
     }
 
-    @java.lang.Override
+    @Override
     public com.google.protobuf.Parser<InteractWord> getParserForType() {
       return PARSER;
     }
 
-    @java.lang.Override
-    public top.pigest.queuemanagerdemo.liveroom.InteractWordOuterClass.InteractWord getDefaultInstanceForType() {
+    @Override
+    public InteractWord getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -688,6 +5098,26 @@ public final class InteractWordOuterClass {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_BaseInfo_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_BaseInfo_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_MedalInfo_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_MedalInfo_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_WealthInfo_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_WealthInfo_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -696,11 +5126,32 @@ public final class InteractWordOuterClass {
   private static  com.google.protobuf.Descriptors.FileDescriptor
       descriptor;
   static {
-    java.lang.String[] descriptorData = {
+    String[] descriptorData = {
       "\n\023interact_word.proto\022$top.pigest.queuem" +
-      "anagerdemo.liveroom\"<\n\014InteractWord\022\013\n\003u" +
-      "id\030\001 \001(\003\022\r\n\005uname\030\002 \001(\t\022\020\n\010msg_type\030\005 \001(" +
-      "\003b\006proto3"
+      "anagerdemo.liveroom\"\205\007\n\014InteractWord\022\013\n\003" +
+      "uid\030\001 \001(\003\022\r\n\005uname\030\002 \001(\t\022\020\n\010msg_type\030\005 \001" +
+      "(\003\022J\n\005uinfo\030\026 \001(\0132;.top.pigest.queuemana" +
+      "gerdemo.liveroom.InteractWord.UserInfo\032\372" +
+      "\005\n\010UserInfo\022\013\n\003uid\030\001 \001(\004\022R\n\004base\030\002 \001(\0132D" +
+      ".top.pigest.queuemanagerdemo.liveroom.In" +
+      "teractWord.UserInfo.BaseInfo\022^\n\nmedal_in" +
+      "fo\030\003 \001(\0132E.top.pigest.queuemanagerdemo.l" +
+      "iveroom.InteractWord.UserInfo.MedalInfoH" +
+      "\000\210\001\001\022[\n\006wealth\030\004 \001(\0132F.top.pigest.queuem" +
+      "anagerdemo.liveroom.InteractWord.UserInf" +
+      "o.WealthInfoH\001\210\001\001\032\'\n\010BaseInfo\022\r\n\005uname\030\001" +
+      " \001(\t\022\014\n\004face\030\002 \001(\t\032\357\002\n\tMedalInfo\022\022\n\nmeda" +
+      "l_name\030\001 \001(\t\022\023\n\013medal_level\030\002 \001(\r\022\023\n\013col" +
+      "or_start\030\003 \001(\r\022\021\n\tcolor_end\030\004 \001(\r\022\024\n\014col" +
+      "or_border\030\005 \001(\r\022\r\n\005color\030\006 \001(\r\022\022\n\nis_lig" +
+      "hted\030\t \001(\r\022\014\n\004ruid\030\n \001(\004\022\023\n\013guard_level\030" +
+      "\013 \001(\r\022\r\n\005score\030\014 \001(\r\022\022\n\nguard_icon\030\r \001(\t" +
+      "\022\034\n\024v2_medal_color_start\030\017 \001(\t\022\032\n\022v2_med" +
+      "al_color_end\030\020 \001(\t\022\035\n\025v2_medal_color_bor" +
+      "der\030\021 \001(\t\022\033\n\023v2_medal_color_text\030\022 \001(\t\022\034" +
+      "\n\024v2_medal_color_level\030\023 \001(\t\032\033\n\nWealthIn" +
+      "fo\022\r\n\005level\030\001 \001(\rB\r\n\013_medal_infoB\t\n\007_wea" +
+      "lthb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -711,7 +5162,31 @@ public final class InteractWordOuterClass {
     internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_descriptor,
-        new java.lang.String[] { "Uid", "Uname", "MsgType", });
+        new String[] { "Uid", "Uname", "MsgType", "Uinfo", });
+    internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_descriptor =
+      internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_descriptor.getNestedTypes().get(0);
+    internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_descriptor,
+        new String[] { "Uid", "Base", "MedalInfo", "Wealth", });
+    internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_BaseInfo_descriptor =
+      internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_descriptor.getNestedTypes().get(0);
+    internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_BaseInfo_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_BaseInfo_descriptor,
+        new String[] { "Uname", "Face", });
+    internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_MedalInfo_descriptor =
+      internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_descriptor.getNestedTypes().get(1);
+    internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_MedalInfo_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_MedalInfo_descriptor,
+        new String[] { "MedalName", "MedalLevel", "ColorStart", "ColorEnd", "ColorBorder", "Color", "IsLighted", "Ruid", "GuardLevel", "Score", "GuardIcon", "V2MedalColorStart", "V2MedalColorEnd", "V2MedalColorBorder", "V2MedalColorText", "V2MedalColorLevel", });
+    internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_WealthInfo_descriptor =
+      internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_descriptor.getNestedTypes().get(2);
+    internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_WealthInfo_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_top_pigest_queuemanagerdemo_liveroom_InteractWord_UserInfo_WealthInfo_descriptor,
+        new String[] { "Level", });
     descriptor.resolveAllFeaturesImmutable();
   }
 

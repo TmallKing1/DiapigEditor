@@ -1,9 +1,27 @@
 package top.pigest.queuemanagerdemo.liveroom.data;
 
 import com.google.gson.JsonObject;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import top.pigest.queuemanagerdemo.Settings;
 import top.pigest.queuemanagerdemo.liveroom.LiveRoomApi;
+import top.pigest.queuemanagerdemo.liveroom.ui.UserNode;
 
+import java.text.DecimalFormat;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * 用户类，部分场合下使用。
@@ -20,6 +38,10 @@ public class User {
      * UID
      */
     private final long uid;
+    /**
+     * 荣耀等级
+     */
+    private int honor;
     /**
      * 头像链接
      */
@@ -39,6 +61,10 @@ public class User {
         this.uid = uid;
     }
 
+    public static BorderPane userNode(User item) {
+        return new UserNode(item);
+    }
+
     public long getUid() {
         return uid;
     }
@@ -49,6 +75,15 @@ public class User {
 
     public User setUsername(String username) {
         this.username = username;
+        return this;
+    }
+
+    public int getHonor() {
+        return honor;
+    }
+
+    public User setHonor(int honor) {
+        this.honor = honor;
         return this;
     }
 

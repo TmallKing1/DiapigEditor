@@ -1,4 +1,4 @@
-package top.pigest.queuemanagerdemo.misc;
+package top.pigest.queuemanagerdemo.misc.ui;
 
 import javafx.scene.layout.Pane;
 import top.pigest.queuemanagerdemo.control.MultiMenuProvider;

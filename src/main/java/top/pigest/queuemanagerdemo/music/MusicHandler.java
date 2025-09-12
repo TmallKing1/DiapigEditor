@@ -14,6 +14,10 @@ import top.pigest.queuemanagerdemo.QueueManager;
 import top.pigest.queuemanagerdemo.Settings;
 import top.pigest.queuemanagerdemo.liveroom.data.FansMedal;
 import top.pigest.queuemanagerdemo.liveroom.LiveRoomApi;
+import top.pigest.queuemanagerdemo.liveroom.data.User;
+import top.pigest.queuemanagerdemo.liveroom.data.event.Danmaku;
+import top.pigest.queuemanagerdemo.liveroom.event.DanmakuEvent;
+import top.pigest.queuemanagerdemo.liveroom.event.EventHandler;
 import top.pigest.queuemanagerdemo.music.data.Song;
 import top.pigest.queuemanagerdemo.music.ui.MusicPlayerScene;
 import top.pigest.queuemanagerdemo.util.ArrayObservableList;
@@ -46,6 +50,7 @@ public class MusicHandler {
         this.noPlaying = new Image(Objects.requireNonNull(QueueManager.class.getResourceAsStream("default_album.jpg")));
         this.musicPlayerStage = new Stage(StageStyle.TRANSPARENT);
         this.player = new MusicPlayerScene(this);
+        this.registerHandlers();
     }
 
     public void addSong(Song song) {
@@ -413,14 +418,14 @@ public class MusicHandler {
         return String.join(" / ", artists);
     }
 
-    public void handleSingleDanmaku(JsonObject object) {
-        if (!RequestUtils.hasCookie("MUSIC_U")) {
-            return;
-        }
-        JsonArray info = object.getAsJsonArray("info");
-        String text = info.get(1).getAsString();
-        long uid = info.get(2).getAsJsonArray().get(0).getAsLong();
-        String userName = info.get(2).getAsJsonArray().get(1).getAsString();
+    public void registerHandlers() {
+        DanmakuEvent.INSTANCE.addHandler(new EventHandler<>("music_danmaku", this::handleSingleDanmaku, o -> RequestUtils.hasCookie("MUSIC_U")));
+    }
+
+    public void handleSingleDanmaku(Danmaku danmaku) {
+        String text = danmaku.content();
+        long uid = danmaku.sender().getUid();
+        String userName = danmaku.sender().getUsername();
         if (!getMusicServiceSettings().requestHeader.isEmpty() && text.startsWith(getMusicServiceSettings().requestHeader)) {
             if (cooldown.containsKey(uid)) {
                 if (getMusicServiceSettings().displayHint) {
@@ -458,7 +463,7 @@ public class MusicHandler {
             return;
         }
         if (!getMusicServiceSettings().skipHeader.isEmpty() && text.equals(getMusicServiceSettings().skipHeader)) {
-            boolean pass = isPass(info);
+            boolean pass = isPass(danmaku.sender());
             if (pass) {
                 this.playNext(true);
             }
@@ -470,7 +475,7 @@ public class MusicHandler {
                 text = text.trim();
                 try {
                     int index = Integer.parseInt(text);
-                    if (songs.size() > index && isPass(info)) {
+                    if (songs.size() > index && isPass(danmaku.sender())) {
                         removeSong(songs.get(index));
                     }
                 } catch (Exception e) {
@@ -486,7 +491,7 @@ public class MusicHandler {
                 text = text.trim();
                 try {
                     int index = Integer.parseInt(text);
-                    if (songs.size() > index && index >= 2 && isPass(info)) {
+                    if (songs.size() > index && index >= 2 && isPass(danmaku.sender())) {
                         moveSong(songs.get(index), 1);
                     }
                 } catch (Exception e) {
@@ -502,7 +507,7 @@ public class MusicHandler {
                 text = text.trim();
                 try {
                     int index = Integer.parseInt(text);
-                    if (songs.size() > index && index >= 1 && isPass(info)) {
+                    if (songs.size() > index && index >= 1 && isPass(danmaku.sender())) {
                         Song song = songs.get(index);
                         endFirst(true);
                         play(song);
@@ -528,37 +533,33 @@ public class MusicHandler {
         }
     }
 
-    private static boolean isPass(JsonArray info) {
-        boolean pass = false;
-        long uid = info.get(2).getAsJsonArray().get(0).getAsLong();
+    private static boolean isPass(User user) {
+        long uid = user.getUid();
         if (uid == QueueManager.getSelfUid() && getMusicServiceSettings().skipUsers.contains(MusicServiceSettings.UserGroups.ANCHOR)) {
-            pass = true;
+            return true;
         }
         if (getMusicServiceSettings().skipUsers.contains(MusicServiceSettings.UserGroups.ALL)) {
-            pass = true;
+            return true;
         }
-        if (!pass && getMusicServiceSettings().skipUsers.contains(MusicServiceSettings.UserGroups.ADMIN)) {
-            try {
-                Map<Long, String> map = LiveRoomApi.getRoomAdmins();
-                pass = map.containsKey(uid);
-            } catch (Exception ignored) {
+        if (getMusicServiceSettings().skipUsers.contains(MusicServiceSettings.UserGroups.ADMIN)) {
+            Map<Long, String> map = LiveRoomApi.getRoomAdmins();
+            if (map.containsKey(uid)) {
+                return true;
             }
         }
-        if (!pass && getMusicServiceSettings().skipUsers.contains(MusicServiceSettings.UserGroups.GUARD)) {
-            try {
-                FansMedal fansMedal = LiveRoomApi.getFansMedalInfo(uid);
-                pass = fansMedal.getGuardType().isGuard();
-            } catch (Exception ignored) {
+        if (getMusicServiceSettings().skipUsers.contains(MusicServiceSettings.UserGroups.GUARD) ||
+            getMusicServiceSettings().skipUsers.contains(MusicServiceSettings.UserGroups.MEDAL)) {
+            FansMedal fansMedal = LiveRoomApi.getFansUInfoMedal(uid);
+            if (getMusicServiceSettings().skipUsers.contains(MusicServiceSettings.UserGroups.GUARD)) {
+                if (fansMedal.getGuardType().isGuard()) {
+                    return true;
+                }
+            }
+            if (getMusicServiceSettings().skipUsers.contains(MusicServiceSettings.UserGroups.MEDAL)) {
+                return fansMedal != null;
             }
         }
-        if (!pass && getMusicServiceSettings().skipUsers.contains(MusicServiceSettings.UserGroups.MEDAL)) {
-            JsonElement element = info.get(0).getAsJsonArray().get(15).getAsJsonObject().getAsJsonObject("user").get("medal");
-            if (element.isJsonObject()) {
-                JsonObject medalObject = element.getAsJsonObject();
-                pass = medalObject.get("ruid").getAsLong() == QueueManager.getSelfUid();
-            }
-        }
-        return pass;
+        return false;
     }
 
     private static MusicServiceSettings getMusicServiceSettings() {

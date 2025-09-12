@@ -23,7 +23,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 import org.apache.http.client.CookieStore;
 import org.apache.http.cookie.Cookie;
@@ -100,14 +99,12 @@ public class Utils {
         HBox hBox = new HBox(40);
         hBox.setAlignment(Pos.CENTER);
         QMButton ok = new QMButton(strA, QMButton.DEFAULT_COLOR);
-        ok.setCursor(Cursor.HAND);
         ok.setPrefWidth(80);
         ok.setOnAction(event -> {
             actionA.accept(event);
             dialog.close();
         });
         QMButton cancel = new QMButton(strB, "#bb5555");
-        cancel.setCursor(Cursor.HAND);
         cancel.setPrefWidth(80);
         cancel.setOnAction(event -> {
             actionB.accept(event);

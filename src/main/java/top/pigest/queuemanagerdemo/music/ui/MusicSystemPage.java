@@ -2,7 +2,6 @@ package top.pigest.queuemanagerdemo.music.ui;
 
 import com.google.gson.JsonObject;
 import com.jfoenix.controls.*;
-import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -16,15 +15,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import javafx.util.Pair;
-import org.apache.http.client.CookieStore;
-import org.apache.http.impl.cookie.BasicClientCookie;
 import top.pigest.queuemanagerdemo.QueueManager;
 import top.pigest.queuemanagerdemo.Settings;
 import top.pigest.queuemanagerdemo.control.IntegerModifier;
@@ -41,9 +36,6 @@ import top.pigest.queuemanagerdemo.control.WhiteFontIcon;
 import top.pigest.queuemanagerdemo.control.MultiMenuProvider;
 import top.pigest.queuemanagerdemo.control.NamedPage;
 
-import java.net.CookieHandler;
-import java.net.CookieManager;
-import java.net.HttpCookie;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -53,9 +45,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 public class MusicSystemPage extends MultiMenuProvider<Pane> implements NamedPage {
-    private boolean preloaded = false;
+    boolean preloaded = false;
     private boolean loggedIn = false;
-    private Timeline preloadTimeline;
     private final QMButton loginButton = Utils.make(new QMButton("点击登录网易云账号", "#fc3c55"), button -> {
         button.setPrefSize(350, 40);
         button.setOnAction(actionEvent -> login());
@@ -101,40 +92,7 @@ public class MusicSystemPage extends MultiMenuProvider<Pane> implements NamedPag
     }
 
     public Pane preload() {
-        StackPane pane = new StackPane();
-        CookieManager cookieManager = new CookieManager();
-        CookieHandler.setDefault(cookieManager);
-        WebView webView = new WebView();
-        webView.setMaxSize(0, 0);
-        webView.setContextMenuEnabled(false);
-        WebEngine webEngine = webView.getEngine();
-        webEngine.setUserAgent(Settings.USER_AGENT);
-        webEngine.load("https://music.163.com/#/login");
-        this.preloadTimeline = new Timeline(new KeyFrame(new Duration(500), event -> {
-            Optional<HttpCookie> sDeviceId = cookieManager.getCookieStore().getCookies().stream().filter(cookie -> cookie.getName().equalsIgnoreCase("sDeviceId")).findFirst();
-            if (sDeviceId.isPresent()) {
-                CookieStore cookieStore = RequestUtils.getCookieStore();
-                HttpCookie httpCookie = sDeviceId.get();
-                BasicClientCookie cookie = new BasicClientCookie(httpCookie.getName(), httpCookie.getValue());
-                cookie.setPath(httpCookie.getPath());
-                cookie.setDomain(httpCookie.getDomain());
-                cookie.setExpiryDate(new Date(System.currentTimeMillis() + httpCookie.getMaxAge() * 1000));
-                cookieStore.addCookie(cookie);
-                RequestUtils.saveCookie(false);
-                this.preloaded = true;
-                Platform.runLater(() -> QueueManager.INSTANCE.getMainScene().setMainContainer(new MusicSystemPage().withParentPage(this.getParentPage()), this.getId()));
-                this.preloadTimeline.stop();
-            }
-        }));
-        this.preloadTimeline.setCycleCount(Timeline.INDEFINITE);
-        this.preloadTimeline.play();
-        Label label = new Label("正在初始化\n请稍等几秒钟");
-        label.setTextAlignment(TextAlignment.CENTER);
-        label.setAlignment(Pos.CENTER);
-        label.setFont(Settings.DEFAULT_FONT);
-        pane.getChildren().addAll(webView, label);
-        pane.setId("c0");
-        return pane;
+        return new MusicPreloadPage(this);
     }
 
     public Pane loginC0() {

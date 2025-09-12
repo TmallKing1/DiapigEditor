@@ -54,6 +54,11 @@ public class DanmakuServiceSettings{
     public void setNarratorEnabled(boolean narratorEnabled) {
         this.narratorEnabled = narratorEnabled;
         Settings.saveSettings();
+        if (narratorEnabled) {
+            NarratorService.enable();
+        } else {
+            NarratorService.disable();
+        }
     }
 
     public void setNarratorRate(int narratorRate) {

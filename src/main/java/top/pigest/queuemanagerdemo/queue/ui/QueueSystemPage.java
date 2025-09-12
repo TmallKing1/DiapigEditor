@@ -11,6 +11,10 @@ import java.util.function.Supplier;
 public class QueueSystemPage extends MultiMenuProvider<Pane> implements NamedPage {
     private Pane configs;
     private Pane settings;
+    public QueueSystemPage() {
+        super();
+        this.setInnerContainer(this.getMenus().entrySet().iterator().next().getValue().get());
+    }
 
     private Pane initC0() {
         return new PagedContainerFactory("c0").build();

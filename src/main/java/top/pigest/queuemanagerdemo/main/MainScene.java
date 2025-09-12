@@ -19,8 +19,10 @@ import top.pigest.queuemanagerdemo.Settings;
 import top.pigest.queuemanagerdemo.control.*;
 import top.pigest.queuemanagerdemo.liveroom.LiveMessageService;
 import top.pigest.queuemanagerdemo.liveroom.LiveRoomApi;
+import top.pigest.queuemanagerdemo.liveroom.NarratorService;
 import top.pigest.queuemanagerdemo.liveroom.data.User;
 import top.pigest.queuemanagerdemo.music.MusicHandler;
+import top.pigest.queuemanagerdemo.resource.RequireCleaning;
 import top.pigest.queuemanagerdemo.util.RequestUtils;
 import top.pigest.queuemanagerdemo.util.Utils;
 import top.pigest.queuemanagerdemo.music.ui.MusicSystemPage;
@@ -78,10 +80,13 @@ public class MainScene extends Scene {
         super(new Pane(), 800, 600, false, SceneAntialiasing.BALANCED);
         this.setRoot(drawer);
         refreshLoginState();
-        autoMethods();
+        onStart();
     }
 
-    public void autoMethods() {
+    public void onStart() {
+        if (Settings.getDanmakuServiceSettings().narratorEnabled) {
+            NarratorService.enable();
+        }
         if (Settings.getMusicServiceSettings().autoPlay && RequestUtils.hasCookie("MUSIC_U")) {
             CompletableFuture.runAsync(MusicHandler.INSTANCE::playNext);
         }
@@ -196,6 +201,9 @@ public class MainScene extends Scene {
     }
 
     public void setMainContainer(Node mainContainer, String id) {
+        if (this.borderPane.getCenter() instanceof RequireCleaning) {
+            ((RequireCleaning) this.borderPane.getCenter()).clean();
+        }
         mainContainer.setId(id);
         this.borderPane.setCenter(mainContainer);
         drawerButtons.forEach(qmButton -> {

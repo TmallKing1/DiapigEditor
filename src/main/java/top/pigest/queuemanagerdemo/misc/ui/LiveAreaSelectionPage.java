@@ -1,4 +1,4 @@
-package top.pigest.queuemanagerdemo.misc;
+package top.pigest.queuemanagerdemo.misc.ui;
 
 import com.jfoenix.controls.JFXScrollPane;
 import javafx.application.Platform;

@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import top.pigest.queuemanagerdemo.Settings;
 import top.pigest.queuemanagerdemo.liveroom.LiveRoomApi;
@@ -22,18 +23,23 @@ import java.util.concurrent.CompletableFuture;
 /**
  * 粉丝勋章类。
  * 不同途径获得的代表粉丝勋章的 Json 对象基本相同，可以使用 {@link FansMedal#deserializeMedalInfo(JsonObject)}
+ * 或 {@link FansMedal#deserializeUInfoMedal(JsonObject)}
  * 方法直接从这些对象得到具有粉丝勋章的主要信息的 {@link FansMedal} 对象。
  *
  * @see LiveRoomApi#getFansUInfoMedal(long)
  * @see LiveRoomApi#getFansUInfoMedal(long, long)
  */
 public class FansMedal {
-    private static final int[] EXP_LIST_NORMAL = {0, 201, 300, 500, 700, 1000, 1500, 1600, 1700, 1900, 5500,
-    10000, 10000, 10000, 15000, 40000, 50000, 100000, 250000, 500000, Integer.MAX_VALUE};
-    private static final int[] EXP_LIST_GUARD = {0, 2000, 2500, 3000, 7500, 15000, 40000, 90000, 160000, 280000, 700000,
-            1200000, 2000000, 2500000, 3000000, 3500000, 4000000, 7500000, 10000000, 15000000, Integer.MAX_VALUE};
+    private static final int[] SCORE_LIST = {0, 3, 5, 8,12,16,25,26,28,31,41,
+            59,81,99,106,123,139,163,246,409,360,
+            790,970,1100,1540,2860,2640,3000,4320,4800,8760,
+    9620,12090,16770,18330,39430,31500,46500,55500,75000,
+    114000,159000,211500,273000,345000,427500,522000,631500,745500,870000,
+    1011450,1088700,1270650,1479150,1716750,1987500,2295000,2643450,3037500,3482250,
+    3983250};
     private String medalName;
     private int level;
+    private int score;
     private int exp;
     private int nextExp;
     private int todayExp;
@@ -62,6 +68,10 @@ public class FansMedal {
         return this;
     }
 
+    public int getScore() {
+        return score;
+    }
+
     public int getExp() {
         return exp;
     }
@@ -81,23 +91,14 @@ public class FansMedal {
     }
 
     public FansMedal setExpFromScore(int score) {
-        if (this.level <= 20) {
-            int tot = 0;
-            for (int i = 0; i < this.level; i++) {
-                tot += EXP_LIST_NORMAL[i];
-            }
-            score -= tot;
-            return this.setExp(score).setNextExp(EXP_LIST_NORMAL[this.level]);
-        } else {
-            score -= 50000000;
-            int guardIndex = this.level - 20;
-            int tot = 0;
-            for (int i = 0; i < guardIndex; i++) {
-                tot += EXP_LIST_GUARD[i];
-            }
-            score -= tot;
-            return this.setExp(score).setNextExp(EXP_LIST_GUARD[guardIndex]);
+        this.score = score;
+        if (level > SCORE_LIST.length) {
+            return this;
         }
+        for (int i = 0; i < SCORE_LIST.length && SCORE_LIST[i] <= score; i++) {
+            score -= SCORE_LIST[i];
+        }
+        return this.setNextExp(SCORE_LIST[level]).setExp(score);
     }
 
     public int getTodayExp() {
@@ -171,8 +172,8 @@ public class FansMedal {
         root.setPrefHeight(50);
         root.setAlignment(Pos.CENTER_LEFT);
         HBox hBox = new HBox();
-        hBox.setMaxHeight(40);
-        hBox.setFillHeight(false);
+        hBox.setMaxHeight(36);
+        hBox.setFillHeight(true);
         hBox.setBorder(new Border(new BorderStroke(
                 getOldStyle().medalColorBorder,
                 BorderStrokeStyle.SOLID,
@@ -180,7 +181,7 @@ public class FansMedal {
                 new BorderWidths(1.5)
         )));
         StackPane namePane = new StackPane();
-        namePane.setPrefHeight(40);
+        namePane.setMaxHeight(36);
         namePane.setAlignment(Pos.CENTER);
         namePane.setBackground(new Background(new BackgroundFill(
                 new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, new Stop(0, getOldStyle().medalColorStart), new Stop(1, getOldStyle().medalColorEnd)),
@@ -193,7 +194,7 @@ public class FansMedal {
         name.setFill(Color.WHITE);
         namePane.getChildren().add(name);
         StackPane levelPane = new StackPane();
-        levelPane.setPrefHeight(40);
+        levelPane.setMaxHeight(36);
         levelPane.setAlignment(Pos.CENTER);
         levelPane.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(0, 3, 3, 0 ,false), null)));
         levelPane.setPadding(new Insets(0, 5, 0, 5));
@@ -215,6 +216,64 @@ public class FansMedal {
                     });
             namePane.setPadding(new Insets(0, 5, 0, 25));
             StackPane.setMargin(hBox, new Insets(0, 0, 0, 25));
+            root.getChildren().add(imageView);
+        }
+        return root;
+    }
+
+    /**
+     * 获取粉丝牌显示节点（新版）
+     */
+    public Node getDisplayNew() {
+        StackPane root = new StackPane();
+        root.setPrefHeight(50);
+        root.setAlignment(Pos.CENTER_LEFT);
+        StackPane base = new StackPane();
+        base.setMaxHeight(36);
+        base.setBorder(new Border(new BorderStroke(
+                getStyle().border,
+                BorderStrokeStyle.SOLID,
+                new CornerRadii(18, 18, 18, 18 ,false),
+                new BorderWidths(1.5)
+        )));
+        StackPane namePane = new StackPane();
+        namePane.setPrefHeight(36);
+        namePane.setAlignment(Pos.CENTER);
+        namePane.setBackground(new Background(new BackgroundFill(
+                new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, new Stop(0, getStyle().start), new Stop(1, getStyle().end)),
+                new CornerRadii(18, 18, 18, 18 ,false),
+                null
+        )));
+        namePane.setPadding(new Insets(0, 42, 0, 6));
+        Text name = new Text(getMedalName());
+        name.setFont(Settings.DEFAULT_FONT);
+        name.setFill(getStyle().text);
+        namePane.getChildren().add(name);
+        StackPane levelPane = new StackPane();
+        levelPane.setMaxHeight(36);
+        levelPane.setMaxWidth(36);
+        levelPane.setAlignment(Pos.CENTER);
+        levelPane.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(18, 18, 18, 18 ,false), null)));
+        levelPane.setPadding(new Insets(0, 5, 0, 5));
+        Text level = new Text(String.valueOf(getLevel()));
+        level.setFont(new Font(Settings.DEFAULT_FONT.getFamily(), 15));
+        level.setFill(getStyle().level);
+        levelPane.getChildren().add(level);
+        base.getChildren().addAll(namePane, levelPane);
+        root.getChildren().add(base);
+        StackPane.setAlignment(levelPane, Pos.CENTER_RIGHT);
+        if (this.guardIcon != null && !this.guardIcon.isEmpty()) {
+            ImageView imageView = new ImageView();
+            imageView.setFitWidth(50);
+            imageView.setFitHeight(50);
+            CompletableFuture.supplyAsync(() -> new Image(this.guardIcon))
+                    .whenComplete((image, ex) -> {
+                        if (ex == null) {
+                            Platform.runLater(() -> imageView.setImage(image));
+                        }
+                    });
+            namePane.setPadding(new Insets(0, 42, 0, 45));
+            StackPane.setMargin(base, new Insets(0, 0, 0, 5));
             root.getChildren().add(imageView);
         }
         return root;

@@ -7,7 +7,7 @@ import top.pigest.queuemanagerdemo.liveroom.ui.DanmakuServicePage;
 import top.pigest.queuemanagerdemo.queue.ui.QueueSystemPage;
 import top.pigest.queuemanagerdemo.util.Utils;
 import top.pigest.queuemanagerdemo.control.QMButton;
-import top.pigest.queuemanagerdemo.misc.MiscPage;
+import top.pigest.queuemanagerdemo.misc.ui.MiscPage;
 import top.pigest.queuemanagerdemo.music.ui.MusicSystemPage;
 
 public class MainPage extends BorderPane {

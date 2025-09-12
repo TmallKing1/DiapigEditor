@@ -25,7 +25,6 @@ public class QueueManager extends Application {
         System.setProperty("javafx.animation.fullspeed", "true");
         System.setProperty("javafx.animation.pulse", "60");
         INSTANCE = this;
-        MiscRegistryManager.registerPrimary();
         this.primaryStage = primaryStage;
         primaryStage.setResizable(false);
         primaryStage.setTitle("Queue Manager by @小猪之最Thepig");

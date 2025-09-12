@@ -10,8 +10,8 @@ import org.brotli.dec.BrotliInputStream;
 import top.pigest.queuemanagerdemo.QueueManager;
 import top.pigest.queuemanagerdemo.Settings;
 import top.pigest.queuemanagerdemo.control.QMButton;
+import top.pigest.queuemanagerdemo.liveroom.event.EventRegistry;
 import top.pigest.queuemanagerdemo.liveroom.ui.DanmakuServicePage;
-import top.pigest.queuemanagerdemo.music.MusicHandler;
 import top.pigest.queuemanagerdemo.util.RequestUtils;
 import top.pigest.queuemanagerdemo.util.Utils;
 
@@ -25,7 +25,6 @@ import java.net.http.WebSocket;
 import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.concurrent.CompletionStage;
-import java.util.function.Consumer;
 import java.util.zip.InflaterInputStream;
 
 public class LiveMessageService implements WebSocket.Listener {
@@ -35,7 +34,6 @@ public class LiveMessageService implements WebSocket.Listener {
     private final long roomId;
     private final String key;
     private final String buvid;
-    private final List<MessageHandler> messageHandlers = new ArrayList<>();
     private HttpClient client;
     private WebSocket webSocket;
     private int sequence = 1;
@@ -64,7 +62,7 @@ public class LiveMessageService implements WebSocket.Listener {
                 }
                 if (pair.getKey() == 5 && pair.getValue().isPresent()) {
                     JsonObject payload = pair.getValue().get();
-                    this.messageHandlers.forEach(mh -> mh.handle(payload));
+                    EventRegistry.getRegistries().forEach(event -> event.onReceive(payload));
                 }
             }
         }
@@ -84,12 +82,6 @@ public class LiveMessageService implements WebSocket.Listener {
         this.webSocket = webSocket;
         sendVerify(webSocket);
         Platform.runLater(() -> {
-            this.addMessageHandler("narrator_single", "DANMU_MSG", NarratorService::handleSingleDanmaku);
-            this.addMessageHandler("narrator_enter", "INTERACT_WORD_V2", NarratorService::handleInteract);
-            this.addMessageHandler("narrator_gift", "SEND_GIFT", NarratorService::handleGift);
-            this.addMessageHandler("narrator_guard", "GUARD_BUY", NarratorService::handleGuard);
-            this.addMessageHandler("narrator_sc", "SUPER_CHAT_MESSAGE", NarratorService::handleSuperChat);
-            this.addMessageHandler("request_song", "DANMU_MSG", MusicHandler.INSTANCE::handleSingleDanmaku);
             Utils.showDialogMessage("连接直播弹幕服务成功", false, QueueManager.INSTANCE.getMainScene().getRootDrawer());
             if (QueueManager.INSTANCE.getMainScene().getBorderPane().getCenter() instanceof DanmakuServicePage container && container.getInnerContainer().getId().equals("c0")) {
                 container.connectedButton(((QMButton) (((BorderPane) ((VBox) container.getInnerContainer().getChildren().getFirst()).getChildren().getFirst())).getRight()));
@@ -193,10 +185,6 @@ public class LiveMessageService implements WebSocket.Listener {
         }
     }
 
-    public void addMessageHandler(String id, String cmdType, Consumer<JsonObject> consumer) {
-        this.messageHandlers.add(new MessageHandler(id, cmdType, consumer));
-    }
-
     public boolean isSessionAvailable() {
         return webSocket != null && !webSocket.isInputClosed() && !webSocket.isOutputClosed();
     }
@@ -204,10 +192,6 @@ public class LiveMessageService implements WebSocket.Listener {
     public void close() throws IOException {
         this.webSocket.sendClose(0, "closed");
         this.client.shutdownNow();
-    }
-
-    public long getRoomId() {
-        return roomId;
     }
 
     public static byte[] decompress(byte[] data) throws IOException {
@@ -291,36 +275,10 @@ public class LiveMessageService implements WebSocket.Listener {
         }
     }
 
-    public List<MessageHandler> getMessageHandlers() {
-        return messageHandlers;
-    }
-
     public record MessageStreamVerification(String token, List<Host> hosts) {
     }
 
     public record Host(String hostname, int port, int wssPort, int wsPort) {
-    }
-
-    public static class MessageHandler {
-        private final String id;
-        private final String cmdType;
-        private final Consumer<JsonObject> consumer;
-
-        public MessageHandler(String id, String cmdType, Consumer<JsonObject> consumer) {
-            this.id = id;
-            this.cmdType = cmdType;
-            this.consumer = consumer;
-        }
-
-        public void handle(JsonObject obj) {
-            if (obj.get("cmd").getAsString().equals(cmdType)) {
-                this.consumer.accept(obj);
-            }
-        }
-
-        public String getId() {
-            return id;
-        }
     }
 
     public static class ConnectFailedException extends RuntimeException {

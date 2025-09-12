@@ -1,4 +1,4 @@
-package top.pigest.queuemanagerdemo.misc;
+package top.pigest.queuemanagerdemo.misc.ui;
 
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Platform;
@@ -6,13 +6,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import top.pigest.queuemanagerdemo.QueueManager;
 import top.pigest.queuemanagerdemo.Settings;
@@ -25,7 +19,6 @@ import top.pigest.queuemanagerdemo.util.Utils;
 import top.pigest.queuemanagerdemo.control.ChildPage;
 import top.pigest.queuemanagerdemo.control.NamedPage;
 
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -109,9 +102,14 @@ public class MedalQueryPage extends VBox implements NamedPage, ChildPage {
                         up = u2.getFirst();
                     }
                     FansMedal fansMedal = LiveRoomApi.getFansUInfoMedal(user.getUid(), up.getUid());
+                    FansMedal fansMedal1 = LiveRoomApi.getFansMedalInfo(user.getUid(), up.getUid());
                     if (fansMedal == null) {
                         Platform.runLater(() -> Utils.showDialogMessage("用户没有主播的粉丝勋章", true, QueueManager.INSTANCE.getMainScene().getRootDrawer()));
                         return;
+                    }
+                    if (fansMedal1 != null) {
+                        fansMedal.setExp(fansMedal1.getExp());
+                        fansMedal.setNextExp(fansMedal1.getNextExp());
                     }
                     user.setFansMedal(fansMedal);
                     User finalUser = user;
@@ -140,71 +138,7 @@ public class MedalQueryPage extends VBox implements NamedPage, ChildPage {
     }
 
     public Node getNode(User item) {
-        BorderPane borderPane = new BorderPane();
-
-        ImageView face = new ImageView();
-        Circle clip = new Circle();
-        clip.setCenterX(30);
-        clip.setCenterY(30);
-        clip.setRadius(30);
-        face.setClip(clip);
-        CompletableFuture.supplyAsync(() -> new Image(item.getFace())).whenComplete((image, throwable) -> {
-            if (throwable == null) {
-                Platform.runLater(() -> face.setImage(image));
-            }
-        });
-        face.setFitWidth(60);
-        face.setFitHeight(60);
-        borderPane.setLeft(face);
-        BorderPane.setAlignment(face, Pos.CENTER);
-        BorderPane.setMargin(face, new Insets(0, 15, 0, 0));
-
-        VBox center = new VBox(5);
-        HBox hBox = new HBox(20);
-        hBox.setAlignment(Pos.CENTER_LEFT);
-        Text name = new Text(item.getUsername());
-        name.setFont(Settings.DEFAULT_FONT);
-        Node fansMedal = item.getFansMedal().getDisplayOld();
-        hBox.getChildren().addAll(name, fansMedal);
-        Text desc = new Text(String.format("UID: %s", item.getUid()));
-        desc.setFont(Settings.DEFAULT_FONT);
-        center.getChildren().addAll(hBox, desc);
-        borderPane.setCenter(center);
-        BorderPane.setAlignment(center, Pos.CENTER);
-
-        VBox right = new VBox(5);
-        right.setAlignment(Pos.CENTER_RIGHT);
-
-        BorderPane rightUp = new BorderPane();
-        Text exp = new Text("亲密度");
-        exp.setFont(Settings.DEFAULT_FONT);
-        Text current = new Text("%s/%s".formatted(item.getFansMedal().getExp(), item.getFansMedal().getNextExp()));
-        current.setFont(Settings.DEFAULT_FONT);
-        rightUp.setLeft(exp);
-        rightUp.setRight(current);
-
-        HBox rightCenter = new HBox(5);
-        rightCenter.setAlignment(Pos.CENTER);
-        double prog = (double) item.getFansMedal().getExp() / item.getFansMedal().getNextExp();
-        StackPane stackPane = new StackPane();
-        stackPane.setAlignment(Pos.CENTER_LEFT);
-        Rectangle track = new Rectangle();
-        track.setHeight(3.0);
-        track.setWidth(250);
-        track.setFill(Color.valueOf("#E0E0E0"));
-        Rectangle bar = new Rectangle();
-        bar.setHeight(3.0);
-        bar.setWidth(250 * prog);
-        bar.setFill(item.getFansMedal().getOldStyle().medalColorStart());
-        stackPane.getChildren().addAll(track, bar);
-        rightCenter.getChildren().addAll(stackPane);
-
-        DecimalFormat df = new DecimalFormat("##.##%");
-        Text percent = new Text(String.format("%s", df.format(prog)));
-        percent.setFont(Settings.DEFAULT_FONT);
-        right.getChildren().addAll(rightUp, rightCenter, percent);
-        borderPane.setRight(right);
-        BorderPane.setAlignment(right, Pos.BOTTOM_CENTER);
+        BorderPane borderPane = User.userNode(item);
 
         borderPane.setPadding(new Insets(30, 30, 30, 30));
         return borderPane;

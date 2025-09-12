@@ -2,6 +2,7 @@ package top.pigest.queuemanagerdemo.liveroom.data;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 礼物类，和 {@link User} 用户类似，通过 API 获取时可能会有缺失值
@@ -108,5 +109,21 @@ public class Gift {
 
     public Gift setType(int type) {
         return this.setProperty("type", String.valueOf(type));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Gift gift)) return false;
+        return getId() == gift.getId() && getPrice() == gift.getPrice() && getCount() == gift.getCount();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getPrice(), getCount());
+    }
+
+    public boolean equalsIgnoreCount(Object o) {
+        if (!(o instanceof Gift gift)) return false;
+        return getId() == gift.getId() && getPrice() == gift.getPrice();
     }
 }

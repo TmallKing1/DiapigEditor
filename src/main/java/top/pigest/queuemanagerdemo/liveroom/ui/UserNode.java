@@ -1,4 +1,4 @@
-package top.pigest.queuemanagerdemo.misc;
+package top.pigest.queuemanagerdemo.liveroom.ui;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -6,55 +6,28 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import top.pigest.queuemanagerdemo.Settings;
-import top.pigest.queuemanagerdemo.liveroom.data.FansMedal;
-import top.pigest.queuemanagerdemo.liveroom.data.GuardInfo;
-import top.pigest.queuemanagerdemo.liveroom.LiveRoomApi;
 import top.pigest.queuemanagerdemo.liveroom.data.User;
-import top.pigest.queuemanagerdemo.control.DynamicListPagedContainer;
-import top.pigest.queuemanagerdemo.control.MultiMenuProvider;
+import top.pigest.queuemanagerdemo.resource.RequireCleaning;
+import top.pigest.queuemanagerdemo.util.Utils;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class GuardContainer extends DynamicListPagedContainer<User> {
-    public GuardContainer(String id, int maxPerPage) {
-        super(id, maxPerPage);
-    }
+public class UserNode extends BorderPane implements RequireCleaning {
 
-    @Override
-    public List<User> getNextItems(int page) {
-        try {
-            List<Long> uids = new ArrayList<>();
-            List<GuardInfo> guardInfoA = LiveRoomApi.getGuardsWithExpireDate(page);
-            for (GuardInfo guardInfo : guardInfoA) {
-                uids.add(guardInfo.getUid());
-            }
-            List<User> users = LiveRoomApi.getUserBriefInfo(uids);
-            for (int i = 0; i < users.size(); i++) {
-                GuardInfo guardInfo = guardInfoA.get(i);
-                FansMedal fansMedal = LiveRoomApi.getFansUInfoMedal(guardInfo.getUid());
-                users.get(i).setFansMedal(fansMedal);
-                users.get(i).setGuardInfo(guardInfo);
-            }
-            return users;
-        } catch (Exception e) {
-            return new ArrayList<>();
-        }
-    }
+    private final ImageView face;
 
-    @Override
-    public Node getNode(User item) {
-        BorderPane borderPane = new BorderPane();
-
-        ImageView face = new ImageView();
+    public UserNode(User item) {
+        face = new ImageView();
         Circle clip = new Circle();
         clip.setCenterX(30);
         clip.setCenterY(30);
@@ -67,7 +40,7 @@ public class GuardContainer extends DynamicListPagedContainer<User> {
         });
         face.setFitWidth(60);
         face.setFitHeight(60);
-        borderPane.setLeft(face);
+        this.setLeft(face);
         BorderPane.setAlignment(face, Pos.CENTER);
         BorderPane.setMargin(face, new Insets(0, 15, 0, 0));
 
@@ -76,21 +49,24 @@ public class GuardContainer extends DynamicListPagedContainer<User> {
         hBox.setAlignment(Pos.CENTER_LEFT);
         Text name = new Text(item.getUsername());
         name.setFont(Settings.DEFAULT_FONT);
-        Node fansMedal = item.getFansMedal().getDisplayOld();
+        Node fansMedal = item.getFansMedal().getDisplayNew();
         hBox.getChildren().addAll(name, fansMedal);
-        Text desc = new Text(String.format("%s到期 剩余%s天", item.getGuardInfo().getExpiredTimeString(), item.getGuardInfo().getDaysUntilExpire()));
+        Text desc = new Text(String.format("UID: %s", item.getUid()));
+        if (item.getGuardInfo() != null) {
+            desc = new Text(String.format("%s到期 剩余%s天", item.getGuardInfo().getExpiredTimeString(), item.getGuardInfo().getDaysUntilExpire()));
+        }
         desc.setFont(Settings.DEFAULT_FONT);
         center.getChildren().addAll(hBox, desc);
-        borderPane.setCenter(center);
+        this.setCenter(center);
         BorderPane.setAlignment(center, Pos.CENTER);
 
         VBox right = new VBox(5);
         right.setAlignment(Pos.CENTER_RIGHT);
 
         BorderPane rightUp = new BorderPane();
-        Text exp = new Text("亲密度");
+        Text exp = new Text("%s".formatted(item.getFansMedal().getExp()));
         exp.setFont(Settings.DEFAULT_FONT);
-        Text current = new Text("%s/%s".formatted(item.getFansMedal().getExp(), item.getFansMedal().getNextExp()));
+        Text current = new Text("%s".formatted(item.getFansMedal().getNextExp()));
         current.setFont(Settings.DEFAULT_FONT);
         rightUp.setLeft(exp);
         rightUp.setRight(current);
@@ -107,19 +83,21 @@ public class GuardContainer extends DynamicListPagedContainer<User> {
         Rectangle bar = new Rectangle();
         bar.setHeight(3.0);
         bar.setWidth(250 * prog);
-        bar.setFill(item.getFansMedal().getOldStyle().medalColor());
+        Color start = item.getFansMedal().getStyle().start();
+        bar.setFill(new Color(start.getRed(), start.getGreen(), start.getBlue(), 1));
         stackPane.getChildren().addAll(track, bar);
         rightCenter.getChildren().addAll(stackPane);
 
         DecimalFormat df = new DecimalFormat("##.##%");
-        Text percent = new Text(String.format("%s", df.format(prog)));
+        Text percent = new Text(String.format("总EXP:%s %s", item.getFansMedal().getScore(), df.format(prog)));
         percent.setFont(Settings.DEFAULT_FONT);
         right.getChildren().addAll(rightUp, rightCenter, percent);
-        borderPane.setRight(right);
+        this.setRight(right);
         BorderPane.setAlignment(right, Pos.BOTTOM_CENTER);
+    }
 
-        borderPane.setBorder(new Border(MultiMenuProvider.DEFAULT_BORDER_STROKE));
-        borderPane.setPadding(new Insets(5, 10, 5, 10));
-        return borderPane;
+    public void clean() {
+        Utils.onPresent(this.face.getImage(), Image::cancel);
+        this.face.setImage(null);
     }
 }

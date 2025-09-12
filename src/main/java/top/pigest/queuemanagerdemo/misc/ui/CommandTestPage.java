@@ -1,4 +1,4 @@
-package top.pigest.queuemanagerdemo.misc;
+package top.pigest.queuemanagerdemo.misc.ui;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -13,6 +13,7 @@ import top.pigest.queuemanagerdemo.Settings;
 import top.pigest.queuemanagerdemo.control.QMButton;
 import top.pigest.queuemanagerdemo.control.WhiteFontIcon;
 import top.pigest.queuemanagerdemo.liveroom.LiveMessageService;
+import top.pigest.queuemanagerdemo.liveroom.event.EventRegistry;
 import top.pigest.queuemanagerdemo.util.Utils;
 import top.pigest.queuemanagerdemo.control.ChildPage;
 import top.pigest.queuemanagerdemo.control.NamedPage;
@@ -61,7 +62,7 @@ public class CommandTestPage extends VBox implements NamedPage, ChildPage {
             user.add(QueueManager.INSTANCE.getMainScene().getUserName());
             jsonArray.add(user);
             jsonObject.add("info", jsonArray);
-            CompletableFuture.runAsync(() -> LiveMessageService.getInstance().getMessageHandlers().forEach(handler -> handler.handle(jsonObject)));
+            CompletableFuture.runAsync(() -> EventRegistry.getRegistries().forEach(event1 -> event1.onReceive(jsonObject)));
         });
         return execute;
     }

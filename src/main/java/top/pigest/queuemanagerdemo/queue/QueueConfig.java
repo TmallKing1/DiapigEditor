@@ -1,5 +1,9 @@
 package top.pigest.queuemanagerdemo.queue;
 
+import java.util.List;
+
 public class QueueConfig {
-    // TODO 队列配置
+    private String queueName;
+    private List<PermissionGroup> permissionGroups;
+
 }

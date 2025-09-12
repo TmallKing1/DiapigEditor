@@ -156,11 +156,11 @@ public class DanmakuServicePage extends MultiMenuProvider<Pane> implements Named
                     QMButton start = new QMButton("播放测试语音", "#55bb55");
                     start.setPrefWidth(240);
                     start.setGraphic(new WhiteFontIcon("fas-volume-up"));
-                    start.setOnAction(event -> NarratorService.addString(text.getText()));
+                    start.setOnAction(event -> Utils.onPresent(NarratorService.INSTANCE, narrator -> narrator.addString(text.getText())));
                     QMButton stop = new QMButton("停止所有播放", "#bb5555");
                     stop.setPrefWidth(240);
                     stop.setGraphic(new WhiteFontIcon("fas-volume-mute"));
-                    stop.setOnAction(event -> NarratorService.stopSpeaking());
+                    stop.setOnAction(event -> Utils.onPresent(NarratorService.INSTANCE, NarratorService::stopSpeaking));
                     buttons.getChildren().addAll(start, stop);
                     vBox.getChildren().addAll(text, buttons);
                 }))
@@ -252,7 +252,7 @@ public class DanmakuServicePage extends MultiMenuProvider<Pane> implements Named
             comboBox.getButtonCell().setFont(Settings.DEFAULT_FONT);
             comboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 Settings.getDanmakuServiceSettings().setNarratorType(newValue);
-                NarratorService.stopSpeaking();
+                Utils.onPresent(NarratorService.INSTANCE, NarratorService::stopSpeaking);
             });
         });
     }
