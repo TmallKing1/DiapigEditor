@@ -3,6 +3,7 @@ package top.pigest.queuemanagerdemo.main;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.*;
+import top.pigest.queuemanagerdemo.control.NamedPage;
 import top.pigest.queuemanagerdemo.liveroom.ui.DanmakuServicePage;
 import top.pigest.queuemanagerdemo.queue.ui.QueueSystemPage;
 import top.pigest.queuemanagerdemo.util.Utils;
@@ -10,7 +11,7 @@ import top.pigest.queuemanagerdemo.control.QMButton;
 import top.pigest.queuemanagerdemo.misc.ui.MiscPage;
 import top.pigest.queuemanagerdemo.music.ui.MusicSystemPage;
 
-public class MainPage extends BorderPane {
+public class MainPage extends BorderPane implements NamedPage {
 
     public MainPage(MainScene parent) {
         GridPane functions = Utils.make(new GridPane(10, 10), gridPane -> gridPane.setAlignment(Pos.CENTER));
@@ -26,5 +27,10 @@ public class MainPage extends BorderPane {
             BorderPane.setMargin(button, new Insets(0, 0, 30, 0));
         });
         this.setBottom(exitButton);
+    }
+
+    @Override
+    public String getName() {
+        return "主页";
     }
 }

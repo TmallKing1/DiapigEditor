@@ -32,6 +32,11 @@ public class NarratorService {
         INSTANCE.processes.forEach(Process::destroy);
         Utils.onPresent(INSTANCE.check, future -> future.cancel(true));
         INSTANCE.giftComboSessions.forEach(session -> session.timer.cancel());
+        DanmakuEvent.INSTANCE.removeHandler("danmaku_narrator");
+        InteractEvent.INSTANCE.removeHandler("interact_narrator");
+        GiftSendEvent.INSTANCE.removeHandler("gift_narrator");
+        GuardBuyEvent.INSTANCE.removeHandler("guard_narrator");
+        SuperChatEvent.INSTANCE.removeHandler("super_chat_narrator");
         INSTANCE = null;
     }
 
@@ -157,7 +162,7 @@ public class NarratorService {
             DanmakuServiceSettings settings = Settings.getDanmakuServiceSettings();
             return settings.acceptedTypes.contains(DanmakuServiceSettings.NarratableElement.GUARD);
         }));
-        SuperChatEvent.INSTANCE.addHandler(new EventHandler<>("super_chat", this::handleSuperChat, object -> {
+        SuperChatEvent.INSTANCE.addHandler(new EventHandler<>("super_chat_narrator", this::handleSuperChat, object -> {
             DanmakuServiceSettings settings = Settings.getDanmakuServiceSettings();
             return settings.acceptedTypes.contains(DanmakuServiceSettings.NarratableElement.SUPER_CHAT);
         }));

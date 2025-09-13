@@ -199,7 +199,7 @@ public class WebStartLivePage extends BorderPane implements NamedPage, ChildPage
                         });
                         return;
                     }
-                    Platform.runLater(() -> QueueManager.INSTANCE.getMainScene().showDialogMessage("开播成功，请复制推流信息并在OBS中操作", false));
+                    Platform.runLater(() -> QueueManager.INSTANCE.getMainScene().showDialogMessage("开播成功", false));
                     refresh();
                 });
             });

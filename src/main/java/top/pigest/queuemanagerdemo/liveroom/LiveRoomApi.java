@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.util.Pair;
 import top.pigest.queuemanagerdemo.QueueManager;
+import top.pigest.queuemanagerdemo.Settings;
 import top.pigest.queuemanagerdemo.liveroom.data.*;
 import top.pigest.queuemanagerdemo.util.RequestUtils;
 
@@ -562,5 +563,39 @@ public class LiveRoomApi {
             });
         }
         return users;
+    }
+
+    /**
+     * 操作用户关系。操作码与对应操作对应关系如下表
+     * <table>
+     *     <thead>
+     *         <tr>
+     *             <th>opcode</th>
+     *             <th>含义</th>
+     *         </tr>
+     *     </thead>
+     *     <tbody>
+     *         <tr><th>1</th><th>关注</th></tr>
+     *         <tr><th>2</th><th>取关</th></tr>
+     *         <tr><th>5</th><th>拉黑</th></tr>
+     *         <tr><th>6</th><th>解黑</th></tr>
+     *         <tr><th>7</th><th>删粉</th></tr>
+     *     </tbody>
+     * </table>
+     * @param user 用户对象，只需要存在 {@link User#getUid()} 字段即可
+     * @param opcode 操作码
+     * @return 若成功返回 {@code null}，不成功则返回错误信息
+     */
+    public static String modifyRelation(User user, int opcode) {
+        JsonObject obj = RequestUtils.requestToJson(RequestUtils.httpPost("https://api.bilibili.com/x/relation/modify")
+                .appendFormDataParameter("fid", user.getUid())
+                .appendFormDataParameter("act", opcode)
+                .appendFormDataParameter("csrf", RequestUtils.getCookie("bili_jct"))
+                .build());
+        if (obj.get("code").getAsInt() == 0) {
+            return null;
+        } else {
+            return obj.get("message").getAsString();
+        }
     }
 }

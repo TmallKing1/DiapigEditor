@@ -193,7 +193,6 @@ public class BlindChancePage extends VBox implements ChildPage, NamedPage {
             vBox.getChildren().add(borderPane);
         });
         scrollPane.setContent(vBox);
-        JFXScrollPane.smoothScrolling(scrollPane);
         VBox.setMargin(scrollPane, new Insets(10, 40, 10, 40));
         return scrollPane;
     }

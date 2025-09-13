@@ -75,6 +75,7 @@ public class LiveMessageService implements WebSocket.Listener {
                 container.disconnectedButton(((QMButton) ((BorderPane) container.getInnerContainer().getChildren().getFirst()).getRight()));
             }
         });
+        System.out.println("error" + statusCode + " reason:" + reason);
         return WebSocket.Listener.super.onClose(webSocket, statusCode, reason);
     }
 

@@ -11,6 +11,7 @@ public final class EventRegistry {
         REGISTRIES.add(InteractEvent.INSTANCE);
         REGISTRIES.add(GiftSendEvent.INSTANCE);
         REGISTRIES.add(GuardBuyEvent.INSTANCE);
+        REGISTRIES.add(SuperChatEvent.INSTANCE);
     }
 
     public static List<LiveMessageEvent<?>> getRegistries() {

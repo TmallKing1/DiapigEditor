@@ -13,7 +13,7 @@ public final class MiscRegistryManager {
         register(new MiscFunction("激励抢码助手", () -> null, "#802E5A", "fas-mouse"));
         register(new MiscFunction("代肝账号记录", () -> null, "#701617", "fas-exchange-alt"));
         register(new MiscFunction("快捷网页开播", WebStartLivePage::new, "#284CB8", "fas-video"));
-        register(new MiscFunction("进房用户追踪", () -> null, "#6E6E6E", "fas-robot"));
+        register(new MiscFunction("进房用户追踪", UserEntryTrackerPage::new, "#6E6E6E", "fas-robot"));
         register(new MiscFunction("自动弹幕回复", () -> null, "#7D7E28", "fas-reply"));
         register(new MiscFunction("粉丝团成员表", FansListPage::new, "#E774D2", "far-heart"));
         register(new MiscFunction("大航海船员表", GuardListPage::new, "#F08650", "fas-anchor"));

@@ -12,7 +12,11 @@ import top.pigest.queuemanagerdemo.liveroom.data.User;
 public interface UserPredicate {
     boolean test(User user);
 
-    default Node getNode() {
+    default String getName() {
+        return "用户谓词";
+    }
+
+    default Node getEditNode() {
         throw new UnsupportedOperationException();
     }
 

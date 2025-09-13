@@ -128,13 +128,13 @@ public class MedalQueryPage extends VBox implements NamedPage, ChildPage {
     private void startExecute() {
         this.execute.disable(true);
         this.execute.setGraphic(new WhiteFontIcon("fas-bullseye"));
-        this.execute.setText("检索中");
+        this.execute.setText("查询中");
     }
 
     private void endExecute() {
         this.execute.disable(false);
         this.execute.setGraphic(new WhiteFontIcon("fas-search"));
-        this.execute.setText("检索");
+        this.execute.setText("查询");
     }
 
     public Node getNode(User item) {

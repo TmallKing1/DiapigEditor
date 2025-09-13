@@ -12,6 +12,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import org.kordamp.ikonli.javafx.FontIcon;
 import top.pigest.queuemanagerdemo.QueueManager;
@@ -21,6 +22,7 @@ import top.pigest.queuemanagerdemo.liveroom.LiveMessageService;
 import top.pigest.queuemanagerdemo.liveroom.LiveRoomApi;
 import top.pigest.queuemanagerdemo.liveroom.NarratorService;
 import top.pigest.queuemanagerdemo.liveroom.data.User;
+import top.pigest.queuemanagerdemo.misc.UserEntryTracker;
 import top.pigest.queuemanagerdemo.music.MusicHandler;
 import top.pigest.queuemanagerdemo.resource.RequireCleaning;
 import top.pigest.queuemanagerdemo.util.RequestUtils;
@@ -72,6 +74,10 @@ public class MainScene extends Scene {
         drawer1.setContent(borderPane);
     });
     private final List<QMButton> drawerButtons = new ArrayList<>();
+    private final QMButton back = Utils.make(new QMButton("", null), qmButton -> {
+        qmButton.setGraphic(new FontIcon("far-arrow-alt-circle-left"));
+        qmButton.setOnAction(null);
+    });
 
     private boolean login = false;
     private MainPage mainPage;
@@ -86,6 +92,9 @@ public class MainScene extends Scene {
     public void onStart() {
         if (Settings.getDanmakuServiceSettings().narratorEnabled) {
             NarratorService.enable();
+        }
+        if (Settings.getToolboxSettings().trackEnabled) {
+            UserEntryTracker.enable();
         }
         if (Settings.getMusicServiceSettings().autoPlay && RequestUtils.hasCookie("MUSIC_U")) {
             CompletableFuture.runAsync(MusicHandler.INSTANCE::playNext);
@@ -279,11 +288,29 @@ public class MainScene extends Scene {
         if (this.getMainContainer() instanceof ChildPage childPage) {
             Pane parent = childPage.getParentPage();
             if (parent != null) {
-                QMButton back = new QMButton("", null);
-                back.setGraphic(new FontIcon("far-arrow-alt-circle-left"));
                 back.setOnAction(event -> this.setMainContainer(parent, parent.getId()));
                 this.menuItems.getChildren().add(back);
+                if (childPage instanceof DataEditor) {
+                    back.setGraphic(new FontIcon("far-save"));
+                    if (!(this.getMainContainer() instanceof MultiMenuProvider<?>)) {
+                        back.setText("保存");
+                    }
+                    back.setOnAction(event -> {
+                        ((DataEditor) childPage).save();
+                        this.setMainContainer(parent, parent.getId());
+                    });
+                } else {
+                    back.setGraphic(new FontIcon("far-arrow-alt-circle-left"));
+                    if (!(this.getMainContainer() instanceof MultiMenuProvider<?>)) {
+                        back.setText("返回");
+                    }
+                }
+                if (this.getMainContainer() instanceof MultiMenuProvider<?>) {
+                    back.setText("");
+                }
             }
+        } else {
+            back.setOnAction(null);
         }
         if (this.getMainContainer() instanceof MultiMenuProvider<?> multiMenuProvider) {
             this.menuItems.getChildren().addAll(multiMenuProvider.getMenuButtons());

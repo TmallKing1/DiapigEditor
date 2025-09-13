@@ -22,6 +22,13 @@ public class RequestUtils {
     private static final File COOKIE_STORE_FILE = Settings.DATA_DIRECTORY.toPath().resolve("cookies.ser").toFile();
     public static CookieStore COOKIE_STORE = new BasicCookieStore();
 
+    private static JsonObject errorObject(String message) {
+        JsonObject errorObject = new JsonObject();
+        errorObject.addProperty("code", -114514);
+        errorObject.addProperty("message", message);
+        return errorObject;
+    }
+
     public static JsonObject requestToJson(HttpUriRequest httpRequest) {
         try (CloseableHttpClient client = HttpClients.custom().setDefaultCookieStore(getCookieStore()).build()) {
             Settings.checkAndRefresh();
@@ -29,11 +36,11 @@ public class RequestUtils {
             HttpResponse response = client.execute(httpRequest);
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode != 200) {
-                throw new RuntimeException("Failed : HTTP error code : " + statusCode);
+                return errorObject("Failed : HTTP error code : " + statusCode);
             }
             return JsonParser.parseReader(new InputStreamReader(response.getEntity().getContent())).getAsJsonObject();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            return errorObject(e.getMessage());
         }
     }
 
@@ -44,26 +51,11 @@ public class RequestUtils {
             HttpResponse response = client.execute(httpRequest);
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode != 200) {
-                throw new RuntimeException("Failed : HTTP error code : " + statusCode);
+                return "Failed : HTTP error code : " + statusCode;
             }
             return EntityUtils.toString(response.getEntity());
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static HttpResponse request(HttpUriRequest httpRequest) {
-        try (CloseableHttpClient client = HttpClients.custom().setDefaultCookieStore(getCookieStore()).build()) {
-            Settings.checkAndRefresh();
-            httpRequest.setHeader("User-Agent", Settings.USER_AGENT);
-            HttpResponse response = client.execute(httpRequest);
-            int statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode != 200) {
-                throw new RuntimeException("Failed : HTTP error code : " + statusCode);
-            }
-            return response;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            return e.getMessage();
         }
     }
 
@@ -73,10 +65,6 @@ public class RequestUtils {
 
     public static CompletableFuture<String> requestToStringAsync(HttpUriRequest httpRequest) {
         return CompletableFuture.supplyAsync(() -> requestToString(httpRequest));
-    }
-
-    public static CompletableFuture<HttpResponse> requestAsync(HttpUriRequest httpRequest) {
-        return CompletableFuture.supplyAsync(() -> request(httpRequest));
     }
 
     public static HttpGetBuilder httpGet(String uri) {

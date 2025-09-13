@@ -21,7 +21,7 @@ public class DanmakuEvent extends LiveMessageEvent<Danmaku> {
         long uid = userObj.get("uid").getAsLong();
         String name = userObj.getAsJsonObject("base").get("name").getAsString();
         String face = userObj.getAsJsonObject("base").get("face").getAsString();
-        FansMedal medal = FansMedal.deserializeUInfoMedal(userObj.getAsJsonObject("medal"));
+        FansMedal medal = userObj.get("medal").isJsonNull() ? null : FansMedal.deserializeUInfoMedal(userObj.getAsJsonObject("medal"));
         int honor = info.get(16).getAsJsonArray().get(0).getAsInt();
         User user = new User(name, uid).setFace(face).setFansMedal(medal).setHonor(honor);
         return new Danmaku(user, content);

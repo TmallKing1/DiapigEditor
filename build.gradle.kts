@@ -71,4 +71,9 @@ jlink {
     launcher {
         name = "Queue Manager"
     }
+    jpackage {
+        if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
+            imageOptions.addAll(listOf("--icon", "src/main/resources/top/pigest/queuemanagerdemo/icon.ico"))
+        }
+    }
 }

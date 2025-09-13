@@ -22,7 +22,7 @@ import top.pigest.queuemanagerdemo.control.MultiMenuProvider;
 public class MusicHistoryContainer extends ListPagedContainer<Song> {
 
     public MusicHistoryContainer(String id, ObservableList<Song> songs) {
-        super(id, songs, 6, true, DEFAULT_EMPTY_SUPPLIER);
+        super(id, songs, 6, true);
         songs.addListener((ListChangeListener<Song>) c -> Platform.runLater(this::refresh));
     }
 

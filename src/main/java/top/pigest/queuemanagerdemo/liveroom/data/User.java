@@ -65,6 +65,10 @@ public class User {
         return new UserNode(item);
     }
 
+    public static BorderPane userNode(User item, boolean face, boolean medal, boolean intimacy) {
+        return new UserNode(item, face, medal, intimacy);
+    }
+
     public long getUid() {
         return uid;
     }
