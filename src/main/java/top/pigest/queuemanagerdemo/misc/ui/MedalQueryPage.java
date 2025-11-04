@@ -146,7 +146,7 @@ public class MedalQueryPage extends VBox implements NamedPage, ChildPage {
 
     @Override
     public String getName() {
-        return "粉丝牌";
+        return "粉丝勋章";
     }
 
     @Override

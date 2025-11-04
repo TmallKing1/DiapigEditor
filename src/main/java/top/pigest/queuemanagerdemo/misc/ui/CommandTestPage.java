@@ -1,7 +1,9 @@
 package top.pigest.queuemanagerdemo.misc.ui;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.jfoenix.controls.JFXTextField;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -52,19 +54,43 @@ public class CommandTestPage extends VBox implements NamedPage, ChildPage {
             if (LiveMessageService.getInstance() == null || !LiveMessageService.getInstance().isSessionAvailable()) {
                 Utils.showDialogMessage("请先连接直播弹幕服务", true, QueueManager.INSTANCE.getMainScene().getRootDrawer());
             }
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("cmd", "DANMU_MSG");
-            JsonArray jsonArray = new JsonArray();
-            jsonArray.add(new JsonArray());
-            jsonArray.add(textField.getText());
-            JsonArray user = new JsonArray();
-            user.add(QueueManager.getSelfUid());
-            user.add(QueueManager.INSTANCE.getMainScene().getUserName());
-            jsonArray.add(user);
-            jsonObject.add("info", jsonArray);
+            JsonObject jsonObject = createTestObject(textField);
             CompletableFuture.runAsync(() -> EventRegistry.getRegistries().forEach(event1 -> event1.onReceive(jsonObject)));
         });
         return execute;
+    }
+
+    private static JsonObject createTestObject(JFXTextField textField) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("cmd", "DANMU_MSG");
+        JsonArray jsonArray = new JsonArray(17);
+        JsonArray array = new JsonArray(16);
+        for (int i = 0; i < 16; i++) {
+            if (i == 15) {
+                JsonObject userObject = new JsonObject();
+                JsonObject baseObject = new JsonObject();
+                userObject.addProperty("uid", QueueManager.getSelfUid());
+                baseObject.addProperty("name", QueueManager.INSTANCE.getMainScene().getUserName());
+                baseObject.addProperty("face", "");
+                userObject.add("base", baseObject);
+                userObject.add("medal", null);
+                JsonObject obj1 = new JsonObject();
+                obj1.add("user", userObject);
+                array.add(obj1);
+            } else {
+                array.add(0);
+            }
+        }
+        for (int i = 0; i < 17; i++) {
+            switch (i) {
+                case 0 -> jsonArray.add(array);
+                case 1 -> jsonArray.add(textField.getText());
+                case 16 -> jsonArray.add(Utils.make(new JsonArray(), arr -> arr.add(0)));
+                default -> jsonArray.add(0);
+            }
+        }
+        jsonObject.add("info", jsonArray);
+        return jsonObject;
     }
 
     @Override

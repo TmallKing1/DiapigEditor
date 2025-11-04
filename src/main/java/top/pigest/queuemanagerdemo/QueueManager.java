@@ -79,6 +79,10 @@ public class QueueManager extends Application {
         return ((MainScene) primaryStage.getScene());
     }
 
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
     public static long getSelfUid() {
         return INSTANCE.SELF.getUid();
     }

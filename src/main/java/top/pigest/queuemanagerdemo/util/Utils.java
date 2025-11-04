@@ -23,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 import org.apache.http.client.CookieStore;
 import org.apache.http.cookie.Cookie;
@@ -32,9 +33,7 @@ import top.pigest.queuemanagerdemo.control.QMButton;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class Utils {
@@ -88,11 +87,13 @@ public class Utils {
         dialog.setId("close-confirm");
         vBox.setPadding(new Insets(20, 20, 20, 20));
         Text titleNode = new Text(title);
+        titleNode.setTextAlignment(TextAlignment.CENTER);
         titleNode.setFont(new Font(Settings.DEFAULT_FONT.getFamily(), 30));
         titleNode.setFill(Color.DIMGRAY);
         VBox.setMargin(titleNode, new Insets(0, 0, 10, 0));
         vBox.getChildren().add(titleNode);
         Text text = new Text(message);
+        text.setTextAlignment(TextAlignment.CENTER);
         text.setFont(Settings.DEFAULT_FONT);
         VBox.setMargin(text, new Insets(0, 0, 30, 0));
         vBox.getChildren().add(text);

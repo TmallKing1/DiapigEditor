@@ -58,24 +58,26 @@ public class UserNode extends BorderPane implements RequireCleaning {
         Text name = new Text(item.getUsername());
         name.setFont(Settings.DEFAULT_FONT);
         hBox.getChildren().add(name);
-        if (medal) {
-            Node fansMedal = item.getFansMedal().getDisplayNew();
-            hBox.getChildren().add(fansMedal);
-        }
         Text desc = new Text(String.format("UID: %s", item.getUid()));
         if (item.getGuardInfo() != null) {
             desc = new Text(String.format("%s到期 剩余%s天", item.getGuardInfo().getExpiredTimeString(), item.getGuardInfo().getDaysUntilExpire()));
         }
         desc.setFont(Settings.DEFAULT_FONT);
-        center.getChildren().addAll(hBox, desc);
+        if (medal) {
+            Node fansMedal = item.getFansMedal().getDisplayNew();
+            hBox.getChildren().add(fansMedal);
+            center.getChildren().addAll(hBox, desc);
+        } else {
+            hBox.getChildren().add(desc);
+            center.getChildren().add(hBox);
+        }
         center.setAlignment(Pos.CENTER_LEFT);
         this.setCenter(center);
         BorderPane.setAlignment(center, Pos.CENTER);
 
-        VBox right = new VBox(5);
-        right.setAlignment(Pos.CENTER_RIGHT);
-
         if (intimacy) {
+            VBox right = new VBox(5);
+            right.setAlignment(Pos.CENTER_RIGHT);
             BorderPane rightUp = new BorderPane();
             Text exp = new Text("%s".formatted(item.getFansMedal().getExp()));
             exp.setFont(Settings.DEFAULT_FONT);
@@ -104,9 +106,8 @@ public class UserNode extends BorderPane implements RequireCleaning {
             percent.setFont(Settings.DEFAULT_FONT);
             right.getChildren().addAll(rightUp, rightCenter, percent);
             this.setRight(right);
+            BorderPane.setAlignment(right, Pos.BOTTOM_CENTER);
         }
-
-        BorderPane.setAlignment(right, Pos.BOTTOM_CENTER);
     }
 
     public void clean() {

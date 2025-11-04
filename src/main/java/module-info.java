@@ -24,6 +24,7 @@ module top.pigest.queuemanagerdemo {
     requires javafx.media;
     requires javafx.graphics;
     requires javafx.base;
+    requires jdk.jshell;
 
     opens top.pigest.queuemanagerdemo to javafx.fxml;
     exports top.pigest.queuemanagerdemo;
@@ -50,6 +51,10 @@ module top.pigest.queuemanagerdemo {
     opens top.pigest.queuemanagerdemo.control to com.google.gson;
     exports top.pigest.queuemanagerdemo.misc.ui;
     opens top.pigest.queuemanagerdemo.misc.ui to com.google.gson;
+    exports top.pigest.queuemanagerdemo.util.gi;
     exports top.pigest.queuemanagerdemo.liveroom.data.event;
     opens top.pigest.queuemanagerdemo.liveroom.data.event to com.google.gson;
+    exports top.pigest.queuemanagerdemo.misc.dialog;
+    opens top.pigest.queuemanagerdemo.misc.dialog to com.google.gson;
+    opens top.pigest.queuemanagerdemo.util.gi to com.google.gson;
 }

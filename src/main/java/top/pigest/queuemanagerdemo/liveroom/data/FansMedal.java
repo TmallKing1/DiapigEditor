@@ -30,7 +30,7 @@ import java.util.concurrent.CompletableFuture;
  * @see LiveRoomApi#getFansUInfoMedal(long, long)
  */
 public class FansMedal {
-    private static final int[] SCORE_LIST = {0, 3, 5, 8,12,16,25,26,28,31,41,
+    private static final long[] SCORE_LIST = {0, 3, 5, 8,12,16,25,26,28,31,41,
             59,81,99,106,123,139,163,246,409,360,
             790,970,1100,1540,2860,2640,3000,4320,4800,8760,
     9620,12090,16770,18330,39430,31500,46500,55500,75000,
@@ -39,9 +39,9 @@ public class FansMedal {
     3983250};
     private String medalName;
     private int level;
-    private int score;
-    private int exp;
-    private int nextExp;
+    private long score;
+    private long exp;
+    private long nextExp;
     private int todayExp;
     private int dayLimitExp;
     private Boolean isLighted;
@@ -68,29 +68,29 @@ public class FansMedal {
         return this;
     }
 
-    public int getScore() {
+    public long getScore() {
         return score;
     }
 
-    public int getExp() {
+    public long getExp() {
         return exp;
     }
 
-    public FansMedal setExp(int exp) {
+    public FansMedal setExp(long exp) {
         this.exp = exp;
         return this;
     }
 
-    public int getNextExp() {
+    public long getNextExp() {
         return nextExp;
     }
 
-    public FansMedal setNextExp(int nextExp) {
+    public FansMedal setNextExp(long nextExp) {
         this.nextExp = nextExp;
         return this;
     }
 
-    public FansMedal setExpFromScore(int score) {
+    public FansMedal setExpFromScore(long score) {
         this.score = score;
         if (level > SCORE_LIST.length) {
             return this;
@@ -293,8 +293,8 @@ public class FansMedal {
         return fansMedal
                 .setMedalName(object.get("medal_name").getAsString())
                 .setLevel(object.get("level").getAsInt())
-                .setExp(object.get("intimacy").getAsInt())
-                .setNextExp(object.get("next_intimacy").getAsInt())
+                .setExp(object.get("intimacy").getAsLong())
+                .setNextExp(object.get("next_intimacy").getAsLong())
                 .setTodayExp(object.get("today_feed").getAsInt())
                 .setDayLimitExp(object.get("day_limit").getAsInt())
                 // 有个 API 有 is_lighted 这个字段所以还是加上了
@@ -318,7 +318,7 @@ public class FansMedal {
                 .setMedalName(object.get("name").getAsString())
                 .setLevel(object.get("level").getAsInt())
                 .setLighted(object.get("is_light").getAsInt() != 0)
-                .setExpFromScore(object.get("score").getAsInt())
+                .setExpFromScore(object.get("score").getAsLong())
                 .setGuardType(GuardType.valueOf(object.get("guard_level").getAsInt()))
                 .setGuardIcon(object.has("guard_icon") ? object.get("guard_icon").getAsString() : null)
                 .setOldStyle(FansMedalStyleOld.deserializeUInfoMedal(object))

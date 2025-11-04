@@ -8,7 +8,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Paint;
 import org.kordamp.ikonli.javafx.FontIcon;
 import top.pigest.queuemanagerdemo.QueueManager;
 import top.pigest.queuemanagerdemo.control.ListPagedContainer;
@@ -23,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class TrackedUserContainer extends ListPagedContainer<User> {
     public TrackedUserContainer(String id, ObservableList<User> items) {
-        super(id, items, 6, true);
+        super(id, items, 10, true);
         items.addListener((ListChangeListener<? super User>) c -> Platform.runLater(this::refresh));
     }
 
@@ -31,8 +32,9 @@ public class TrackedUserContainer extends ListPagedContainer<User> {
     public Node getNode(User item) {
         BorderPane borderPane = User.userNode(item, false, false, false);
         borderPane.setBorder(new Border(MultiMenuProvider.DEFAULT_BORDER_STROKE));
-        QMButton blacklist = new QMButton("拉黑用户", null);
-        blacklist.setGraphic(new FontIcon("fas-ban"));
+        QMButton blacklist = new QMButton("拉黑", null);
+        blacklist.setTextFill(Paint.valueOf("RED"));
+        blacklist.setGraphic(new FontIcon("fas-ban:8:RED"));
         blacklist.setOnAction(e -> Utils.showChoosingDialog("确认拉黑", "你真的要拉黑 %s 吗？".formatted(item.getUsername()), "确定", "取消",
                 event -> CompletableFuture.supplyAsync(() -> LiveRoomApi.modifyRelation(item, 5))
                         .whenComplete((result, throwable) -> {
@@ -47,11 +49,11 @@ public class TrackedUserContainer extends ListPagedContainer<User> {
         QMButton delete = new QMButton("删除", null);
         delete.setGraphic(new FontIcon("fas-trash-alt"));
         delete.setOnAction(e -> Utils.onPresent(UserEntryTracker.INSTANCE, t -> t.getUsers().remove(item)));
-        VBox vBox = new VBox(5);
-        vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(blacklist, delete);
-        borderPane.setRight(vBox);
-        borderPane.setPadding(new Insets(0, 0, 5, 0));
+        HBox hBox = new HBox(5);
+        hBox.setAlignment(Pos.CENTER);
+        hBox.getChildren().addAll(blacklist, delete);
+        borderPane.setRight(hBox);
+        borderPane.setPadding(new Insets(5, 0, 5, 0));
         BorderPane.setAlignment(delete, Pos.CENTER);
         return borderPane;
     }

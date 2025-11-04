@@ -608,8 +608,10 @@ public class MusicSystemPage extends MultiMenuProvider<Pane> implements NamedPag
                                 Platform.runLater(() -> Utils.showDialogMessage("登出失败", true, QueueManager.INSTANCE.getMainScene().getRootDrawer()));
                                 button.disable(false);
                             }
+                        }).whenComplete((result, throwable) -> Platform.runLater(() -> {
                             MusicHandler.INSTANCE.clear();
-                        }).whenComplete((result, throwable) -> Platform.runLater(() -> QueueManager.INSTANCE.getMainScene().setMainContainer(new MusicSystemPage().withParentPage(this.getParentPage()), this.getId())));
+                            QueueManager.INSTANCE.getMainScene().setMainContainer(new MusicSystemPage().withParentPage(this.getParentPage()), this.getId());
+                        }));
                         button.disable(true);
                     });
                 }))
