@@ -62,6 +62,7 @@
 .scroll-pane {
     -fx-background-insets: 0;
     -fx-padding: 0;
+    -fx-font-smoothing-type: lcd;
 }
 
 .scroll-pane:focused {
@@ -70,4 +71,8 @@
 
 .scroll-pane .corner {
     -fx-background-insets: 0;
+}
+
+.label {
+    -fx-font-smoothing-type: gray;
 }

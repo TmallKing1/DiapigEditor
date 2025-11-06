@@ -37,6 +37,8 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class Utils {
+    private static final Map<StackPane, JFXSnackbar> snackbarMap = new HashMap<>();
+
     public static <T> T make(T object, Consumer<T> consumer) {
         consumer.accept(object);
         return object;
@@ -73,7 +75,11 @@ public class Utils {
         toastContainer.setBackground(new Background(new BackgroundFill(Paint.valueOf(isError ? "#8B0000" : "#1f1e33"), new CornerRadii(3), Insets.EMPTY)));
         JFXDepthManager.setDepth(toastContainer, 2);
         JFXSnackbar.SnackbarEvent snackbarEvent = new JFXSnackbar.SnackbarEvent(toastContainer, Duration.seconds(duration));
+        if (snackbarMap.containsKey(rootStackPane)) {
+            snackbarMap.get(rootStackPane).close();
+        }
         snackbar.enqueue(snackbarEvent);
+        snackbarMap.put(rootStackPane, snackbar);
     }
 
     public static void showChoosingDialog(String title, String message,
@@ -88,25 +94,30 @@ public class Utils {
         vBox.setPadding(new Insets(20, 20, 20, 20));
         Text titleNode = new Text(title);
         titleNode.setTextAlignment(TextAlignment.CENTER);
-        titleNode.setFont(new Font(Settings.DEFAULT_FONT.getFamily(), 30));
+        titleNode.setFont(new Font(Settings.BOLD_FONT.getFamily(), 30));
         titleNode.setFill(Color.DIMGRAY);
         VBox.setMargin(titleNode, new Insets(0, 0, 10, 0));
         vBox.getChildren().add(titleNode);
         Text text = new Text(message);
         text.setTextAlignment(TextAlignment.CENTER);
         text.setFont(Settings.DEFAULT_FONT);
+        text.setWrappingWidth(450);
         VBox.setMargin(text, new Insets(0, 0, 30, 0));
         vBox.getChildren().add(text);
         HBox hBox = new HBox(40);
         hBox.setAlignment(Pos.CENTER);
         QMButton ok = new QMButton(strA, QMButton.DEFAULT_COLOR);
-        ok.setPrefWidth(80);
+        if (strA.length() <= 2) {
+            ok.setPrefWidth(80);
+        }
         ok.setOnAction(event -> {
             actionA.accept(event);
             dialog.close();
         });
         QMButton cancel = new QMButton(strB, "#bb5555");
-        cancel.setPrefWidth(80);
+        if (strB.length() <= 2) {
+            cancel.setPrefWidth(80);
+        }
         cancel.setOnAction(event -> {
             actionB.accept(event);
             dialog.close();

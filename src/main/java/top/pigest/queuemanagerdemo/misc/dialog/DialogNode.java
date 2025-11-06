@@ -96,10 +96,36 @@ public class DialogNode {
         this.content = content;
     }
 
+    @Override
+    public String toString() {
+        if (hasSubtitle) {
+            return "%s（%s）：%s".formatted(title, subtitle, content);
+        }
+        return "%s：%s".formatted(title, content);
+    }
+
     public static DialogNode createNewDialogNode(String dialogBranchStructId) {
         DialogNode dialogNode = new DialogNode(0);
         dialogNode.dialogBranchList = new StructList<>(dialogBranchStructId);
         return dialogNode;
+    }
+
+    public DialogNode copy() {
+        DialogNode dialogNode = new DialogNode(this.getOperation().getOpCode());
+        this.copyTo(dialogNode);
+        return dialogNode;
+    }
+
+    public void copyTo(DialogNode dialogNode) {
+        dialogNode.setOperation(this.getOperation());
+        dialogNode.setJumpIndex(this.getJumpIndex());
+        dialogNode.dialogBranchList = new StructList<>(this.dialogBranchList.getStructId());
+        this.dialogBranchList.forEach(struct -> dialogNode.dialogBranchList.add(new Struct<>(struct.getStructId(), struct.getValue().copy())));
+        dialogNode.setInheritPreviousTitleSettings(this.isInheritPreviousTitleSettings());
+        dialogNode.setTitle(this.getTitle());
+        dialogNode.setHasSubtitle(this.isHasSubtitle());
+        dialogNode.setSubtitle(this.getSubtitle());
+        dialogNode.setContent(this.getContent());
     }
 
     public static DialogNode read(JsonArray jsonArray) {
@@ -129,8 +155,8 @@ public class DialogNode {
 
     public enum Operation {
         END_DIALOG("结束对话", "fas-check-circle"),
-        NEXT_SENTENCE("跳转下个节点", "fas-arrow-circle-right"),
-        JUMP_SENTENCE("跳转指定节点", "fas-map-marked-alt"),
+        NEXT_SENTENCE("跳转下个节点", "fas-angle-double-down"),
+        JUMP_SENTENCE("跳转指定节点", "fas-map-marker-alt"),
         OPEN_SELECTION("打开分支选择", "fas-th-list");
 
         private final String name;
@@ -155,6 +181,11 @@ public class DialogNode {
 
         public static Operation fromOpCode(final int opCode) {
             return Operation.values()[opCode];
+        }
+
+        @Override
+        public String toString() {
+            return this.getName();
         }
     }
 }

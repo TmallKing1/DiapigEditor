@@ -1,5 +1,6 @@
 package top.pigest.queuemanagerdemo.misc;
 
+import top.pigest.queuemanagerdemo.misc.dialog.ui.DialogEditorPage;
 import top.pigest.queuemanagerdemo.misc.ui.*;
 
 import java.util.ArrayList;

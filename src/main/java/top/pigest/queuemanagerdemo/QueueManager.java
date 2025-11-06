@@ -24,6 +24,8 @@ public class QueueManager extends Application {
     public void start(Stage primaryStage) {
         System.setProperty("javafx.animation.fullspeed", "true");
         System.setProperty("javafx.animation.pulse", "60");
+        System.setProperty("prism.lcdtext", "true");
+        System.setProperty("prism.text", "t2k");
         INSTANCE = this;
         this.primaryStage = primaryStage;
         primaryStage.setResizable(false);

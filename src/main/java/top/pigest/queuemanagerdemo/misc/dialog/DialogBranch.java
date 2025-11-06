@@ -40,4 +40,8 @@ public class DialogBranch {
         jsonArray.add(GIVariableUtils.writeInt(dialogBranch.getJumpIndex()));
         return jsonArray;
     }
+
+    public DialogBranch copy() {
+        return new DialogBranch(title, jumpIndex);
+    }
 }

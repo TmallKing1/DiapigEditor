@@ -57,4 +57,6 @@ module top.pigest.queuemanagerdemo {
     exports top.pigest.queuemanagerdemo.misc.dialog;
     opens top.pigest.queuemanagerdemo.misc.dialog to com.google.gson;
     opens top.pigest.queuemanagerdemo.util.gi to com.google.gson;
+    exports top.pigest.queuemanagerdemo.misc.dialog.ui;
+    opens top.pigest.queuemanagerdemo.misc.dialog.ui to com.google.gson;
 }

@@ -16,6 +16,7 @@ public class StructList<T> extends ArrayList<Struct<T>> {
     public String getStructId() {
         return structId;
     }
+
     public void setStructId(String structId) {
         this.structId = structId;
     }
