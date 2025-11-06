@@ -6,7 +6,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -36,9 +35,8 @@ public class DialogNodeButton extends QMButton {
     private final QMButton remove;
     private final HBox mainTextInner;
     private Node operation;
-    private final Text indexText;
     private final ScrollablePane<HBox> mainText;
-    private int index;
+    private final int index;
     public DialogNodeButton(int index, Struct<DialogNode> dialogNode, StructList<DialogNode> dialogNodeList, DialogEditorPage editorPage) {
         super("", null, false);
         this.index = index;
@@ -53,7 +51,7 @@ public class DialogNodeButton extends QMButton {
         BorderPane main = new BorderPane();
         BorderPane left = new BorderPane();
         left.setPrefWidth(70);
-        indexText = new Text(String.valueOf(this.index));
+        Text indexText = new Text(String.valueOf(this.index));
         indexText.setFont(Settings.BOLD_FONT);
         updateFontIcon();
         BorderPane.setAlignment(indexText, Pos.CENTER);
@@ -276,10 +274,6 @@ public class DialogNodeButton extends QMButton {
         add.disable(selectMode);
         copy.disable(selectMode);
         remove.disable(selectMode);
-    }
-
-    public QMButton getEditOrSelect() {
-        return editOrSelect;
     }
 
     private DialogNode getDialogNode() {

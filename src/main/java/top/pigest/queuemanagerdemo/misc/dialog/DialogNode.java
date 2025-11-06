@@ -35,23 +35,6 @@ public class DialogNode {
         this.jumpIndex = jumpIndex;
     }
 
-    public void createDialogBranch(int currentIndex) {
-        int size = this.dialogBranchList.size();
-        if (size < 4) {
-            this.addDialogBranch(size, new Struct<>(dialogBranchList.getStructId(), new DialogBranch("标题", currentIndex + 1)));
-        } else {
-            throw new IllegalStateException("最多支持创建4个分支");
-        }
-    }
-
-    public void addDialogBranch(int index, Struct<DialogBranch> dialogBranch) {
-        this.dialogBranchList.add(index, dialogBranch);
-    }
-
-    public void removeDialogBranch(int index) {
-        this.dialogBranchList.remove(index);
-    }
-
     public StructList<DialogBranch> getDialogBranchList() {
         return dialogBranchList;
     }

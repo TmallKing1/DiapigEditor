@@ -52,7 +52,6 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
     private BorderPane jumpNode;
     private PostActionButtonSelector jumpNodeSelector;
     private BorderPane branchEditHead;
-    private QMButton addBranchButton;
     private VBox branchList;
 
     private boolean isEditingText = true;
@@ -208,7 +207,7 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
             }
             case OPEN_SELECTION -> {
                 if (branchEditHead == null) {
-                    addBranchButton = new QMButton(this.editingNode.getValue().getTitle());
+                    QMButton addBranchButton = new QMButton(this.editingNode.getValue().getTitle());
                     addBranchButton.setStyle("-fx-background-color: #55bb55;");
                     addBranchButton.setText("添加分支");
                     addBranchButton.setGraphic(new WhiteFontIcon("fas-plus"));

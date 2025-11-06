@@ -8,7 +8,6 @@ import top.pigest.queuemanagerdemo.liveroom.data.User;
 import top.pigest.queuemanagerdemo.util.Utils;
 import top.pigest.queuemanagerdemo.login.LoginMain;
 import top.pigest.queuemanagerdemo.main.MainScene;
-import top.pigest.queuemanagerdemo.misc.MiscRegistryManager;
 
 import java.util.Objects;
 

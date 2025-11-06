@@ -113,8 +113,10 @@ public class DialogMetaEditor extends VBox implements DialogDataEditor {
             this.editorPage.idList.set(1, dialogNodeField.getText());
             this.editorPage.idList.set(2, dialogBranchField.getText());
             this.editorPage.dialogStruct.setStructId(dialogStructField.getText());
+            this.editorPage.dialogStruct.getValue().getDialogNodeList().setStructId(dialogNodeField.getText());
             this.editorPage.dialogStruct.getValue().getDialogNodeList().forEach(node -> {
                 node.setStructId(dialogNodeField.getText());
+                node.getValue().getDialogBranchList().setStructId(dialogBranchField.getText());
                 node.getValue().getDialogBranchList().forEach(branchNode -> branchNode.setStructId(dialogBranchField.getText()));
             });
             this.editorPage.setCurrentEditor(null);
