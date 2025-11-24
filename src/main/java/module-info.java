@@ -1,6 +1,5 @@
-module top.pigest.queuemanagerdemo {
+module top.pigest.dialogeditor {
     requires javafx.controls;
-    requires javafx.fxml;
 
 //    requires org.controlsfx.controls;
 //    requires com.dlsc.formsfx;
@@ -9,54 +8,28 @@ module top.pigest.queuemanagerdemo {
     requires java.net.http;
     requires java.security.jgss;
     requires jdk.crypto.ec;
-    requires org.apache.httpcomponents.httpclient;
     requires com.google.gson;
-    requires org.apache.httpcomponents.httpcore;
-    requires javafx.web;
     requires jdk.jsobject;
-    requires com.google.zxing;
-    requires com.google.zxing.javase;
     requires org.kordamp.ikonli.core;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.ikonli.fontawesome6;
-    requires dec;
-    requires com.google.protobuf;
-    requires javafx.media;
     requires javafx.graphics;
     requires javafx.base;
     requires jdk.jshell;
 
-    opens top.pigest.queuemanagerdemo to javafx.fxml;
-    exports top.pigest.queuemanagerdemo;
-    exports top.pigest.queuemanagerdemo.util;
-    exports top.pigest.queuemanagerdemo.control;
-    exports top.pigest.queuemanagerdemo.main;
-    exports top.pigest.queuemanagerdemo.music;
-    opens top.pigest.queuemanagerdemo.music to com.google.gson;
-    exports top.pigest.queuemanagerdemo.liveroom;
-    opens top.pigest.queuemanagerdemo.liveroom to com.google.gson;
-    exports top.pigest.queuemanagerdemo.resource;
-    exports top.pigest.queuemanagerdemo.music.ui;
-    opens top.pigest.queuemanagerdemo.music.ui to com.google.gson;
-    exports top.pigest.queuemanagerdemo.liveroom.ui;
-    opens top.pigest.queuemanagerdemo.liveroom.ui to com.google.gson;
-    exports top.pigest.queuemanagerdemo.liveroom.data;
-    opens top.pigest.queuemanagerdemo.liveroom.data to com.google.gson;
-    exports top.pigest.queuemanagerdemo.music.data;
-    opens top.pigest.queuemanagerdemo.music.data to com.google.gson;
-    opens top.pigest.queuemanagerdemo.main to com.google.gson;
-    exports top.pigest.queuemanagerdemo.misc;
-    opens top.pigest.queuemanagerdemo.misc to com.google.gson;
-    opens top.pigest.queuemanagerdemo.util to com.google.gson;
-    opens top.pigest.queuemanagerdemo.control to com.google.gson;
-    exports top.pigest.queuemanagerdemo.misc.ui;
-    opens top.pigest.queuemanagerdemo.misc.ui to com.google.gson;
-    exports top.pigest.queuemanagerdemo.util.gi;
-    exports top.pigest.queuemanagerdemo.liveroom.data.event;
-    opens top.pigest.queuemanagerdemo.liveroom.data.event to com.google.gson;
-    exports top.pigest.queuemanagerdemo.misc.dialog;
-    opens top.pigest.queuemanagerdemo.misc.dialog to com.google.gson;
-    opens top.pigest.queuemanagerdemo.util.gi to com.google.gson;
-    exports top.pigest.queuemanagerdemo.misc.dialog.ui;
-    opens top.pigest.queuemanagerdemo.misc.dialog.ui to com.google.gson;
+    exports top.pigest.dialogeditor;
+    exports top.pigest.dialogeditor.util;
+    exports top.pigest.dialogeditor.control;
+    exports top.pigest.dialogeditor.main;
+    exports top.pigest.dialogeditor.resource;
+    opens top.pigest.dialogeditor.main to com.google.gson;
+    opens top.pigest.dialogeditor.util to com.google.gson;
+    opens top.pigest.dialogeditor.control to com.google.gson;
+    exports top.pigest.dialogeditor.util.gi;
+    exports top.pigest.dialogeditor.dialog;
+    opens top.pigest.dialogeditor.dialog to com.google.gson;
+    opens top.pigest.dialogeditor.util.gi to com.google.gson;
+    exports top.pigest.dialogeditor.dialog.ui;
+    opens top.pigest.dialogeditor.dialog.ui to com.google.gson;
+    opens top.pigest.dialogeditor to com.google.gson;
 }

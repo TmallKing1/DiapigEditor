@@ -2,5 +2,6 @@
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$USER_HOME$/Desktop/color.bat" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/top/pigest/dialogeditor/Test.java" charset="UTF-8" />
   </component>
 </project>

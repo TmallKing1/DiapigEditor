@@ -2,7 +2,7 @@
   <artifact type="jar" name="QueueManagerDemo.main:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/QueueManagerDemo_main_jar</output-path>
     <root id="archive" name="QueueManagerDemo.main.jar">
-      <element id="module-output" name="QueueManagerDemo.main" />
+      <element id="module-output" name="GenshinDialogEditor.main" />
       <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.4.16/51cf043c87253c9f58b539c9f7e44c8894223850/httpcore-4.4.16.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.openjfx/javafx-graphics/21/8083d97ea236079c82cf8e3463b62990340346d4/javafx-graphics-21-win.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.rationalityfrontline.workaround/jfoenix/21.0.0/6f07dc7ad8bd7a5bedaddf8d2f9d581947332954/jfoenix-21.0.0.jar" path-in-jar="/" />

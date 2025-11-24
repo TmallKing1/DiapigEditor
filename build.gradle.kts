@@ -27,34 +27,27 @@ tasks.withType<JavaCompile> {
 }
 
 application {
-    mainModule.set("top.pigest.queuemanagerdemo")
-    mainClass.set("top.pigest.queuemanagerdemo.QueueManager")
+    mainModule.set("top.pigest.dialogeditor")
+    mainClass.set("top.pigest.dialogeditor.DialogEditor")
     applicationDefaultJvmArgs = listOf("--add-opens=java.base/java.lang.reflect=com.jfoenix",
         "--add-opens=javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix",
         "--add-opens=javafx.controls/com.sun.javafx.scene.control=com.jfoenix",
         "--add-opens=javafx.base/com.sun.javafx.binding=com.jfoenix",
         "--add-opens=javafx.base/com.sun.javafx.event=com.jfoenix",
         "--add-opens=javafx.graphics/com.sun.javafx.stage=com.jfoenix",
-        "--add-opens=javafx.graphics/com.sun.javafx.scene=com.jfoenix")
+        "--add-opens=javafx.graphics/com.sun.javafx.scene=com.jfoenix",
+        "--add-opens=javafx.graphics/com.sun.javafx.util=com.jfoenix",
+        "--add-opens=com.jfoenix/com.jfoenix.skins=top.pigest.dialogeditor")
 }
 
 javafx {
     version = "21"
-    modules = listOf("javafx.controls", "javafx.fxml", "javafx.web", "javafx.graphics")
+    modules = listOf("javafx.controls", "javafx.graphics")
 }
 
 dependencies {
     implementation("org.rationalityfrontline.workaround:jfoenix:21.0.0")
     implementation("com.google.code.gson:gson:2.13.1")
-    implementation("com.google.zxing:core:3.5.3")
-    implementation("com.google.zxing:javase:3.5.3")
-    implementation("org.apache.httpcomponents:httpclient:4.5.14")
-    implementation("org.brotli:dec:0.1.2")
-    implementation("com.google.protobuf:protobuf-java:4.32.0")
-    //implementation("org.controlsfx:controlsfx:11.2.1")
-    /*implementation("com.dlsc.formsfx:formsfx-core:11.6.0") {
-        exclude(group = "org.openjfx")
-    }*/
     implementation("org.kordamp.ikonli:ikonli-javafx:12.4.0")
     implementation("org.kordamp.ikonli:ikonli-fontawesome6-pack:12.4.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
@@ -69,11 +62,11 @@ jlink {
     imageZip.set(layout.buildDirectory.file("/distributions/app-${javafx.platform.classifier}.zip"))
     options.set(listOf("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages"))
     launcher {
-        name = "Queue Manager"
+        name = "Dialog Editor"
     }
     jpackage {
         if (org.gradle.internal.os.OperatingSystem.current().isWindows) {
-            imageOptions.addAll(listOf("--icon", "src/main/resources/top/pigest/queuemanagerdemo/icon.ico"))
+            imageOptions.addAll(listOf("--icon", "src/main/resources/top/pigest/dialogeditor/icon.ico"))
         }
     }
 }

@@ -1,0 +1,20 @@
+.selectable-text-flow {
+    -fx-text-fill: black;
+    -fx-cursor: text;
+    -fx-background-color: transparent;
+    -fx-padding: 5px;
+}
+
+.selectable-text-flow .text {
+    -fx-fill: inherit;
+    -fx-cursor: text;
+}
+
+.selectable-text-flow .text:hover {
+    -fx-fill: derive(-fx-text-fill, -20%);
+}
+
+.selectable-text-flow .text:selected {
+    -fx-fill: white;
+    -fx-background-color: #0078D4;
+}

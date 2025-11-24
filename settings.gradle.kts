@@ -1,1 +1,1 @@
-rootProject.name = "QueueManagerDemo"
+rootProject.name = "DialogEditor"
