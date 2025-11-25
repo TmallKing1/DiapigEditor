@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 
 public abstract class MultiMenuProvider<T extends Node> extends BorderPane implements ChildPage {
     public static final BorderStroke DEFAULT_BORDER_STROKE =
-            new BorderStroke(Color.TRANSPARENT, Color.TRANSPARENT, Paint.valueOf("0x22222233"), Color.TRANSPARENT,
+            new BorderStroke(Color.TRANSPARENT, Color.TRANSPARENT, Paint.valueOf("0x55555533"), Color.TRANSPARENT,
                     BorderStrokeStyle.SOLID, null, null, null,
                     CornerRadii.EMPTY, new BorderWidths(1), Insets.EMPTY);
 
@@ -40,7 +40,7 @@ public abstract class MultiMenuProvider<T extends Node> extends BorderPane imple
         List<QMButton> menuButtons = new ArrayList<>();
         for (Map.Entry<String, Supplier<T>> menu : menus.entrySet()) {
             QMButton e = new QMButton(menu.getKey(), null);
-            e.setRipplerFill(Paint.valueOf("BLACK"));
+            e.setRipplerFill(Paint.valueOf("WHITE"));
             e.setOnAction(event -> {
                 this.setInnerContainer(menu.getValue().get());
                 DialogEditor.INSTANCE.getMainScene().updateMenuButtonTextFill();

@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -26,7 +27,7 @@ public class MainScene extends Scene {
     private final HBox menuItems = Utils.make(new HBox(), hBox -> hBox.setAlignment(Pos.CENTER_LEFT));
     private final QMButton bar = Utils.make(new QMButton("", null), qmButton -> qmButton.setOnAction(event -> showSidebar()));
     private final BorderPane top = Utils.make(new BorderPane(), border -> {
-        bar.setGraphic(new FontIcon("fas-bars"));
+        bar.setGraphic(new WhiteFontIcon("fas-bars"));
         border.setLeft(new BorderPane(menuItems, null, null, null, bar));
         border.setRight(accountButton);
     });
@@ -46,6 +47,8 @@ public class MainScene extends Scene {
     public MainScene() {
         super(new Pane(), 800, 600, false, SceneAntialiasing.BALANCED);
         this.setRoot(drawer);
+        drawer.setStyle("-fx-background-color: #26282b;");
+        this.setFill(Color.valueOf("#26282b"));
         init();
     }
 
@@ -53,8 +56,9 @@ public class MainScene extends Scene {
         Platform.runLater(() -> {
             mainPage = new MainPage(this);
             this.setMainContainer(mainPage, "主页");
-            accountButton.setGraphic(new FontIcon("far-user-circle"));
+            accountButton.setGraphic(new WhiteFontIcon("far-user-circle"));
             VBox vbox = new VBox();
+            vbox.setStyle("-fx-background-color: #26282b;");
             vbox.setAlignment(Pos.CENTER);
             vbox.getChildren().addAll(drawerButtons);
             drawer.setSidePane(vbox);
@@ -88,8 +92,8 @@ public class MainScene extends Scene {
                 qmButton.setTextFill(Paint.valueOf("#1a8bcc"));
                 ((FontIcon) qmButton.getGraphic()).setIconColor(Paint.valueOf("#1a8bcc"));
             } else {
-                qmButton.setTextFill(Paint.valueOf("BLACK"));
-                ((FontIcon) qmButton.getGraphic()).setIconColor(Paint.valueOf("BLACK"));
+                qmButton.setTextFill(Paint.valueOf("WHITE"));
+                ((FontIcon) qmButton.getGraphic()).setIconColor(Paint.valueOf("WHITE"));
             }
         });
         this.refreshMenuButtons();
@@ -163,7 +167,7 @@ public class MainScene extends Scene {
                 back.setOnAction(event -> this.setMainContainer(parent, parent.getId()));
                 this.menuItems.getChildren().add(back);
                 if (childPage instanceof DataEditor) {
-                    back.setGraphic(new FontIcon("far-save"));
+                    back.setGraphic(new WhiteFontIcon("far-save"));
                     if (!(this.getMainContainer() instanceof MultiMenuProvider<?>)) {
                         back.setText("保存");
                     }
@@ -172,7 +176,7 @@ public class MainScene extends Scene {
                         this.setMainContainer(parent, parent.getId());
                     });
                 } else {
-                    back.setGraphic(new FontIcon("far-arrow-alt-circle-left"));
+                    back.setGraphic(new WhiteFontIcon("far-arrow-alt-circle-left"));
                     if (!(this.getMainContainer() instanceof MultiMenuProvider<?>)) {
                         back.setText("返回");
                     }
@@ -200,7 +204,7 @@ public class MainScene extends Scene {
     }
 
     public void updateMenuButtonTextFill() {
-        this.menuItems.getChildren().forEach(node -> ((QMButton) node).setTextFill(Paint.valueOf("BLACK")));
+        this.menuItems.getChildren().forEach(node -> ((QMButton) node).setTextFill(Paint.valueOf("WHITE")));
         if (this.getMainContainer() instanceof MultiMenuProvider<?> multiMenuProvider) {
             int currentMenuIndex = multiMenuProvider.getCurrentMenuIndex();
             currentMenuIndex = this.getMainContainer() instanceof ChildPage ? currentMenuIndex + 1 : currentMenuIndex;

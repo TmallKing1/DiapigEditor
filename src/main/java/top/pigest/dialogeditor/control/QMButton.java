@@ -2,6 +2,7 @@ package top.pigest.dialogeditor.control;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTooltip;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import org.kordamp.ikonli.javafx.FontIcon;
 import top.pigest.dialogeditor.Settings;
@@ -17,12 +18,14 @@ public class QMButton extends JFXButton {
 
     public QMButton(String text, String backgroundColor) {
         super(text);
+        this.setTextFill(Color.WHITE);
         this.backgroundColor = backgroundColor;
         init();
     }
 
     public QMButton(String text, String backgroundColor, boolean raised) {
         super(text);
+        this.setTextFill(Color.WHITE);
         this.backgroundColor = backgroundColor;
         this.raised = raised;
         init();

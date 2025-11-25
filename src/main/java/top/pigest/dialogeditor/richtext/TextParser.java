@@ -43,7 +43,7 @@ public class TextParser {
         input = input.replace("\\n", "\n");
 
         // 解析文本
-        parseTextRecursive(input, Settings.DEFAULT_FONT, Color.BLACK, false, false, textList, errorHandler, 0);
+        parseTextRecursive(input, Settings.DEFAULT_FONT, Color.WHITE, false, false, textList, errorHandler, 0);
 
         return textList;
     }
@@ -100,9 +100,9 @@ public class TextParser {
         if (isStartTag(tag)) {
             String tagName = getTagName(tag);
 
-            // 查找对应的结束标签
+            // 查找对应的结束标签，考虑嵌套情况
             String endTag = "</" + tagName + ">";
-            int endTagPos = remainingText.indexOf(endTag);
+            int endTagPos = findMatchingEndTag(remainingText, tagName, endTag);
 
             if (endTagPos == -1) {
                 // 没有找到结束标签
@@ -121,7 +121,7 @@ public class TextParser {
             // 根据标签类型处理
             switch (tagName) {
                 case "color":
-                    handleColorTag(content, tag, currentFont, isBold, isItalic, textList, errorHandler, depth);
+                    handleColorTag(content, tag, currentFont, currentColor, isBold, isItalic, textList, errorHandler, depth);
                     break;
                 case "b":
                     handleBoldTag(content, currentFont, currentColor, isItalic, textList, errorHandler, depth);
@@ -142,7 +142,7 @@ public class TextParser {
             parseTextRecursive(afterContent, currentFont, currentColor, isBold, isItalic,
                     textList, errorHandler, depth + 1);
 
-        } else {
+        } else if (isEndTag(tag)) {
             // 遇到结束标签但没有对应的开始标签
             if (errorHandler != null) {
                 errorHandler.onError("存在未匹配的结束标签: " + tag);
@@ -150,13 +150,54 @@ public class TextParser {
             // 继续处理剩余文本
             parseTextRecursive(remainingText, currentFont, currentColor, isBold, isItalic,
                     textList, errorHandler, depth + 1);
+        } else {
+            // 无效的标签，作为普通文本处理
+            addTextSegment(tag, currentFont, currentColor, isBold, isItalic, textList);
+            parseTextRecursive(remainingText, currentFont, currentColor, isBold, isItalic,
+                    textList, errorHandler, depth + 1);
         }
+    }
+
+    /**
+     * 查找匹配的结束标签位置，考虑嵌套情况
+     */
+    private static int findMatchingEndTag(String text, String tagName, String endTag) {
+        int currentPos = 0;
+        int nestingLevel = 0;
+
+        while (currentPos < text.length()) {
+            int nextStartTag = text.indexOf("<" + tagName, currentPos);
+            int nextEndTag = text.indexOf(endTag, currentPos);
+
+            // 如果没有找到任何标签，返回第一个结束标签位置（如果没有嵌套）
+            if (nextStartTag == -1 && nextEndTag == -1) {
+                return -1;
+            }
+
+            // 确定下一个出现的标签是开始标签还是结束标签
+            if (nextStartTag != -1 && (nextEndTag == -1 || nextStartTag < nextEndTag)) {
+                // 下一个是开始标签，增加嵌套级别
+                nestingLevel++;
+                currentPos = nextStartTag + 1;
+            } else {
+                if (nestingLevel == 0) {
+                    // 找到匹配的结束标签
+                    return nextEndTag;
+                } else {
+                    // 减少嵌套级别
+                    nestingLevel--;
+                    currentPos = nextEndTag + 1;
+                }
+            }
+        }
+
+        return -1;
     }
 
     /**
      * 处理颜色标签
      */
-    private static void handleColorTag(String content, String tag, Font currentFont,
+    private static void handleColorTag(String content, String tag, Font currentFont, Color currentColor,
                                        boolean isBold, boolean isItalic,
                                        List<Text> textList, ErrorHandler errorHandler, int depth) {
         // 从标签中提取颜色值
@@ -166,7 +207,7 @@ public class TextParser {
                 errorHandler.onError("颜色标签格式错误: " + tag);
             }
             // 将内容作为普通文本处理
-            addTextSegment(content, currentFont, Color.BLACK, isBold, isItalic, textList);
+            addTextSegment(content, currentFont, currentColor, isBold, isItalic, textList);
             return;
         }
 
@@ -185,7 +226,7 @@ public class TextParser {
             if (errorHandler != null) {
                 errorHandler.onError("无效的颜色值: " + colorValue);
             }
-            color = Color.BLACK;
+            color = currentColor; // 使用当前颜色而不是默认黑色
         }
 
         // 递归处理颜色标签内的内容
@@ -200,7 +241,11 @@ public class TextParser {
                                       boolean isItalic, List<Text> textList,
                                       ErrorHandler errorHandler, int depth) {
         // 使用粗体字体
-        parseTextRecursive(content, Settings.BOLD_FONT, currentColor, true, isItalic,
+        Font boldFont = isItalic ?
+                Font.font(Settings.BOLD_FONT.getFamily(), FontPosture.ITALIC, Settings.BOLD_FONT.getSize()) :
+                Settings.BOLD_FONT;
+
+        parseTextRecursive(content, boldFont, currentColor, true, isItalic,
                 textList, errorHandler, depth + 1);
     }
 
@@ -246,6 +291,13 @@ public class TextParser {
     private static boolean isStartTag(String tag) {
         return tag.startsWith("<") && tag.endsWith(">") &&
                !tag.startsWith("</") && tag.length() > 2;
+    }
+
+    /**
+     * 检查是否是结束标签
+     */
+    private static boolean isEndTag(String tag) {
+        return tag.startsWith("</") && tag.endsWith(">") && tag.length() > 3;
     }
 
     /**

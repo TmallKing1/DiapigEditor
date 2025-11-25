@@ -18,6 +18,7 @@ import top.pigest.dialogeditor.control.ScrollableText;
 import top.pigest.dialogeditor.control.WhiteFontIcon;
 import top.pigest.dialogeditor.dialog.DialogBranch;
 import top.pigest.dialogeditor.dialog.DialogNode;
+import top.pigest.dialogeditor.richtext.TextParser;
 import top.pigest.dialogeditor.util.Utils;
 import top.pigest.dialogeditor.util.gi.Struct;
 import top.pigest.dialogeditor.util.gi.StructList;
@@ -85,13 +86,14 @@ public class DialogNodeButton extends QMButton {
                 }
                 VBox vBox = new VBox(5);
                 dialog = new JFXDialog(DialogEditor.INSTANCE.getMainScene().getRootDrawer(), vBox, JFXDialog.DialogTransition.CENTER);
+                vBox.setStyle("-fx-background-color: #26282b");
                 vBox.setPrefWidth(360);
                 vBox.setAlignment(Pos.CENTER);
                 vBox.setPadding(new Insets(20, 20, 20, 20));
                 Text titleNode = new Text("节点编号：" + this.index);
                 titleNode.setTextAlignment(TextAlignment.CENTER);
                 titleNode.setFont(new Font(Settings.BOLD_FONT.getFamily(), 30));
-                titleNode.setFill(Color.DIMGRAY);
+                titleNode.setFill(Color.LIGHTGRAY);
                 VBox.setMargin(titleNode, new Insets(0, 0, 10, 0));
                 vBox.getChildren().add(titleNode);
 
@@ -327,18 +329,25 @@ public class DialogNodeButton extends QMButton {
             Text title = new Text(titleText.equals("<PLAYER_NAME>") ? "玩家" : titleText);
             title.setFont(Settings.BOLD_FONT);
             if (titleText.equals("<PLAYER_NAME>")) {
-                title.setFill(Color.GOLDENROD);
+                title.setFill(Color.valueOf("#ffcc33"));
+            } else {
+                title.setFill(Color.WHITE);
             }
             this.mainTextInner.getChildren().add(title);
             if (dialogNode.getValue().isHasSubtitle()) {
                 Text subtitle = new Text("（%s）".formatted(dialogNode.getValue().getSubtitle()));
                 subtitle.setFont(Settings.CODE_FONT);
+                subtitle.setFill(Color.WHITE);
                 this.mainTextInner.getChildren().add(subtitle);
             }
         }
-        Text content = dialogNode == null ? new Text("移动到最后") : new Text("「%s」".formatted(dialogNode.getValue().getContent()));
-        content.setFont(Settings.GENSHIN_FONT);
-        this.mainTextInner.getChildren().add(content);
+        Text sp = new Text("移动到最后");
+        sp.setFont(Settings.DEFAULT_FONT);
+        sp.setFill(Color.WHITE);
+        List<Text> contents = dialogNode == null ? List.of(sp) : TextParser.parseText("「%s」".formatted(
+                dialogNode.getValue().getTextMethod() == DialogNode.TextMethod.CUSTOM ?
+                        dialogNode.getValue().getContent().replace("|", "") : dialogNode.getValue().getContent()), s -> Utils.showDialogMessage(s, true, DialogEditor.INSTANCE.getMainScene().getRootDrawer()));
+        this.mainTextInner.getChildren().addAll(contents);
         this.mainText.resetAnimation();
     }
 
@@ -368,23 +377,26 @@ public class DialogNodeButton extends QMButton {
                 left.setPrefWidth(120);
                 HBox id = new HBox(2);
                 id.setAlignment(Pos.CENTER_LEFT);
-                id.getChildren().add(new FontIcon("fas-th-list"));
+                id.getChildren().add(new WhiteFontIcon("fas-th-list"));
                 Text idText = new Text(String.valueOf(i + 1));
                 idText.setFont(Settings.DEFAULT_FONT);
+                idText.setFill(Color.WHITE);
                 id.getChildren().add(idText);
                 id.setPadding(new Insets(0, 5, 0, 5));
                 DialogBranch branch = getDialogNode().getDialogBranchList().get(i).getValue();
                 HBox jump = new HBox(2);
                 jump.setAlignment(Pos.CENTER_LEFT);
-                jump.getChildren().add(new FontIcon("fas-map-marker-alt"));
+                jump.getChildren().add(new WhiteFontIcon("fas-map-marker-alt"));
                 Text jumpText = new Text(String.valueOf(branch.getJumpIndex()));
                 jumpText.setFont(Settings.DEFAULT_FONT);
+                jumpText.setFill(Color.WHITE);
                 jump.getChildren().add(jumpText);
                 jump.setPadding(new Insets(0, 5, 0, 5));
                 left.getChildren().addAll(id, jump);
                 BorderPane.setMargin(left, new Insets(0, 5, 0, 0));
                 borderPane.setLeft(left);
-                ScrollableText value = new ScrollableText(branch.getTitle(), this.editorPage.getWidth() - 250, false, Settings.GENSHIN_FONT);
+                ScrollableText value = new ScrollableText(branch.getTitle(), this.editorPage.getWidth() - 250, false, Settings.DEFAULT_FONT);
+                value.getText().setFill(Color.WHITE);
                 value.setBackDuration(0.01);
                 branchTexts.add(value);
                 BorderPane.setAlignment(value, Pos.CENTER_LEFT);

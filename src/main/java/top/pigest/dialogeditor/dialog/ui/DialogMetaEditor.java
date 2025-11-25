@@ -29,13 +29,14 @@ public class DialogMetaEditor extends VBox implements DialogDataEditor {
     public DialogMetaEditor(DialogEditorPage editorPage) {
         this.editorPage = editorPage;
 
+        this.setStyle("-fx-background-color: #26282b");
         this.setPrefWidth(640);
         this.setAlignment(Pos.CENTER);
         this.setPadding(new Insets(20, 20, 20, 20));
         Text titleNode = new Text("编辑元数据");
         titleNode.setTextAlignment(TextAlignment.CENTER);
         titleNode.setFont(new Font(Settings.BOLD_FONT.getFamily(), 30));
-        titleNode.setFill(Color.DIMGRAY);
+        titleNode.setFill(Color.LIGHTGRAY);
         VBox.setMargin(titleNode, new Insets(0, 0, 20, 0));
         this.getChildren().add(titleNode);
 
@@ -49,12 +50,16 @@ public class DialogMetaEditor extends VBox implements DialogDataEditor {
         this.getChildren().add(initNodeSelector);
 
         Text hint = new Text("结构体 ID 可在游戏中导出的结构体文件中找到\n导入结构体文件时会自动设置结构体 ID\n保存结构体 ID 后，会更改导出文件的对应结构体 ID");
+        hint.setFill(Color.WHITE);
         hint.setFont(Settings.DEFAULT_FONT);
         hint.setTextAlignment(TextAlignment.CENTER);
         VBox.setMargin(hint, new Insets(0, 0, 15, 0));
         this.getChildren().add(hint);
 
         dialogStructField = new JFXTextField();
+        dialogStructField.setUnFocusColor(Color.LIGHTGRAY);
+        dialogStructField.setFocusColor(Color.AQUA);
+        dialogStructField.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: lightgray;");
         dialogStructField.setFont(Settings.DEFAULT_FONT);
         dialogStructField.setPrefWidth(200);
         dialogStructField.setMaxWidth(USE_PREF_SIZE);
@@ -65,6 +70,9 @@ public class DialogMetaEditor extends VBox implements DialogDataEditor {
         this.getChildren().add(dialogStructField);
 
         dialogNodeField = new JFXTextField();
+        dialogNodeField.setUnFocusColor(Color.LIGHTGRAY);
+        dialogNodeField.setFocusColor(Color.AQUA);
+        dialogNodeField.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: lightgray;");
         dialogNodeField.setFont(Settings.DEFAULT_FONT);
         dialogNodeField.setPrefWidth(200);
         dialogNodeField.setMaxWidth(USE_PREF_SIZE);
@@ -75,6 +83,9 @@ public class DialogMetaEditor extends VBox implements DialogDataEditor {
         this.getChildren().add(dialogNodeField);
 
         dialogBranchField = new JFXTextField();
+        dialogBranchField.setUnFocusColor(Color.LIGHTGRAY);
+        dialogBranchField.setFocusColor(Color.AQUA);
+        dialogBranchField.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: lightgray;");
         dialogBranchField.setFont(Settings.DEFAULT_FONT);
         dialogBranchField.setPrefWidth(200);
         dialogBranchField.setMaxWidth(USE_PREF_SIZE);

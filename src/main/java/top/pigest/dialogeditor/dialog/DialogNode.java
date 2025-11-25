@@ -5,6 +5,10 @@ import top.pigest.dialogeditor.util.gi.GIVariableUtils;
 import top.pigest.dialogeditor.util.gi.Struct;
 import top.pigest.dialogeditor.util.gi.StructList;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class DialogNode {
     private Operation operation;
     private int jumpIndex = 0;
@@ -14,6 +18,7 @@ public class DialogNode {
     private boolean hasSubtitle = false;
     private String subtitle = "副标题";
     private String content = "内容";
+    private TextMethod textMethod = TextMethod.DIRECT;
     private String enterEvent = "";
     private String leaveEvent = "";
 
@@ -81,6 +86,14 @@ public class DialogNode {
         this.content = content;
     }
 
+    public TextMethod getTextMethod() {
+        return textMethod;
+    }
+
+    public void setTextMethod(TextMethod textMethod) {
+        this.textMethod = textMethod;
+    }
+
     public String getEnterEvent() {
         return enterEvent;
     }
@@ -127,6 +140,7 @@ public class DialogNode {
         dialogNode.setHasSubtitle(this.isHasSubtitle());
         dialogNode.setSubtitle(this.getSubtitle());
         dialogNode.setContent(this.getContent());
+        dialogNode.setTextMethod(this.getTextMethod());
         dialogNode.setEnterEvent(this.getEnterEvent());
         dialogNode.setLeaveEvent(this.getLeaveEvent());
     }
@@ -139,7 +153,22 @@ public class DialogNode {
         dialogNode.setTitle(GIVariableUtils.readString(jsonArray, 4));
         dialogNode.setHasSubtitle(GIVariableUtils.readBoolean(jsonArray, 5));
         dialogNode.setSubtitle(GIVariableUtils.readString(jsonArray, 6));
-        dialogNode.setContent(GIVariableUtils.readString(jsonArray, 7));
+        List<String> content = GIVariableUtils.readStringList(jsonArray, 7);
+        if (content.isEmpty()) {
+            dialogNode.setTextMethod(TextMethod.DIRECT);
+            dialogNode.setContent("");
+        } else if (content.size() == 1) {
+            dialogNode.setTextMethod(TextMethod.DIRECT);
+            dialogNode.setContent(content.getFirst());
+        } else {
+            if (content.stream().allMatch(s -> s.length() <= 1)) {
+                dialogNode.setTextMethod(TextMethod.TYPEWRITER);
+                dialogNode.setContent(String.join("", content));
+            } else {
+                dialogNode.setTextMethod(TextMethod.CUSTOM);
+                dialogNode.setContent(String.join("|", content));
+            }
+        }
         dialogNode.setEnterEvent(GIVariableUtils.readString(jsonArray, 8));
         dialogNode.setLeaveEvent(GIVariableUtils.readString(jsonArray, 9));
         return dialogNode;
@@ -154,10 +183,37 @@ public class DialogNode {
         jsonArray.add(GIVariableUtils.writeString(dialogNode.getTitle()));
         jsonArray.add(GIVariableUtils.writeBoolean(dialogNode.isHasSubtitle()));
         jsonArray.add(GIVariableUtils.writeString(dialogNode.getSubtitle()));
-        jsonArray.add(GIVariableUtils.writeString(dialogNode.getContent()));
+        List<String> l = new ArrayList<>();
+        switch (dialogNode.getTextMethod()) {
+            case DIRECT -> l.add(dialogNode.getContent());
+            case TYPEWRITER -> {
+                for (int i = 0; i < dialogNode.getContent().length(); i++) {
+                    l.add(String.valueOf(dialogNode.getContent().charAt(i)));
+                }
+            }
+            case CUSTOM -> l = Arrays.asList(dialogNode.getContent().split("\\|"));
+        }
+        jsonArray.add(GIVariableUtils.writeStringList(l));
         jsonArray.add(GIVariableUtils.writeString(dialogNode.getEnterEvent()));
         jsonArray.add(GIVariableUtils.writeString(dialogNode.getLeaveEvent()));
         return jsonArray;
+    }
+
+    public enum TextMethod {
+        DIRECT("直接呈现"),
+        TYPEWRITER("打字机呈现"),
+        CUSTOM("自定义打字机");
+
+        private final String name;
+
+        TextMethod(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 
     public enum Operation {

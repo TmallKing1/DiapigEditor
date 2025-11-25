@@ -86,8 +86,8 @@ public class PagedContainerFactory {
         lr.setAlignment(Pos.CENTER);
         text.setAlignment(Pos.CENTER);
         text.setFont(Settings.DEFAULT_FONT);
-        left.setGraphic(Utils.make(new FontIcon("fas-arrow-left"), fontIcon -> fontIcon.setIconSize(25)));
-        right.setGraphic(Utils.make(new FontIcon("fas-arrow-right"), fontIcon -> fontIcon.setIconSize(25)));
+        left.setGraphic(Utils.make(new WhiteFontIcon("fas-arrow-left"), fontIcon -> fontIcon.setIconSize(25)));
+        right.setGraphic(Utils.make(new WhiteFontIcon("fas-arrow-right"), fontIcon -> fontIcon.setIconSize(25)));
         text.setPrefWidth(150);
         left.setPrefHeight(30);
         right.setPrefHeight(30);

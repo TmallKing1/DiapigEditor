@@ -3,6 +3,8 @@ package top.pigest.dialogeditor.util.gi;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 public class GIVariableUtils {
@@ -26,6 +28,20 @@ public class GIVariableUtils {
 
     public static String readString(JsonArray jsonArray, int index) {
         return readString(jsonArray.get(index).getAsJsonObject());
+    }
+
+    public static List<String> readStringList(JsonObject jsonObject) {
+        if (getParamType(jsonObject).equals("StringList")) {
+            JsonArray jsonArray = jsonObject.getAsJsonArray("value");
+            List<String> list = new ArrayList<>();
+            jsonArray.forEach(jsonElement -> {list.add(jsonElement.getAsString());});
+            return list;
+        }
+        return new ArrayList<>();
+    }
+
+    public static List<String> readStringList(JsonArray jsonArray, int index) {
+        return readStringList(jsonArray.get(index).getAsJsonObject());
     }
 
     public static boolean readBoolean(JsonObject jsonObject) {
@@ -93,8 +109,7 @@ public class GIVariableUtils {
     public static <T> StructList<T> readStructList(JsonObject jsonObject, Function<JsonArray, T> valueReader) {
         if (getParamType(jsonObject).equals("StructList")) {
             JsonObject valueObj = jsonObject.getAsJsonObject("value");
-            StructList<T> structList = readStructListValue(valueObj, valueReader);
-            if (structList != null) return structList;
+            return readStructListValue(valueObj, valueReader);
         }
         throw new RuntimeException("Invalid StructList params");
     }
@@ -137,6 +152,15 @@ public class GIVariableUtils {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("param_type", "String");
         jsonObject.addProperty("value", value);
+        return jsonObject;
+    }
+
+    public static JsonObject writeStringList(List<String> value) {
+        JsonObject jsonObject = new JsonObject();
+        JsonArray jsonArray = new JsonArray();
+        jsonObject.addProperty("param_type", "StringList");
+        value.forEach(jsonArray::add);
+        jsonObject.add("value", jsonArray);
         return jsonObject;
     }
 

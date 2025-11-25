@@ -75,6 +75,7 @@ public class Utils {
                                           Consumer<ActionEvent> actionA, Consumer<ActionEvent> actionB,
                                           StackPane rootStackPane) {
         VBox vBox = new VBox();
+        vBox.setStyle("-fx-background-color: #26282b");
         vBox.setPrefWidth(500);
         vBox.setAlignment(Pos.CENTER);
         JFXDialog dialog = new JFXDialog(rootStackPane, vBox, JFXDialog.DialogTransition.CENTER, false);
@@ -83,10 +84,11 @@ public class Utils {
         Text titleNode = new Text(title);
         titleNode.setTextAlignment(TextAlignment.CENTER);
         titleNode.setFont(new Font(Settings.BOLD_FONT.getFamily(), 30));
-        titleNode.setFill(Color.DIMGRAY);
+        titleNode.setFill(Color.LIGHTGRAY);
         VBox.setMargin(titleNode, new Insets(0, 0, 10, 0));
         vBox.getChildren().add(titleNode);
         Text text = new Text(message);
+        text.setFill(Color.WHITE);
         text.setTextAlignment(TextAlignment.CENTER);
         text.setFont(Settings.DEFAULT_FONT);
         text.setWrappingWidth(450);

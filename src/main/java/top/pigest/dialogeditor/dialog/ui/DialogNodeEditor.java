@@ -50,6 +50,8 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
     private PostActionCheckBox subtitleCheckbox;
     private PostActionTextField subtitle;
     private PostActionTextArea content;
+    private BorderPane textMethodContainer;
+    private PostActionComboBox<DialogNode.TextMethod> textMethodSelector;
     private HBox eventEditorPane;
     private BorderPane operation;
     private PostActionComboBox<DialogNode.Operation> operationSelector;
@@ -70,13 +72,14 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
         this.isEditingText = isEditingText1;
         this.editorPage = editorPage;
 
+        this.setStyle("-fx-background-color: #26282b");
         this.setPrefWidth(640);
         this.setAlignment(Pos.CENTER);
         this.setPadding(new Insets(20, 20, 20, 20));
         Text titleNode = new Text(isEditingText ? "编辑对话内容" : "编辑节点逻辑");
         titleNode.setTextAlignment(TextAlignment.CENTER);
         titleNode.setFont(new Font(Settings.BOLD_FONT.getFamily(), 30));
-        titleNode.setFill(Color.DIMGRAY);
+        titleNode.setFill(Color.LIGHTGRAY);
         VBox.setMargin(titleNode, new Insets(0, 0, 15, 0));
         this.getChildren().add(titleNode);
 
@@ -174,11 +177,37 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
 
             if (content == null) {
                 content = new PostActionTextArea(this.editingNode.getValue().getContent(), "对话内容", this.editingNode.getValue()::setContent);
-                content.setPrefHeight(120);
+                content.setPrefHeight(180);
                 content.setLabelFloat(true);
                 content.setPadding(new Insets(45, 0, 0, 0));
             }
             center.getChildren().add(content);
+
+            if (textMethodContainer == null) {
+                textMethodSelector = new PostActionComboBox<>(
+                        this.editingNode.getValue().getTextMethod(),
+                        List.of(DialogNode.TextMethod.values()),
+                        this.editingNode.getValue()::setTextMethod
+                );
+                textMethodSelector.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                    if (oldValue != newValue) {
+                        String s = content.getText();
+                        if (newValue == DialogNode.TextMethod.CUSTOM) {
+                            Utils.showDialogMessage("请将每个显现文本块以 | 分隔", false, DialogEditor.INSTANCE.getMainScene().getRootDrawer());
+                            if (!s.contains("|")) {
+                                s = String.join("|", s.split(""));
+                            }
+                        }
+                        if (oldValue == DialogNode.TextMethod.CUSTOM) {
+                            s = s.replace("|", "");
+                        }
+                        content.setText(s);
+                    }
+                });
+                textMethodContainer = createLRBorderPane("内容呈现方式", textMethodSelector);
+                textMethodContainer.setPadding(new Insets(10, 0, 0, 0));
+            }
+            center.getChildren().add(textMethodContainer);
 
             title.setDisable(inheritTitle.isSelected());
             usePlayerName.disable(inheritTitle.isSelected());
@@ -270,6 +299,7 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
         BorderPane borderPane = new BorderPane();
         borderPane.setPrefWidth(999);
         Text titleNode = new Text(left);
+        titleNode.setFill(Color.WHITE);
         titleNode.setFont(Settings.DEFAULT_FONT);
         BorderPane.setAlignment(titleNode, Pos.CENTER_LEFT);
         borderPane.setLeft(titleNode);
@@ -296,6 +326,26 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
     public void postProcess(JFXDialog dialog) {
         this.dialog = dialog;
         okButton.setOnAction(event -> {
+            if (this.isEditingText) {
+                switch (this.textMethodSelector.getValue()) {
+                    case TYPEWRITER -> {
+                        if (this.content.getText().contains("</color>") || this.content.getText().contains("<color=")) {
+                            Utils.showDialogMessage("打字机呈现的内容不可带有颜色标签", true, DialogEditor.INSTANCE.getMainScene().getRootDrawer());
+                            return;
+                        }
+                        if (this.content.getText().length() > 87) {
+                            Utils.showDialogMessage("打字机呈现的内容字数不得大于 87 字", true, DialogEditor.INSTANCE.getMainScene().getRootDrawer());
+                            return;
+                        }
+                    }
+                    case CUSTOM -> {
+                        if (this.content.getText().split("\\|").length > 87) {
+                            Utils.showDialogMessage("自定义打字机的文本块数量不得大于 87", true, DialogEditor.INSTANCE.getMainScene().getRootDrawer());
+                            return;
+                        }
+                    }
+                }
+            }
             this.postActionNodes.forEach(PostActionNode::postProcess);
             if (this.branchList != null) {
                 this.editingNode.getValue().getDialogBranchList().clear();
@@ -354,16 +404,20 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
             this.setPadding(new Insets(5, 0, 5, 0));
             HBox idView = new HBox(2);
             idView.setAlignment(Pos.CENTER_LEFT);
-            idView.getChildren().add(new FontIcon("fas-th-list:20"));
+            idView.getChildren().add(new WhiteFontIcon("fas-th-list:20"));
             this.id = id;
             this.idText = new Text(String.valueOf(this.id));
             this.idText.setFont(Settings.DEFAULT_FONT);
+            this.idText.setFill(Color.WHITE);
             idView.getChildren().add(this.idText);
             BorderPane.setMargin(idView, new Insets(0, 5, 0, 0));
             BorderPane.setAlignment(idView, Pos.CENTER_LEFT);
             this.setLeft(idView);
 
             this.textField = new JFXTextField(text);
+            this.textField.setUnFocusColor(Color.LIGHTGRAY);
+            this.textField.setFocusColor(Color.AQUA);
+            this.textField.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: lightgray");
             this.textField.setPromptText("分支文本");
             this.textField.setFont(Settings.DEFAULT_FONT);
             BorderPane.setMargin(this.textField, new Insets(0, 5, 0, 0));
@@ -406,6 +460,9 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
 
         public PostActionTextField(String initialText, String prompt, Consumer<String> onAction) {
             super(initialText);
+            this.setUnFocusColor(Color.LIGHTGRAY);
+            this.setFocusColor(Color.AQUA);
+            this.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: lightgray;");
             this.setPromptText(prompt);
             this.setFont(Settings.DEFAULT_FONT);
             this.onAction = onAction;
@@ -423,6 +480,9 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
 
         public PostActionTextArea(String initialText, String prompt, Consumer<String> onAction) {
             super(initialText);
+            this.setUnFocusColor(Color.LIGHTGRAY);
+            this.setFocusColor(Color.AQUA);
+            this.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: lightgray;");
             this.setPromptText(prompt);
             this.setFont(Settings.DEFAULT_FONT);
             this.onAction = onAction;
@@ -441,6 +501,7 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
         public PostActionCheckBox(boolean initialValue, String prompt, Consumer<Boolean> onAction) {
             super(prompt);
             this.setFont(Settings.DEFAULT_FONT);
+            this.setTextFill(Color.WHITE);
             this.setSelected(initialValue);
             this.onAction = onAction;
             DialogNodeEditor.this.postActionNodes.add(this);
@@ -476,6 +537,9 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
             });
             this.getItems().addAll(values);
             this.getButtonCell().setFont(Settings.DEFAULT_FONT);
+            this.getButtonCell().setTextFill(Color.WHITE);
+            this.setUnFocusColor(Color.LIGHTGRAY);
+            this.setFocusColor(Color.AQUA);
             this.setValue(initialValue);
             DialogNodeEditor.this.postActionNodes.add(this);
         }

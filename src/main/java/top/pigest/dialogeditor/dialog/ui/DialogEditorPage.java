@@ -113,18 +113,17 @@ public class DialogEditorPage extends BorderPane implements NamedPage, ChildPage
         BorderPane.setAlignment(top, Pos.CENTER);
         this.setTop(top);
 
-        scrollPane.setBorder(new Border(new BorderStroke(Paint.valueOf("0x22222233"), Color.TRANSPARENT, Color.TRANSPARENT, Color.TRANSPARENT,
-                BorderStrokeStyle.SOLID, null, null, null,
-                CornerRadii.EMPTY, new BorderWidths(1), Insets.EMPTY)));
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setContent(insideVBox);
         scrollPane.getStylesheets().add(Objects.requireNonNull(DialogEditor.class.getResource("css/scrollbar.css")).toExternalForm());
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
+
+        insideVBox.setStyle("-fx-background-color: #26282b");
         insideVBox.setAlignment(Pos.TOP_CENTER);
         Text text = new Text("- 当前没有对话实例，请先新建或导入 -");
         text.setFont(Settings.DEFAULT_FONT);
-        text.setFill(Color.GRAY);
+        text.setFill(Color.LIGHTGRAY);
         VBox.setMargin(text, new Insets(30));
         insideVBox.getChildren().add(text);
         BorderPane.setMargin(scrollPane, new Insets(5, 5, 5, 5));
