@@ -39,7 +39,7 @@ public class DialogNodeButton extends QMButton {
     private final QMButton operationButton;
     private Node operation;
     private final ScrollablePane<HBox> mainText;
-    private final List<ScrollableText> branchTexts = new ArrayList<>();
+    private final List<ScrollablePane<HBox>> branchTexts = new ArrayList<>();
     private final int index;
 
     private DialogEditorPage.EditMode editMode = DialogEditorPage.EditMode.FREE;
@@ -138,6 +138,7 @@ public class DialogNodeButton extends QMButton {
             }
         });
         operationButton = new QMButton("", Utils.colorToString(Color.DARKCYAN));
+        operationButton.setRipplerFill(Color.WHITE);
         if (dialogNode == null) {
             operationButton.setPrefWidth(80);
             operationButton.setGraphic(new WhiteFontIcon("fas-check-circle"));
@@ -373,17 +374,29 @@ public class DialogNodeButton extends QMButton {
             for (int i = 0; i < branchSize; i++) {
                 BorderPane borderPane = new BorderPane();
                 borderPane.setPadding(new Insets(2, 0, 2, 20));
+                DialogBranch branch = getDialogNode().getDialogBranchList().get(i).getValue();
+
                 HBox left = new HBox();
                 left.setPrefWidth(120);
+
                 HBox id = new HBox(2);
                 id.setAlignment(Pos.CENTER_LEFT);
-                id.getChildren().add(new WhiteFontIcon("fas-th-list"));
+                FontIcon e;
                 Text idText = new Text(String.valueOf(i + 1));
+                if (i == getDialogNode().getDefaultBranch()) {
+                    e = new WhiteFontIcon("fas-star-of-david");
+                    e.setIconColor(Color.valueOf("#ffcc33"));
+                    idText.setFill(Color.valueOf("#ffcc33"));
+                } else {
+                    e = new WhiteFontIcon("fas-th-list");
+                    e.setIconColor(Color.WHITE);
+                    idText.setFill(Color.WHITE);
+                }
                 idText.setFont(Settings.DEFAULT_FONT);
-                idText.setFill(Color.WHITE);
+                id.getChildren().add(e);
                 id.getChildren().add(idText);
                 id.setPadding(new Insets(0, 5, 0, 5));
-                DialogBranch branch = getDialogNode().getDialogBranchList().get(i).getValue();
+
                 HBox jump = new HBox(2);
                 jump.setAlignment(Pos.CENTER_LEFT);
                 jump.getChildren().add(new WhiteFontIcon("fas-map-marker-alt"));
@@ -395,9 +408,11 @@ public class DialogNodeButton extends QMButton {
                 left.getChildren().addAll(id, jump);
                 BorderPane.setMargin(left, new Insets(0, 5, 0, 0));
                 borderPane.setLeft(left);
-                ScrollableText value = new ScrollableText(branch.getTitle(), this.editorPage.getWidth() - 250, false, Settings.DEFAULT_FONT);
-                value.getText().setFill(Color.WHITE);
+
+                ScrollablePane<HBox> value = new ScrollablePane<>(new HBox(), this.editorPage.getWidth() - 250, false);
+                value.getChildren().addAll(TextParser.parseText(branch.getTitle(), s -> Utils.showDialogMessage(s, true, DialogEditor.INSTANCE.getMainScene().getRootDrawer())));
                 value.setBackDuration(0.01);
+                value.setAlignment(Pos.CENTER_LEFT);
                 branchTexts.add(value);
                 BorderPane.setAlignment(value, Pos.CENTER_LEFT);
                 borderPane.setCenter(value);

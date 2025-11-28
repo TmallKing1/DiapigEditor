@@ -19,6 +19,17 @@ public class GIVariableUtils {
         return readInt(jsonArray.get(index).getAsJsonObject());
     }
 
+    public static float readFloat(JsonObject jsonObject) {
+        if (getParamType(jsonObject).equals("Float")) {
+            return Float.parseFloat(getValue(jsonObject));
+        }
+        return 0;
+    }
+
+    public static float readFloat(JsonArray jsonArray, int index) {
+        return readFloat(jsonArray.get(index).getAsJsonObject());
+    }
+
     public static String readString(JsonObject jsonObject) {
         if (getParamType(jsonObject).equals("String")) {
             return getValue(jsonObject);
@@ -144,6 +155,13 @@ public class GIVariableUtils {
     public static JsonObject writeInt(int value) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("param_type", "Int32");
+        jsonObject.addProperty("value", String.valueOf(value));
+        return jsonObject;
+    }
+
+    public static JsonObject writeFloat(float value) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("param_type", "Float");
         jsonObject.addProperty("value", String.valueOf(value));
         return jsonObject;
     }

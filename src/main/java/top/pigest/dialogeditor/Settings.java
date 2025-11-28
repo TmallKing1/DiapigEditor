@@ -9,7 +9,6 @@ public class Settings {
     public static final Font DEFAULT_FONT;
     public static final Font BOLD_FONT;
     public static final Font CODE_FONT;
-    public static final Font GENSHIN_FONT;
     public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0";
 
     static {
@@ -17,7 +16,6 @@ public class Settings {
             DEFAULT_FONT = loadFont("font.otf", 20);
             BOLD_FONT = loadFont("font_bold.otf", 20);
             CODE_FONT = loadFont("font_spec.ttf", 20);
-            GENSHIN_FONT = loadFont("font_gi.ttf", 20);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

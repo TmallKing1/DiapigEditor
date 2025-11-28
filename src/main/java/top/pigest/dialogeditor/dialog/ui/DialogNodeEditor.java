@@ -18,6 +18,7 @@ import javafx.util.Callback;
 import org.kordamp.ikonli.javafx.FontIcon;
 import top.pigest.dialogeditor.DialogEditor;
 import top.pigest.dialogeditor.Settings;
+import top.pigest.dialogeditor.control.FloatModifier;
 import top.pigest.dialogeditor.control.QMButton;
 import top.pigest.dialogeditor.control.WhiteFontIcon;
 import top.pigest.dialogeditor.dialog.DialogBranch;
@@ -53,6 +54,7 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
     private BorderPane textMethodContainer;
     private PostActionComboBox<DialogNode.TextMethod> textMethodSelector;
     private HBox eventEditorPane;
+    private BorderPane durationModifierContainer;
     private BorderPane operation;
     private PostActionComboBox<DialogNode.Operation> operationSelector;
     private BorderPane jumpNode;
@@ -60,7 +62,7 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
     private BorderPane branchEditHead;
     private VBox branchList;
 
-    private boolean isEditingText;
+    private final boolean isEditingText;
     private int currentRequestBranchId = 0;
     private final int index;
     private JFXDialog dialog;
@@ -226,6 +228,12 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
                 eventEditorPane.setPadding(new Insets(15, 0, 20, 0));
             }
             center.getChildren().add(eventEditorPane);
+            if (durationModifierContainer == null) {
+                FloatModifier durationModifier = new PostActionFloatModifier(this.editingNode.getValue().getDuration(), 0.1f, 0, 999, this.editingNode.getValue()::setDuration);
+                durationModifierContainer = createLRBorderPane("持续时间", durationModifier);
+                durationModifierContainer.setPadding(new Insets(0, 0, 10, 0));
+            }
+            center.getChildren().add(durationModifierContainer);
             if (operation == null) {
                 operationSelector = new PostActionComboBox<>(
                         this.editingNode.getValue().getOperation(),
@@ -246,7 +254,7 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
         if (isEditingText) {
             return;
         }
-        center.getChildren().subList(2, center.getChildren().size()).clear();
+        center.getChildren().subList(3, center.getChildren().size()).clear();
         switch (operation) {
             case JUMP_SENTENCE -> {
                 if (jumpNode == null) {
@@ -280,7 +288,11 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
             branchList = new VBox();
             int id = 1;
             for (Struct<DialogBranch> branch : editingNode.getValue().getDialogBranchList()) {
-                branchList.getChildren().add(new BranchView(branch.getValue().getTitle(), id, branch.getValue().getJumpIndex()));
+                BranchView e = new BranchView(branch.getValue().getTitle(), id, branch.getValue().getJumpIndex());
+                branchList.getChildren().add(e);
+                if (id - 1 == this.editingNode.getValue().getDefaultBranch()) {
+                    e.setDefaultBranch(true);
+                }
                 id++;
             }
         }
@@ -289,7 +301,11 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
 
     private void addNewBranch() {
         if (DialogNodeEditor.this.branchList.getChildren().size() < 4) {
-            branchList.getChildren().add(new BranchView("", DialogNodeEditor.this.branchList.getChildren().size() + 1, index + 1));
+            BranchView e = new BranchView("", DialogNodeEditor.this.branchList.getChildren().size() + 1, index + 1);
+            branchList.getChildren().add(e);
+            if (branchList.getChildren().size() == 1) {
+                e.setDefaultBranch(true);
+            }
         } else {
             Utils.showDialogMessage("最多只能添加 4 个分支", true, DialogEditor.INSTANCE.getMainScene().getRootDrawer());
         }
@@ -352,6 +368,9 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
                 this.branchList.getChildren().forEach(branch -> {
                     if (branch instanceof BranchView branchView) {
                         this.editingNode.getValue().getDialogBranchList().addValue(new DialogBranch(branchView.textField.getText(), branchView.buttonSelector.getValue()));
+                        if (branchView.isDefaultBranch) {
+                            this.editingNode.getValue().setDefaultBranch(branchList.getChildren().indexOf(branch));
+                        }
                     }
                 });
             }
@@ -397,22 +416,25 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
         private final JFXTextField textField;
         private final ButtonSelector buttonSelector;
         private final QMButton removeButton;
-        private final Text idText;
+        private final QMButton idButton;
         private int id;
+        private boolean isDefaultBranch = false;
 
         public BranchView(String text, int id, int index) {
             this.setPadding(new Insets(5, 0, 5, 0));
-            HBox idView = new HBox(2);
-            idView.setAlignment(Pos.CENTER_LEFT);
-            idView.getChildren().add(new WhiteFontIcon("fas-th-list:20"));
             this.id = id;
-            this.idText = new Text(String.valueOf(this.id));
-            this.idText.setFont(Settings.DEFAULT_FONT);
-            this.idText.setFill(Color.WHITE);
-            idView.getChildren().add(this.idText);
-            BorderPane.setMargin(idView, new Insets(0, 5, 0, 0));
-            BorderPane.setAlignment(idView, Pos.CENTER_LEFT);
-            this.setLeft(idView);
+            idButton = new QMButton(String.valueOf(this.id));
+            idButton.setOnAction(event -> branchList.getChildren().forEach(branch -> {
+                if (branch instanceof BranchView branchView) {
+                    branchView.setDefaultBranch(branchView == this);
+                }
+            }));
+            idButton.setTooltipOpt(Utils.createTooltip("点击设置为默认分支"));
+            idButton.setPrefWidth(50);
+            resetDefaultBranch();
+            BorderPane.setMargin(idButton, new Insets(0, 5, 0, 0));
+            BorderPane.setAlignment(idButton, Pos.CENTER_LEFT);
+            this.setLeft(idButton);
 
             this.textField = new JFXTextField(text);
             this.textField.setUnFocusColor(Color.LIGHTGRAY);
@@ -436,22 +458,50 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
             this.removeButton = new QMButton("", "#bb5555");
             this.removeButton.setGraphic(new WhiteFontIcon("fas-trash"));
             this.removeButton.setOnAction(event -> {
+                this.idButton.setOnAction(null);
                 this.buttonSelector.setOnAction(null);
                 this.removeButton.setOnAction(null);
                 ObservableList<Node> children = DialogNodeEditor.this.branchList.getChildren();
-                for (int i = id; i < children.size(); i++) {
+                for (int i = this.id; i < children.size(); i++) {
                     ((BranchView) children.get(i)).id--;
                     ((BranchView) children.get(i)).updateId();
                 }
                 children.remove(this);
+                if (this.isDefaultBranch && !children.isEmpty()) {
+                    ((BranchView) children.getFirst()).setDefaultBranch(true);
+                }
             });
             right.getChildren().addAll(this.buttonSelector, this.removeButton);
             BorderPane.setAlignment(this.removeButton, Pos.CENTER_RIGHT);
             this.setRight(right);
         }
 
+        public boolean isDefaultBranch() {
+            return isDefaultBranch;
+        }
+
+        public void setDefaultBranch(boolean isDefaultBranch) {
+            this.isDefaultBranch = isDefaultBranch;
+            if (isDefaultBranch) {
+                FontIcon fontIcon = new FontIcon("fas-star-of-david:20");
+                fontIcon.setIconColor(Color.valueOf("#ffcc33"));
+                idButton.setBackgroundColor("#8b0000");
+                idButton.setGraphic(fontIcon);
+                idButton.setTextFill(Color.valueOf("#ffcc33"));
+            } else {
+                resetDefaultBranch();
+            }
+        }
+
+        public void resetDefaultBranch() {
+            FontIcon fontIcon = new WhiteFontIcon("fas-th-list:20");
+            idButton.setBackgroundColor("#1f1e33");
+            idButton.setGraphic(fontIcon);
+            idButton.setTextFill(Color.WHITE);
+        }
+
         public void updateId() {
-            this.idText.setText(String.valueOf(this.id));
+            this.idButton.setText(String.valueOf(this.id));
         }
     }
 
@@ -483,6 +533,7 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
             this.setUnFocusColor(Color.LIGHTGRAY);
             this.setFocusColor(Color.AQUA);
             this.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: lightgray;");
+            this.getStylesheets().add(Objects.requireNonNull(DialogEditor.class.getResource("css/scrollbar.css")).toExternalForm());
             this.setPromptText(prompt);
             this.setFont(Settings.DEFAULT_FONT);
             this.onAction = onAction;
@@ -573,6 +624,21 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
 
         public PostActionButtonSelector(int initialValue, String prompt, Consumer<Integer> onAction) {
             super(initialValue, prompt);
+            this.onAction = onAction;
+            DialogNodeEditor.this.postActionNodes.add(this);
+        }
+
+        @Override
+        public void postProcess() {
+            onAction.accept(this.getValue());
+        }
+    }
+
+    protected class PostActionFloatModifier extends FloatModifier implements PostActionNode {
+        private final Consumer<Float> onAction;
+
+        public PostActionFloatModifier(float value, float step, float min, float max, Consumer<Float> onAction) {
+            super(value, step, min, max);
             this.onAction = onAction;
             DialogNodeEditor.this.postActionNodes.add(this);
         }

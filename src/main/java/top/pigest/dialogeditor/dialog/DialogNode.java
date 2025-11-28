@@ -13,6 +13,7 @@ public class DialogNode {
     private Operation operation;
     private int jumpIndex = 0;
     private StructList<DialogBranch> dialogBranchList;
+    private int defaultBranch = 0;
     private boolean inheritPreviousTitleSettings = false;
     private String title = "标题";
     private boolean hasSubtitle = false;
@@ -21,6 +22,7 @@ public class DialogNode {
     private TextMethod textMethod = TextMethod.DIRECT;
     private String enterEvent = "";
     private String leaveEvent = "";
+    private float duration = 0f;
 
     private DialogNode(int opCode) {
         this.operation = Operation.fromOpCode(opCode);
@@ -44,6 +46,14 @@ public class DialogNode {
 
     public StructList<DialogBranch> getDialogBranchList() {
         return dialogBranchList;
+    }
+
+    public int getDefaultBranch() {
+        return defaultBranch;
+    }
+
+    public void setDefaultBranch(int defaultBranch) {
+        this.defaultBranch = defaultBranch;
     }
 
     public boolean isInheritPreviousTitleSettings() {
@@ -110,6 +120,14 @@ public class DialogNode {
         this.leaveEvent = leaveEvent;
     }
 
+    public float getDuration() {
+        return duration;
+    }
+
+    public void setDuration(float duration) {
+        this.duration = duration;
+    }
+
     @Override
     public String toString() {
         if (hasSubtitle) {
@@ -135,6 +153,7 @@ public class DialogNode {
         dialogNode.setJumpIndex(this.getJumpIndex());
         dialogNode.dialogBranchList = new StructList<>(this.dialogBranchList.getStructId());
         this.dialogBranchList.forEach(struct -> dialogNode.dialogBranchList.add(new Struct<>(struct.getStructId(), struct.getValue().copy())));
+        dialogNode.setDefaultBranch(this.getDefaultBranch());
         dialogNode.setInheritPreviousTitleSettings(this.isInheritPreviousTitleSettings());
         dialogNode.setTitle(this.getTitle());
         dialogNode.setHasSubtitle(this.isHasSubtitle());
@@ -143,17 +162,19 @@ public class DialogNode {
         dialogNode.setTextMethod(this.getTextMethod());
         dialogNode.setEnterEvent(this.getEnterEvent());
         dialogNode.setLeaveEvent(this.getLeaveEvent());
+        dialogNode.setDuration(this.getDuration());
     }
 
     public static DialogNode read(JsonArray jsonArray) {
         DialogNode dialogNode = new DialogNode(GIVariableUtils.readInt(jsonArray, 0));
         dialogNode.setJumpIndex(GIVariableUtils.readInt(jsonArray, 1));
         dialogNode.dialogBranchList = GIVariableUtils.readStructList(jsonArray, 2, DialogBranch::read);
-        dialogNode.setInheritPreviousTitleSettings(GIVariableUtils.readBoolean(jsonArray, 3));
-        dialogNode.setTitle(GIVariableUtils.readString(jsonArray, 4));
-        dialogNode.setHasSubtitle(GIVariableUtils.readBoolean(jsonArray, 5));
-        dialogNode.setSubtitle(GIVariableUtils.readString(jsonArray, 6));
-        List<String> content = GIVariableUtils.readStringList(jsonArray, 7);
+        dialogNode.setDefaultBranch(GIVariableUtils.readInt(jsonArray, 3));
+        dialogNode.setInheritPreviousTitleSettings(GIVariableUtils.readBoolean(jsonArray, 4));
+        dialogNode.setTitle(GIVariableUtils.readString(jsonArray, 5));
+        dialogNode.setHasSubtitle(GIVariableUtils.readBoolean(jsonArray, 6));
+        dialogNode.setSubtitle(GIVariableUtils.readString(jsonArray, 7));
+        List<String> content = GIVariableUtils.readStringList(jsonArray, 8);
         if (content.isEmpty()) {
             dialogNode.setTextMethod(TextMethod.DIRECT);
             dialogNode.setContent("");
@@ -169,8 +190,9 @@ public class DialogNode {
                 dialogNode.setContent(String.join("|", content));
             }
         }
-        dialogNode.setEnterEvent(GIVariableUtils.readString(jsonArray, 8));
-        dialogNode.setLeaveEvent(GIVariableUtils.readString(jsonArray, 9));
+        dialogNode.setEnterEvent(GIVariableUtils.readString(jsonArray, 9));
+        dialogNode.setLeaveEvent(GIVariableUtils.readString(jsonArray, 10));
+        dialogNode.setDuration(GIVariableUtils.readFloat(jsonArray, 11));
         return dialogNode;
     }
 
@@ -179,6 +201,7 @@ public class DialogNode {
         jsonArray.add(GIVariableUtils.writeInt(dialogNode.operation.getOpCode()));
         jsonArray.add(GIVariableUtils.writeInt(dialogNode.getJumpIndex()));
         jsonArray.add(GIVariableUtils.writeStructList(dialogNode.dialogBranchList, DialogBranch::write));
+        jsonArray.add(GIVariableUtils.writeInt(dialogNode.getDefaultBranch()));
         jsonArray.add(GIVariableUtils.writeBoolean(dialogNode.isInheritPreviousTitleSettings()));
         jsonArray.add(GIVariableUtils.writeString(dialogNode.getTitle()));
         jsonArray.add(GIVariableUtils.writeBoolean(dialogNode.isHasSubtitle()));
@@ -196,6 +219,7 @@ public class DialogNode {
         jsonArray.add(GIVariableUtils.writeStringList(l));
         jsonArray.add(GIVariableUtils.writeString(dialogNode.getEnterEvent()));
         jsonArray.add(GIVariableUtils.writeString(dialogNode.getLeaveEvent()));
+        jsonArray.add(GIVariableUtils.writeFloat(dialogNode.getDuration()));
         return jsonArray;
     }
 

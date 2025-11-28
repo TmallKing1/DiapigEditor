@@ -150,7 +150,7 @@ public class Utils {
         text1.setFill(Color.LIGHTGRAY);
         tooltip.setGraphic(text1);
         tooltip.setFont(Settings.DEFAULT_FONT);
-        tooltip.setShowDelay(Duration.seconds(0.2));
+        tooltip.setShowDelay(Duration.seconds(0.1));
         tooltip.setHideDelay(Duration.seconds(0.1));
         tooltip.setShowDuration(Duration.seconds(5));
         return tooltip;
