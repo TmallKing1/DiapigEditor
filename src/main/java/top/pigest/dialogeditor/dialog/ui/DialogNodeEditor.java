@@ -608,6 +608,7 @@ public class DialogNodeEditor extends VBox implements DialogDataEditor {
             super(prompt);
             this.value = initialValue;
             this.setPrefWidth(250);
+            this.setRipplerFill(Color.WHITE);
         }
 
         public int getValue() {
