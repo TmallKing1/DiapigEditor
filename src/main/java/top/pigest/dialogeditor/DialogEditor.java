@@ -35,7 +35,7 @@ public class DialogEditor extends Application {
                 listener.onHeightChanged(newValue.intValue());
             }
         });
-        primaryStage.setTitle("Dialog Editor by @小猪之最Thepig");
+        primaryStage.setTitle("Diapig Editor by @小猪之最Thepig");
         primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon.png"))));
         primaryStage.setScene(new MainScene());
         primaryStage.setOnCloseRequest(event -> {
