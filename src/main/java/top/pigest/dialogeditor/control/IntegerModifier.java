@@ -3,6 +3,7 @@ package top.pigest.dialogeditor.control;
 import com.jfoenix.controls.JFXTextField;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import org.kordamp.ikonli.javafx.FontIcon;
 import top.pigest.dialogeditor.Settings;
 
@@ -28,15 +29,18 @@ public class IntegerModifier extends HBox {
         this.step = step;
         this.min = min;
         this.max = max;
-        this.decrementButton.setGraphic(new FontIcon("fas-minus"));
+        this.decrementButton.setGraphic(new WhiteFontIcon("fas-minus"));
         this.decrementButton.setOnAction(event -> this.decrement());
-        this.incrementButton.setGraphic(new FontIcon("fas-plus"));
+        this.incrementButton.setGraphic(new WhiteFontIcon("fas-plus"));
         this.incrementButton.setOnAction(event -> this.increment());
         this.valueField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (isValid(newValue)) {
                 setValue(Integer.parseInt(newValue), false);
             }
         });
+        this.valueField.setUnFocusColor(Color.LIGHTGRAY);
+        this.valueField.setFocusColor(Color.AQUA);
+        this.valueField.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: lightgray;");
         this.valueField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue && !isValid(this.valueField.getText())) {
                 setValue(getValue(), true);

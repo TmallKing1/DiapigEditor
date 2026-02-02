@@ -16,6 +16,8 @@ module top.pigest.dialogeditor {
     requires javafx.graphics;
     requires javafx.base;
     requires jdk.jshell;
+    requires org.apache.httpcomponents.httpclient;
+    requires org.apache.httpcomponents.httpcore;
 
     exports top.pigest.dialogeditor;
     exports top.pigest.dialogeditor.util;

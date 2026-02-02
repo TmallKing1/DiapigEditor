@@ -50,6 +50,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.13.1")
     implementation("org.kordamp.ikonli:ikonli-javafx:12.4.0")
     implementation("org.kordamp.ikonli:ikonli-fontawesome6-pack:12.4.0")
+    implementation("org.apache.httpcomponents:httpclient:4.5.14")
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
@@ -62,7 +63,7 @@ jlink {
     imageZip.set(layout.buildDirectory.file("/distributions/app-${javafx.platform.classifier}.zip"))
     options.set(listOf("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages"))
     launcher {
-        name = "Dialog Editor"
+        name = "Diapig Editor"
     }
     jpackage {
         if (org.gradle.internal.os.OperatingSystem.current().isWindows) {

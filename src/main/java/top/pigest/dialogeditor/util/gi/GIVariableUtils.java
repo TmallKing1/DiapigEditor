@@ -45,7 +45,7 @@ public class GIVariableUtils {
         if (getParamType(jsonObject).equals("StringList")) {
             JsonArray jsonArray = jsonObject.getAsJsonArray("value");
             List<String> list = new ArrayList<>();
-            jsonArray.forEach(jsonElement -> {list.add(jsonElement.getAsString());});
+            jsonArray.forEach(jsonElement -> list.add(jsonElement.getAsString()));
             return list;
         }
         return new ArrayList<>();

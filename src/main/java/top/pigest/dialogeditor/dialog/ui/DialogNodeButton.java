@@ -14,7 +14,6 @@ import top.pigest.dialogeditor.DialogEditor;
 import top.pigest.dialogeditor.Settings;
 import top.pigest.dialogeditor.control.QMButton;
 import top.pigest.dialogeditor.control.ScrollablePane;
-import top.pigest.dialogeditor.control.ScrollableText;
 import top.pigest.dialogeditor.control.WhiteFontIcon;
 import top.pigest.dialogeditor.dialog.DialogBranch;
 import top.pigest.dialogeditor.dialog.DialogNode;

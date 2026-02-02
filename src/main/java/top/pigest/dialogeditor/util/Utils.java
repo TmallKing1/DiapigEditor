@@ -10,7 +10,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -168,5 +167,12 @@ public class Utils {
         int g = Math.toIntExact(Math.round(color.getGreen() * 255.0));
         int b = Math.toIntExact(Math.round(color.getBlue() * 255.0));
         return String.format("#%02x%02x%02x", r, g, b);
+    }
+
+    public static Text createText(String text) {
+        Text rt = new Text(text);
+        rt.setFill(Color.WHITE);
+        rt.setFont(Settings.DEFAULT_FONT);
+        return rt;
     }
 }
